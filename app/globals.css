@@ -1,0 +1,17 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-northern-evergreen: #023020;
+  --color-northern-amber: #FDD017;
+  --color-northern-linen: #F5F5EB;
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+}
