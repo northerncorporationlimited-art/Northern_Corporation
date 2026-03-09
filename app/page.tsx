@@ -4,6 +4,9 @@ import { ArrowDown, Play, Shirt, Scissors, Baby, Moon } from "lucide-react";
 import FadeInScroll from "@/components/animations/FadeInScroll";
 import SectionDivider from "@/components/SectionDivider";
 import FabricShowcase from "@/components/FabricShowcase";
+import AboutUsContent from "@/components/AboutUsContent";
+import CertificationGrid from "@/components/CertificationGrid";
+import ContactInfo from "@/components/ContactInfo";
 
 export default function Home() {
   return (
@@ -205,27 +208,9 @@ export default function Home() {
       ═══════════════════════════════════════════════ */}
       <section
         id="about-us"
-        className="flex min-h-screen items-center justify-center bg-white px-6 py-24 overflow-hidden"
+        className="bg-white px-6 py-20 sm:py-28 overflow-hidden"
       >
-        <div className="mx-auto max-w-4xl text-center">
-          <FadeInScroll>
-            <span className="mb-4 inline-block rounded-full border border-northern-evergreen/20 bg-northern-evergreen/5 px-4 py-1 text-xs font-semibold uppercase tracking-widest text-northern-evergreen">
-              Our Story
-            </span>
-          </FadeInScroll>
-          <FadeInScroll delay={0.15}>
-            <h2 className="text-3xl font-bold text-northern-evergreen sm:text-4xl md:text-5xl">
-              About Us
-            </h2>
-          </FadeInScroll>
-          <FadeInScroll delay={0.3}>
-            <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-northern-evergreen/60">
-              Content coming soon — our journey from 1987 to today, our
-              commitment to employee welfare, and our vision for the future of
-              sustainable garment manufacturing.
-            </p>
-          </FadeInScroll>
-        </div>
+        <AboutUsContent />
       </section>
 
       <SectionDivider />
@@ -235,26 +220,9 @@ export default function Home() {
       ═══════════════════════════════════════════════ */}
       <section
         id="certification"
-        className="flex min-h-screen items-center justify-center bg-northern-linen px-6 py-24 overflow-hidden"
+        className="bg-northern-linen px-6 py-20 sm:py-28 overflow-hidden"
       >
-        <div className="mx-auto max-w-4xl text-center">
-          <FadeInScroll>
-            <span className="mb-4 inline-block rounded-full border border-northern-evergreen/20 bg-northern-evergreen/5 px-4 py-1 text-xs font-semibold uppercase tracking-widest text-northern-evergreen">
-              Quality Assured
-            </span>
-          </FadeInScroll>
-          <FadeInScroll delay={0.15}>
-            <h2 className="text-3xl font-bold text-northern-evergreen sm:text-4xl md:text-5xl">
-              Certification
-            </h2>
-          </FadeInScroll>
-          <FadeInScroll delay={0.3}>
-            <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-northern-evergreen/60">
-              Content coming soon — featuring our industry-leading certifications
-              including GOTS, OEKO-TEX, BSCI, WRAP, and more.
-            </p>
-          </FadeInScroll>
-        </div>
+        <CertificationGrid />
       </section>
 
       <SectionDivider />
@@ -264,26 +232,9 @@ export default function Home() {
       ═══════════════════════════════════════════════ */}
       <section
         id="contact-us"
-        className="flex min-h-screen items-center justify-center bg-northern-evergreen px-6 py-24 overflow-hidden"
+        className="bg-northern-evergreen px-6 py-20 sm:py-28 overflow-hidden"
       >
-        <div className="mx-auto max-w-4xl text-center">
-          <FadeInScroll>
-            <span className="mb-4 inline-block rounded-full border border-northern-amber/30 bg-northern-amber/10 px-4 py-1 text-xs font-semibold uppercase tracking-widest text-northern-amber">
-              Let&apos;s Connect
-            </span>
-          </FadeInScroll>
-          <FadeInScroll delay={0.15}>
-            <h2 className="text-3xl font-bold text-northern-linen sm:text-4xl md:text-5xl">
-              Contact Us
-            </h2>
-          </FadeInScroll>
-          <FadeInScroll delay={0.3}>
-            <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-northern-linen/60">
-              Content coming soon — reach out to our team for inquiries,
-              partnerships, and collaboration opportunities.
-            </p>
-          </FadeInScroll>
-        </div>
+        <ContactInfo />
       </section>
     </>
   );
