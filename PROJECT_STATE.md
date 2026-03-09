@@ -12,15 +12,14 @@ Northern Corporation Ltd. portfolio website — a single-page smooth-scrolling p
 
 🟡 **Phase 1 — Frontend Prototype**
 
-- ✅ Next.js (App Router, TypeScript, Tailwind CSS v4) initialized
-- ✅ Brand color palette configured (evergreen, amber, linen)
-- ✅ Sticky responsive Navbar with client logo (`logo.jpg`)
-- ✅ Framer Motion scroll animations via `<FadeInScroll>` component
-- ✅ Hero section with staggered entrance animations
-- ✅ 5 semantic sections scaffolded
-- ✅ Image assets analyzed and mapped (`IMAGE_ASSET_REPORT.md`)
-- ✅ Deployed to Vercel (live preview)
-- 🔲 Remaining sections need content & images
+- ✅ Next.js + Tailwind v4 + Framer Motion + lucide-react
+- ✅ Sticky Navbar with client logo
+- ✅ Scroll animations via `<FadeInScroll>`
+- ✅ Section dividers between all sections
+- ✅ Enhanced Hero: tagline, video placeholder, "WRAP YOURSELF IN LUXURY", long-standing buyers row
+- ✅ What We Do: category cards (Knitwear, Sportswear, Kids, Sleepwear) + interactive fabric showcase
+- ✅ Deployed to Vercel — [northern-corporation.vercel.app](https://northern-corporation.vercel.app)
+- 🔲 About Us, Certification, Contact Us sections need content
 
 ## Tech Stack
 
@@ -36,16 +35,14 @@ Northern Corporation Ltd. portfolio website — a single-page smooth-scrolling p
 
 ## Milestones
 
-- [x] Project initialization and structure setup
-- [x] Next.js + Tailwind CSS initialized
-- [x] Brand color palette configured
-- [x] Navbar with client logo
-- [x] Framer Motion scroll animations
-- [x] Hero section built
-- [x] Image asset analysis complete
-- [x] Deployed to Vercel
-- [ ] Integrate remaining images into sections
-- [ ] Build out section content
+- [x] Project initialization
+- [x] Next.js + Tailwind + animations
+- [x] Hero section with video placeholder
+- [x] Section dividers implemented
+- [x] What We Do — categories + fabric showcase
+- [x] Image asset analysis
+- [x] Vercel deployment live
+- [ ] About Us (CSR / History)
+- [ ] Certification badge grid
+- [ ] Contact Us form
 - [ ] Client review and approval
-- [ ] Define database schema (Supabase)
-- [ ] Deploy to production domain
