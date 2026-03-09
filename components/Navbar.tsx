@@ -16,6 +16,7 @@ const navLinks = [
 const variations = [
     { label: "V1: Classic", href: "/" },
     { label: "V2: Premium Motion", href: "/v2" },
+    { label: "V3: Kinetic Premium", href: "/v3" },
 ];
 
 export default function Navbar() {
@@ -96,8 +97,8 @@ export default function Navbar() {
                                             key={v.href}
                                             href={v.href}
                                             className={`flex items-center rounded-lg px-3 py-2 text-sm transition-colors ${v.href === pathname
-                                                    ? "bg-northern-amber/15 font-semibold text-northern-amber"
-                                                    : "text-northern-linen/70 hover:bg-white/5 hover:text-northern-linen"
+                                                ? "bg-northern-amber/15 font-semibold text-northern-amber"
+                                                : "text-northern-linen/70 hover:bg-white/5 hover:text-northern-linen"
                                                 }`}
                                         >
                                             {v.label}
@@ -145,8 +146,8 @@ export default function Navbar() {
                                     href={v.href}
                                     onClick={() => setMobileOpen(false)}
                                     className={`block px-4 py-2.5 text-sm rounded-lg transition-colors ${v.href === pathname
-                                            ? "font-semibold text-northern-amber bg-northern-amber/10"
-                                            : "text-northern-linen/60 hover:text-northern-amber"
+                                        ? "font-semibold text-northern-amber bg-northern-amber/10"
+                                        : "text-northern-linen/60 hover:text-northern-amber"
                                         }`}
                                 >
                                     {v.label}

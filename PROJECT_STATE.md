@@ -1,36 +1,31 @@
 # Project State
 
-## Status: Phase 1 Complete + V2 Variation Live
+## Status: V1 + V2 + V3 Variations Live
 
 **Last Updated:** 2026-03-09
 
 ## Overview
 
-Northern Corporation Ltd. portfolio website with A/B variation routing — V1 (Classic) and V2 (Premium Motion).
+Northern Corporation Ltd. portfolio with A/B/C variation routing — V1 (Classic), V2 (Premium Motion), V3 (Kinetic Premium).
 
-## Current Phase
-
-🟢 **Phase 1 — Complete**
+## Variations
 
 ### V1: Classic (`/`)
-- Sticky Navbar with logo + version dropdown
-- Enhanced Hero with video placeholder, "WRAP YOURSELF IN LUXURY", buyer logos
-- What We Do with category cards + interactive FabricShowcase
-- About Us with history, pillars, capacity, work life
-- Certification grid (13 badges)
-- Contact Us with info cards + CTA
-- Section dividers between all sections
+Light-themed single-page prototype with FadeInScroll animations, section dividers, enhanced hero.
 
 ### V2: Premium Motion (`/v2`)
-- Staggered word-by-word hero reveal (3D rotateX + custom cubic-bezier easing)
-- Scroll-linked `RevealPremium` animations (useScroll + useTransform)
-- Dark forest-professional aesthetic (northern-evergreen / near-black)
-- All shared components render with dark variant
-- Category pills, fabric showcase, full content sections
+Dark forest-professional theme with staggered hero word reveal, RevealPremium scroll-linked animations.
 
-### Shared
-- Navbar version dropdown (V1: Classic / V2: Premium Motion)
-- Deployed to Vercel — [northern-corporation.vercel.app](https://northern-corporation.vercel.app)
+### V3: Kinetic Premium (`/v3`)
+Ultra-premium dark theme with:
+- **Mouse-tracking parallax hero** — 3-layer depth (background/text/badge) using `useMotionValue` + `useSpring` (zero re-renders)
+- **Sticky curtain scroll** — sections stick at top, scale down and fade as next section slides over
+- Dark aesthetic alternating northern-evergreen / near-black
+
+## Shared Components
+- Navbar with version dropdown (V1 / V2 / V3)
+- FabricShowcase, AboutUsContent, CertificationGrid, ContactInfo (dark prop)
+- Deployed: [northern-corporation.vercel.app](https://northern-corporation.vercel.app)
 
 ## Tech Stack
 
