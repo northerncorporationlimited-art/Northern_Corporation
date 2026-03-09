@@ -1,7 +1,7 @@
 "use client";
 
 import { Shirt, Scissors, Baby, Moon } from "lucide-react";
-import MouseParallaxHero from "@/components/animations/MouseParallaxHero";
+import RadialRevealHero from "@/components/animations/RadialRevealHero";
 import StickyCurtainSection from "@/components/animations/StickyCurtainSection";
 import RevealPremium from "@/components/animations/RevealPremium";
 import FabricShowcase from "@/components/FabricShowcase";
@@ -13,11 +13,9 @@ export default function V3Page() {
     return (
         <div className="bg-[#0a0a0a]">
             {/* ═══════════════════════════════════════════════
-          HERO — Mouse Parallax
+          HERO — Radial Mask Reveal
       ═══════════════════════════════════════════════ */}
-            <StickyCurtainSection>
-                <MouseParallaxHero />
-            </StickyCurtainSection>
+            <RadialRevealHero />
 
             {/* ═══════════════════════════════════════════════
           WHAT WE DO
