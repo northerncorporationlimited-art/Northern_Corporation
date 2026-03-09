@@ -2,32 +2,28 @@
 
 import { Shirt, Scissors, Baby, Moon } from "lucide-react";
 import FadeInScroll from "@/components/animations/FadeInScroll";
-import SectionDivider from "@/components/SectionDivider";
 import FabricShowcase from "@/components/FabricShowcase";
 import AboutUsContent from "@/components/AboutUsContent";
 import CertificationGrid from "@/components/CertificationGrid";
 import ContactInfo from "@/components/ContactInfo";
-import CinematicHero from "@/components/animations/CinematicHero";
+import GradientRiseHero from "@/components/animations/GradientRiseHero";
 
 export default function Home() {
   return (
     <>
       {/* ═══════════════════════════════════════════════
-          SECTION 1 — HOME / HERO (Cinematic Letterbox)
+          HERO — Gradient Rise
       ═══════════════════════════════════════════════ */}
-      <CinematicHero />
-
-      <SectionDivider />
+      <GradientRiseHero />
 
       {/* ═══════════════════════════════════════════════
-          SECTION 2 — WHAT WE DO
+          WHAT WE DO
       ═══════════════════════════════════════════════ */}
       <section
         id="what-we-do"
         className="bg-northern-linen px-6 py-20 sm:py-28 overflow-hidden"
       >
         <div className="mx-auto max-w-6xl">
-          {/* Header */}
           <div className="text-center">
             <FadeInScroll>
               <span className="mb-4 inline-block rounded-full border border-northern-evergreen/20 bg-northern-evergreen/5 px-4 py-1 text-xs font-semibold uppercase tracking-widest text-northern-evergreen">
@@ -47,7 +43,6 @@ export default function Home() {
             </FadeInScroll>
           </div>
 
-          {/* Categories */}
           <FadeInScroll delay={0.1}>
             <div className="mx-auto mt-12 grid max-w-3xl grid-cols-2 gap-4 sm:grid-cols-4 sm:gap-6">
               {[
@@ -71,7 +66,6 @@ export default function Home() {
             </div>
           </FadeInScroll>
 
-          {/* Fabric Showcase */}
           <div className="mt-16 sm:mt-20">
             <FadeInScroll>
               <h3 className="mb-2 text-center text-xl font-bold text-northern-evergreen sm:text-2xl">
@@ -89,10 +83,8 @@ export default function Home() {
         </div>
       </section>
 
-      <SectionDivider />
-
       {/* ═══════════════════════════════════════════════
-          SECTION 3 — ABOUT US
+          ABOUT US
       ═══════════════════════════════════════════════ */}
       <section
         id="about-us"
@@ -101,10 +93,8 @@ export default function Home() {
         <AboutUsContent />
       </section>
 
-      <SectionDivider />
-
       {/* ═══════════════════════════════════════════════
-          SECTION 4 — CERTIFICATION
+          CERTIFICATION
       ═══════════════════════════════════════════════ */}
       <section
         id="certification"
@@ -113,10 +103,8 @@ export default function Home() {
         <CertificationGrid />
       </section>
 
-      <SectionDivider />
-
       {/* ═══════════════════════════════════════════════
-          SECTION 5 — CONTACT US
+          CONTACT US
       ═══════════════════════════════════════════════ */}
       <section
         id="contact-us"

@@ -1,25 +1,22 @@
 "use client";
 
 import RevealPremium from "@/components/animations/RevealPremium";
-import SectionDivider from "@/components/SectionDivider";
 import FabricShowcase from "@/components/FabricShowcase";
 import AboutUsContent from "@/components/AboutUsContent";
 import CertificationGrid from "@/components/CertificationGrid";
 import ContactInfo from "@/components/ContactInfo";
-import MacroZoomHero from "@/components/animations/MacroZoomHero";
+import SplitCurtainHero from "@/components/animations/SplitCurtainHero";
 
 export default function V2Page() {
     return (
         <>
             {/* ═══════════════════════════════════════════════
-          PREMIUM HERO — Macro Zoom-Out
+          HERO — Split Curtain Reveal
       ═══════════════════════════════════════════════ */}
-            <MacroZoomHero />
-
-            <SectionDivider />
+            <SplitCurtainHero />
 
             {/* ═══════════════════════════════════════════════
-          WHAT WE DO — Premium
+          WHAT WE DO
       ═══════════════════════════════════════════════ */}
             <section
                 id="what-we-do"
@@ -41,7 +38,6 @@ export default function V2Page() {
                         </div>
                     </RevealPremium>
 
-                    {/* Category Pills */}
                     <RevealPremium>
                         <div className="mx-auto mt-12 flex max-w-2xl flex-wrap items-center justify-center gap-3">
                             {["Knitwear", "Sportswear", "Kids", "Sleepwear"].map((cat) => (
@@ -55,7 +51,6 @@ export default function V2Page() {
                         </div>
                     </RevealPremium>
 
-                    {/* Fabric Showcase */}
                     <div className="mt-16 sm:mt-20">
                         <RevealPremium>
                             <h3 className="mb-2 text-center text-xl font-bold text-northern-linen sm:text-2xl">
@@ -72,10 +67,8 @@ export default function V2Page() {
                 </div>
             </section>
 
-            <SectionDivider />
-
             {/* ═══════════════════════════════════════════════
-          ABOUT US — Premium (dark bg)
+          ABOUT US
       ═══════════════════════════════════════════════ */}
             <section
                 id="about-us"
@@ -86,10 +79,8 @@ export default function V2Page() {
                 </RevealPremium>
             </section>
 
-            <SectionDivider />
-
             {/* ═══════════════════════════════════════════════
-          CERTIFICATION — Premium (near-black)
+          CERTIFICATION
       ═══════════════════════════════════════════════ */}
             <section
                 id="certification"
@@ -100,10 +91,8 @@ export default function V2Page() {
                 </RevealPremium>
             </section>
 
-            <SectionDivider />
-
             {/* ═══════════════════════════════════════════════
-          CONTACT — Premium
+          CONTACT
       ═══════════════════════════════════════════════ */}
             <section
                 id="contact-us"

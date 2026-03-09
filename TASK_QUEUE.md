@@ -8,15 +8,16 @@
 ### ✅ About Us, Certification, Contact Us — 2026-03-09
 ### ✅ V2 Premium Motion Page — 2026-03-09
 ### ✅ V3 Kinetic Premium Page — 2026-03-09
-- Mouse-tracking parallax hero (useMotionValue + useSpring)
-- Sticky curtain scroll sections (scale + fade on exit)
-- Navbar updated with V3 dropdown
+### ✅ Premium Hero Experiences — 2026-03-10
+- V1: Cinematic Letterbox (factory image, retractable bars, typewriter text, Ken Burns)
+- V2: Fabric Macro Zoom-Out (3x→1x scroll-linked, pinned image, dark overlay)
+- V3: Radial Mask Reveal (pulsing dot, circular clip-path, mouse parallax)
 
-### ✅ Vercel Deployment — [northern-corporation.vercel.app](https://northern-corporation.vercel.app)
+### ✅ Deployed — [northern-corporation.vercel.app](https://northern-corporation.vercel.app)
 
 ---
 
 ## Awaiting
 
-### ⏳ Client Review and Approval
-- Compare V1 vs V2 vs V3 and provide direction
+### ⏳ Client Review
+- Compare all 3 hero experiences and provide direction
