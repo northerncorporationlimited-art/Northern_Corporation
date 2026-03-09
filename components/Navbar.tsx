@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
+import Image from "next/image";
 
 const navLinks = [
     { label: "Home", href: "#home" },
@@ -21,9 +22,19 @@ export default function Navbar() {
                     {/* Brand */}
                     <a
                         href="#home"
-                        className="text-lg font-bold tracking-wide text-northern-amber transition-colors hover:text-northern-amber/80"
+                        className="flex items-center gap-2.5 transition-opacity hover:opacity-80"
                     >
-                        Northern Corporation
+                        <Image
+                            src="/logo.jpg"
+                            alt="Northern Corporation Logo"
+                            width={40}
+                            height={40}
+                            className="rounded-md object-contain"
+                            priority
+                        />
+                        <span className="text-lg font-bold tracking-wide text-northern-amber hidden sm:inline">
+                            Northern Corporation
+                        </span>
                     </a>
 
                     {/* Desktop Links */}
