@@ -19,23 +19,45 @@ const certifications = [
     { name: "RSC", fullName: "RMG Sustainability Council", image: "/certifications/rsc.png" },
 ];
 
-export default function CertificationGrid() {
+interface CertificationGridProps {
+    dark?: boolean;
+}
+
+export default function CertificationGrid({ dark = false }: CertificationGridProps) {
+    const t = dark
+        ? {
+            badge: "border-northern-amber/30 bg-northern-amber/10 text-northern-amber",
+            heading: "text-northern-linen",
+            body: "text-northern-linen/40",
+            card: "border-white/10 bg-white/5",
+            cardName: "text-northern-linen",
+        }
+        : {
+            badge: "border-northern-evergreen/20 bg-northern-evergreen/5 text-northern-evergreen",
+            heading: "text-northern-evergreen",
+            body: "text-northern-evergreen/60",
+            card: "border-northern-evergreen/10 bg-white",
+            cardName: "text-northern-evergreen",
+        };
+
     return (
         <div className="mx-auto max-w-6xl">
             {/* Header */}
             <div className="text-center">
                 <FadeInScroll>
-                    <span className="mb-4 inline-block rounded-full border border-northern-evergreen/20 bg-northern-evergreen/5 px-4 py-1 text-xs font-semibold uppercase tracking-widest text-northern-evergreen">
+                    <span
+                        className={`mb-4 inline-block rounded-full border px-4 py-1 text-xs font-semibold uppercase tracking-widest ${t.badge}`}
+                    >
                         Quality Assured
                     </span>
                 </FadeInScroll>
                 <FadeInScroll delay={0.15}>
-                    <h2 className="text-3xl font-bold text-northern-evergreen sm:text-4xl md:text-5xl">
+                    <h2 className={`text-3xl font-bold sm:text-4xl md:text-5xl ${t.heading}`}>
                         Certification
                     </h2>
                 </FadeInScroll>
                 <FadeInScroll delay={0.3}>
-                    <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-northern-evergreen/60 sm:text-lg">
+                    <p className={`mx-auto mt-6 max-w-2xl text-base leading-relaxed sm:text-lg ${t.body}`}>
                         Our commitment to sustainability, ethical practices, and
                         uncompromising quality is validated by the world&apos;s most
                         respected certification bodies.
@@ -49,7 +71,7 @@ export default function CertificationGrid() {
                     {certifications.map((cert) => (
                         <div
                             key={cert.name}
-                            className="group flex flex-col items-center justify-center rounded-2xl border border-northern-evergreen/10 bg-white p-4 shadow-sm transition-all hover:shadow-md hover:border-northern-evergreen/20 sm:p-5"
+                            className={`group flex flex-col items-center justify-center rounded-2xl border p-4 shadow-sm transition-all hover:shadow-md sm:p-5 ${t.card}`}
                         >
                             <div className="relative mb-3 h-16 w-full sm:h-20">
                                 <Image
@@ -60,7 +82,7 @@ export default function CertificationGrid() {
                                     className="object-contain transition-transform duration-300 group-hover:scale-105"
                                 />
                             </div>
-                            <p className="text-center text-xs font-semibold text-northern-evergreen">
+                            <p className={`text-center text-xs font-semibold ${t.cardName}`}>
                                 {cert.name}
                             </p>
                         </div>

@@ -80,28 +80,73 @@ const workLifeItems = [
     },
 ];
 
-export default function AboutUsContent() {
+interface AboutUsContentProps {
+    dark?: boolean;
+}
+
+export default function AboutUsContent({ dark = false }: AboutUsContentProps) {
+    // Theme tokens
+    const t = dark
+        ? {
+            badge: "border-northern-amber/30 bg-northern-amber/10 text-northern-amber",
+            heading: "text-northern-linen",
+            body: "text-northern-linen/60",
+            subHeading: "text-northern-linen",
+            card: "border-white/10 bg-white/5",
+            cardTitle: "text-northern-linen",
+            cardBody: "text-northern-linen/50",
+            iconBox: "bg-northern-amber/10 text-northern-amber",
+            iconBoxHover: "group-hover:bg-northern-amber/20 group-hover:text-northern-amber",
+            workCard: "border-white/10 bg-white/5",
+            workIconBox: "bg-northern-amber/10 text-northern-amber",
+            workIconHover: "group-hover:bg-northern-amber group-hover:text-northern-evergreen",
+            workTitle: "text-northern-linen",
+            workBody: "text-northern-linen/50",
+        }
+        : {
+            badge: "border-northern-evergreen/20 bg-northern-evergreen/5 text-northern-evergreen",
+            heading: "text-northern-evergreen",
+            body: "text-northern-evergreen/60",
+            subHeading: "text-northern-evergreen",
+            card: "border-northern-evergreen/10 bg-northern-linen",
+            cardTitle: "text-northern-evergreen",
+            cardBody: "text-northern-evergreen/60",
+            iconBox: "bg-northern-evergreen text-northern-amber",
+            iconBoxHover: "group-hover:scale-110",
+            workCard: "border-northern-evergreen/10 bg-northern-linen",
+            workIconBox: "bg-northern-evergreen/10 text-northern-evergreen",
+            workIconHover: "group-hover:bg-northern-evergreen group-hover:text-northern-amber",
+            workTitle: "text-northern-evergreen",
+            workBody: "text-northern-evergreen/55",
+        };
+
     return (
         <div className="mx-auto max-w-6xl">
             {/* History Blurb */}
             <div className="text-center">
                 <FadeInScroll>
-                    <span className="mb-4 inline-block rounded-full border border-northern-evergreen/20 bg-northern-evergreen/5 px-4 py-1 text-xs font-semibold uppercase tracking-widest text-northern-evergreen">
+                    <span
+                        className={`mb-4 inline-block rounded-full border px-4 py-1 text-xs font-semibold uppercase tracking-widest ${t.badge}`}
+                    >
                         Our Story
                     </span>
                 </FadeInScroll>
                 <FadeInScroll delay={0.15}>
-                    <h2 className="text-3xl font-bold text-northern-evergreen sm:text-4xl md:text-5xl">
+                    <h2
+                        className={`text-3xl font-bold sm:text-4xl md:text-5xl ${t.heading}`}
+                    >
                         About Us
                     </h2>
                 </FadeInScroll>
                 <FadeInScroll delay={0.3}>
-                    <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-northern-evergreen/60 sm:text-lg">
+                    <p
+                        className={`mx-auto mt-6 max-w-2xl text-base leading-relaxed sm:text-lg ${t.body}`}
+                    >
                         Established in 1987, Northern Corporation Ltd. has spent nearly four
                         decades mastering the art of garment manufacturing. From a modest
-                        beginning in Dhaka, Bangladesh, we have grown into a trusted
-                        partner for the world&apos;s leading fashion and retail brands —
-                        producing millions of premium garments every year.
+                        beginning in Dhaka, Bangladesh, we have grown into a trusted partner
+                        for the world&apos;s leading fashion and retail brands — producing
+                        millions of premium garments every year.
                     </p>
                 </FadeInScroll>
             </div>
@@ -109,21 +154,27 @@ export default function AboutUsContent() {
             {/* 3 Core Pillars */}
             <div className="mt-16 sm:mt-20">
                 <FadeInScroll>
-                    <h3 className="mb-8 text-center text-xl font-bold text-northern-evergreen sm:text-2xl">
+                    <h3
+                        className={`mb-8 text-center text-xl font-bold sm:text-2xl ${t.subHeading}`}
+                    >
                         Our Core Pillars
                     </h3>
                 </FadeInScroll>
                 <div className="grid gap-6 sm:grid-cols-3">
                     {pillars.map((pillar, i) => (
                         <FadeInScroll key={pillar.title} delay={0.1 * (i + 1)}>
-                            <div className="group flex flex-col items-center rounded-2xl border border-northern-evergreen/10 bg-northern-linen p-6 text-center shadow-sm transition-all hover:shadow-md hover:border-northern-evergreen/20 sm:p-8">
-                                <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-xl bg-northern-evergreen text-northern-amber transition-transform group-hover:scale-110">
+                            <div
+                                className={`group flex flex-col items-center rounded-2xl border p-6 text-center shadow-sm transition-all hover:shadow-md sm:p-8 ${t.card}`}
+                            >
+                                <div
+                                    className={`mb-4 flex h-14 w-14 items-center justify-center rounded-xl transition-transform ${t.iconBox} ${t.iconBoxHover}`}
+                                >
                                     <pillar.icon size={28} />
                                 </div>
-                                <h4 className="mb-2 text-lg font-bold text-northern-evergreen">
+                                <h4 className={`mb-2 text-lg font-bold ${t.cardTitle}`}>
                                     {pillar.title}
                                 </h4>
-                                <p className="text-sm leading-relaxed text-northern-evergreen/60">
+                                <p className={`text-sm leading-relaxed ${t.cardBody}`}>
                                     {pillar.description}
                                 </p>
                             </div>
@@ -135,7 +186,9 @@ export default function AboutUsContent() {
             {/* Production Capacity */}
             <div className="mt-16 sm:mt-20">
                 <FadeInScroll>
-                    <h3 className="mb-8 text-center text-xl font-bold text-northern-evergreen sm:text-2xl">
+                    <h3
+                        className={`mb-8 text-center text-xl font-bold sm:text-2xl ${t.subHeading}`}
+                    >
                         Production Capacity
                     </h3>
                 </FadeInScroll>
@@ -162,26 +215,37 @@ export default function AboutUsContent() {
             {/* Work Life */}
             <div className="mt-16 sm:mt-20">
                 <FadeInScroll>
-                    <h3 className="mb-2 text-center text-xl font-bold text-northern-evergreen sm:text-2xl">
+                    <h3
+                        className={`mb-2 text-center text-xl font-bold sm:text-2xl ${t.subHeading}`}
+                    >
                         Work Life at Northern
                     </h3>
-                    <p className="mx-auto mb-8 max-w-lg text-center text-sm text-northern-evergreen/50">
-                        We invest in our people — because great garments start with a
-                        happy, healthy, and empowered workforce.
+                    <p
+                        className={`mx-auto mb-8 max-w-lg text-center text-sm ${dark ? "text-northern-linen/40" : "text-northern-evergreen/50"
+                            }`}
+                    >
+                        We invest in our people — because great garments start with a happy,
+                        healthy, and empowered workforce.
                     </p>
                 </FadeInScroll>
                 <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
                     {workLifeItems.map((item, i) => (
                         <FadeInScroll key={item.title} delay={0.08 * (i + 1)}>
-                            <div className="group flex gap-4 rounded-xl border border-northern-evergreen/10 bg-northern-linen p-5 transition-all hover:shadow-md hover:border-northern-evergreen/20">
-                                <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-lg bg-northern-evergreen/10 text-northern-evergreen transition-colors group-hover:bg-northern-evergreen group-hover:text-northern-amber">
+                            <div
+                                className={`group flex gap-4 rounded-xl border p-5 transition-all hover:shadow-md ${t.workCard}`}
+                            >
+                                <div
+                                    className={`flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-lg transition-colors ${t.workIconBox} ${t.workIconHover}`}
+                                >
                                     <item.icon size={20} />
                                 </div>
                                 <div>
-                                    <h4 className="text-sm font-bold text-northern-evergreen">
+                                    <h4 className={`text-sm font-bold ${t.workTitle}`}>
                                         {item.title}
                                     </h4>
-                                    <p className="mt-1 text-xs leading-relaxed text-northern-evergreen/55">
+                                    <p
+                                        className={`mt-1 text-xs leading-relaxed ${t.workBody}`}
+                                    >
                                         {item.description}
                                     </p>
                                 </div>
