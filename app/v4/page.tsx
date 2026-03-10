@@ -42,6 +42,131 @@ function TypewriterText({ text, className, delay = 0 }: { text: string; classNam
     );
 }
 
+/* ─────────────────────────────────────────────────────────
+   § 2 — "INTO THE MACHINE"
+   Multi-layer parallax depth scene.
+   ───────────────────────────────────────────────────────── */
+
+const machineStats = [
+    { value: "3,000+", label: "Craftsmen", align: "left" as const },
+    { value: "12M+", label: "Garments / Year", align: "right" as const },
+    { value: "40+", label: "Export Nations", align: "left" as const },
+];
+
+function Section2IntoTheMachine() {
+    const containerRef = useRef<HTMLElement>(null);
+    const { scrollYProgress } = useScroll({
+        target: containerRef,
+        offset: ["start start", "end end"],
+    });
+
+    // Layer speeds: back moves slow, front moves fast
+    const backY = useTransform(scrollYProgress, [0, 1], ["0%", "-15%"]);
+    const midY = useTransform(scrollYProgress, [0, 1], ["0%", "-35%"]);
+    const frontY = useTransform(scrollYProgress, [0, 1], ["0%", "-55%"]);
+
+    // Section title fades in early
+    const titleOpacity = useTransform(scrollYProgress, [0, 0.15], [0, 1]);
+    const titleY = useTransform(scrollYProgress, [0, 0.15], [60, 0]);
+
+    // Stats stagger in as you scroll deeper
+    const stat1Opacity = useTransform(scrollYProgress, [0.2, 0.35], [0, 1]);
+    const stat1Y = useTransform(scrollYProgress, [0.2, 0.35], [80, 0]);
+    const stat2Opacity = useTransform(scrollYProgress, [0.35, 0.5], [0, 1]);
+    const stat2Y = useTransform(scrollYProgress, [0.35, 0.5], [80, 0]);
+    const stat3Opacity = useTransform(scrollYProgress, [0.5, 0.65], [0, 1]);
+    const stat3Y = useTransform(scrollYProgress, [0.5, 0.65], [80, 0]);
+
+    const statAnimations = [
+        { opacity: stat1Opacity, y: stat1Y },
+        { opacity: stat2Opacity, y: stat2Y },
+        { opacity: stat3Opacity, y: stat3Y },
+    ];
+
+    // Final narrative text at the bottom
+    const narrativeOpacity = useTransform(scrollYProgress, [0.7, 0.85], [0, 1]);
+    const narrativeY = useTransform(scrollYProgress, [0.7, 0.85], [40, 0]);
+
+    return (
+        <section id="into-the-machine" ref={containerRef} className="relative h-[300vh] bg-black">
+            <div className="sticky top-0 h-screen w-full overflow-hidden">
+
+                {/* Layer 1 — Back: Blurred warm factory, slow */}
+                <motion.div className="absolute inset-0 z-0" style={{ y: backY }}>
+                    <Image
+                        src="/hero-factory.png"
+                        alt="Factory ambient"
+                        fill
+                        className="object-cover blur-sm opacity-30 saturate-150 scale-110"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black" />
+                </motion.div>
+
+                {/* Layer 2 — Mid: Crisp machinery, medium speed */}
+                <motion.div className="absolute inset-0 z-10 flex items-center justify-center" style={{ y: midY }}>
+                    <div className="relative w-[70vw] max-w-3xl aspect-[4/3] rounded-xl overflow-hidden shadow-2xl shadow-northern-amber/10 border border-white/5">
+                        <Image
+                            src="/hero-macro.png"
+                            alt="Machinery close-up"
+                            fill
+                            className="object-cover"
+                        />
+                        <div className="absolute inset-0 bg-black/30" />
+                    </div>
+                </motion.div>
+
+                {/* Section Title — floats above everything */}
+                <motion.div
+                    className="absolute top-[12vh] left-0 w-full z-30 text-center pointer-events-none"
+                    style={{ opacity: titleOpacity, y: titleY }}
+                >
+                    <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-northern-amber/60">Chapter II</span>
+                    <h2 className="text-[clamp(2.5rem,6vw,5rem)] font-black tracking-tighter leading-none mt-2">
+                        Into the <span className="font-serif font-light italic text-northern-amber/80">Machine</span>
+                    </h2>
+                </motion.div>
+
+                {/* Layer 3 — Front: Stat blocks floating at fast speed */}
+                <motion.div className="absolute inset-0 z-20 pointer-events-none" style={{ y: frontY }}>
+                    <div className="relative h-full max-w-[1400px] mx-auto px-8">
+                        {machineStats.map((stat, i) => (
+                            <motion.div
+                                key={stat.label}
+                                className={`absolute ${stat.align === "left" ? "left-8 md:left-16" : "right-8 md:right-16"}`}
+                                style={{
+                                    top: `${30 + i * 25}%`,
+                                    opacity: statAnimations[i].opacity,
+                                    y: statAnimations[i].y,
+                                }}
+                            >
+                                <div className={`${stat.align === "right" ? "text-right" : "text-left"}`}>
+                                    <div className="text-[clamp(3rem,8vw,7rem)] font-black leading-none tracking-tighter text-white">
+                                        {stat.value}
+                                    </div>
+                                    <div className="text-xs font-bold uppercase tracking-[0.3em] text-northern-amber/70 mt-2">
+                                        {stat.label}
+                                    </div>
+                                </div>
+                            </motion.div>
+                        ))}
+                    </div>
+                </motion.div>
+
+                {/* Narrative close */}
+                <motion.div
+                    className="absolute bottom-[10vh] left-0 w-full z-30 text-center px-8 pointer-events-none"
+                    style={{ opacity: narrativeOpacity, y: narrativeY }}
+                >
+                    <p className="font-serif italic text-[clamp(1.2rem,3vw,2rem)] text-white/60 max-w-2xl mx-auto leading-relaxed">
+                        &ldquo;Where precision engineering meets raw organic fiber —
+                        the silence of the floor is what strikes you first.&rdquo;
+                    </p>
+                </motion.div>
+            </div>
+        </section>
+    );
+}
+
 export default function V4Page() {
     const heroRef = useRef<HTMLDivElement>(null);
     const { scrollYProgress: heroScroll } = useScroll({
@@ -172,10 +297,16 @@ export default function V4Page() {
             </section>
 
             {/* ═══════════════════════════════════════════════════════════
-                PLACEHOLDER: Remaining sections will be added iteratively.
+                § 2 — INTO THE MACHINE
+                Multi-layer parallax depth scene with floating stats.
             ═══════════════════════════════════════════════════════════ */}
-            <section id="into-the-machine" className="h-screen bg-black flex items-center justify-center">
-                <p className="text-white/20 text-sm uppercase tracking-widest">§ 2 — Into the Machine (Coming Next)</p>
+            <Section2IntoTheMachine />
+
+            {/* ═══════════════════════════════════════════════════════════
+                PLACEHOLDER: § 3+ coming next.
+            ═══════════════════════════════════════════════════════════ */}
+            <section id="product-line" className="h-screen bg-black flex items-center justify-center">
+                <p className="text-white/20 text-sm uppercase tracking-widest">§ 3 — The Product Line (Coming Next)</p>
             </section>
         </div>
     );
