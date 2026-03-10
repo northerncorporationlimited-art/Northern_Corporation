@@ -55,71 +55,32 @@ const machineStats = [
 ];
 
 function Section2IntoTheMachine() {
-    const containerRef = useRef<HTMLElement>(null);
-    const { scrollYProgress } = useScroll({
-        target: containerRef,
-        offset: ["start start", "end end"],
-    });
-
-    // Layer speeds: back moves slow, front moves fast
-    const backY = useTransform(scrollYProgress, [0, 1], ["0%", "-15%"]);
-    const midY = useTransform(scrollYProgress, [0, 1], ["0%", "-35%"]);
-    const frontY = useTransform(scrollYProgress, [0, 1], ["0%", "-55%"]);
-
-    // Section title visible immediately, fades out at end
-    const titleOpacity = useTransform(scrollYProgress, [0, 0.05, 0.8, 1], [0.8, 1, 1, 0]);
-    const titleY = useTransform(scrollYProgress, [0, 0.05], [20, 0]);
-
-    // Stats stagger in as you scroll deeper — tighter timing
-    const stat1Opacity = useTransform(scrollYProgress, [0.05, 0.2], [0, 1]);
-    const stat1Y = useTransform(scrollYProgress, [0.05, 0.2], [60, 0]);
-    const stat2Opacity = useTransform(scrollYProgress, [0.2, 0.4], [0, 1]);
-    const stat2Y = useTransform(scrollYProgress, [0.2, 0.4], [60, 0]);
-    const stat3Opacity = useTransform(scrollYProgress, [0.4, 0.6], [0, 1]);
-    const stat3Y = useTransform(scrollYProgress, [0.4, 0.6], [60, 0]);
-
-    const statAnimations = [
-        { opacity: stat1Opacity, y: stat1Y },
-        { opacity: stat2Opacity, y: stat2Y },
-        { opacity: stat3Opacity, y: stat3Y },
-    ];
-
-    // Final narrative text at the bottom
-    const narrativeOpacity = useTransform(scrollYProgress, [0.6, 0.8], [0, 1]);
-    const narrativeY = useTransform(scrollYProgress, [0.6, 0.8], [30, 0]);
+    const sectionRef = useRef<HTMLElement>(null);
+    const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
 
     return (
-        <section id="into-the-machine" ref={containerRef} className="relative h-[200vh] bg-black">
-            <div className="sticky top-0 h-screen w-full overflow-hidden">
+        <section id="into-the-machine" ref={sectionRef} className="relative bg-black py-32 md:py-48 overflow-hidden">
 
-                {/* Layer 1 — Back: Blurred warm factory, slow */}
-                <motion.div className="absolute inset-0 z-0" style={{ y: backY }}>
-                    <Image
-                        src="/hero-factory.png"
-                        alt="Factory ambient"
-                        fill
-                        className="object-cover blur-sm opacity-50 saturate-150 scale-110"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black" />
-                </motion.div>
+            {/* Background — always visible */}
+            <div className="absolute inset-0 z-0">
+                <Image
+                    src="/hero-factory.png"
+                    alt="Factory ambient"
+                    fill
+                    className="object-cover blur-sm opacity-40 saturate-150 scale-110"
+                />
+                <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/60" />
+            </div>
 
-                {/* Layer 2 — Mid: Crisp machinery, medium speed */}
-                <motion.div className="absolute inset-0 z-10 flex items-center justify-center" style={{ y: midY }}>
-                    <div className="relative w-[70vw] max-w-3xl aspect-[4/3] rounded-xl overflow-hidden shadow-2xl shadow-northern-amber/10 border border-white/5">
-                        <Image
-                            src="/hero-macro.png"
-                            alt="Machinery close-up"
-                            fill
-                            className="object-cover"
-                        />
-                        <div className="absolute inset-0 bg-black/30" />
-                    </div>
-                </motion.div>
+            {/* Content */}
+            <div className="relative z-10 max-w-[1400px] mx-auto px-8 md:px-16">
 
-                {/* Section Title — floats above everything */}
+                {/* Title */}
                 <motion.div
-                    className="absolute top-[12vh] left-0 w-full z-30 text-center pointer-events-none"
-                    style={{ opacity: titleOpacity, y: titleY }}
+                    className="text-center mb-20"
+                    initial={{ opacity: 0, y: 40 }}
+                    animate={isInView ? { opacity: 1, y: 0 } : {}}
+                    transition={{ duration: 0.8 }}
                 >
                     <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-northern-amber/60">Chapter II</span>
                     <h2 className="text-[clamp(2.5rem,6vw,5rem)] font-black tracking-tighter leading-none mt-2">
@@ -127,38 +88,45 @@ function Section2IntoTheMachine() {
                     </h2>
                 </motion.div>
 
-                {/* Layer 3 — Front: Stat blocks floating at fast speed */}
-                <motion.div className="absolute inset-0 z-20 pointer-events-none" style={{ y: frontY }}>
-                    <div className="relative h-full max-w-[1400px] mx-auto px-8">
-                        {machineStats.map((stat, i) => (
-                            <motion.div
-                                key={stat.label}
-                                className={`absolute ${stat.align === "left" ? "left-8 md:left-16" : "right-8 md:right-16"}`}
-                                style={{
-                                    top: `${30 + i * 25}%`,
-                                    opacity: statAnimations[i].opacity,
-                                    y: statAnimations[i].y,
-                                }}
-                            >
-                                <div className={`${stat.align === "right" ? "text-right" : "text-left"}`}>
-                                    <div className="text-[clamp(3rem,8vw,7rem)] font-black leading-none tracking-tighter text-white">
-                                        {stat.value}
-                                    </div>
-                                    <div className="text-xs font-bold uppercase tracking-[0.3em] text-northern-amber/70 mt-2">
-                                        {stat.label}
-                                    </div>
-                                </div>
-                            </motion.div>
-                        ))}
-                    </div>
+                {/* Center image card */}
+                <motion.div
+                    className="relative w-full max-w-3xl mx-auto aspect-[16/9] rounded-xl overflow-hidden shadow-2xl shadow-northern-amber/10 border border-white/5 mb-20"
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={isInView ? { opacity: 1, scale: 1 } : {}}
+                    transition={{ duration: 1, delay: 0.2 }}
+                >
+                    <Image src="/hero-macro.png" alt="Machinery close-up" fill className="object-cover" />
+                    <div className="absolute inset-0 bg-black/20" />
                 </motion.div>
 
-                {/* Narrative close */}
+                {/* Stat blocks */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-16 mb-20">
+                    {machineStats.map((stat, i) => (
+                        <motion.div
+                            key={stat.label}
+                            className="text-center"
+                            initial={{ opacity: 0, y: 50 }}
+                            animate={isInView ? { opacity: 1, y: 0 } : {}}
+                            transition={{ duration: 0.7, delay: 0.4 + i * 0.15 }}
+                        >
+                            <div className="text-[clamp(3rem,8vw,6rem)] font-black leading-none tracking-tighter text-white">
+                                {stat.value}
+                            </div>
+                            <div className="text-xs font-bold uppercase tracking-[0.3em] text-northern-amber/70 mt-2">
+                                {stat.label}
+                            </div>
+                        </motion.div>
+                    ))}
+                </div>
+
+                {/* Narrative quote */}
                 <motion.div
-                    className="absolute bottom-[10vh] left-0 w-full z-30 text-center px-8 pointer-events-none"
-                    style={{ opacity: narrativeOpacity, y: narrativeY }}
+                    className="text-center"
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={isInView ? { opacity: 1, y: 0 } : {}}
+                    transition={{ duration: 0.8, delay: 0.8 }}
                 >
-                    <p className="font-serif italic text-[clamp(1.2rem,3vw,2rem)] text-white/60 max-w-2xl mx-auto leading-relaxed">
+                    <p className="font-serif italic text-[clamp(1.2rem,3vw,2rem)] text-white/50 max-w-2xl mx-auto leading-relaxed">
                         &ldquo;Where precision engineering meets raw organic fiber —
                         the silence of the floor is what strikes you first.&rdquo;
                     </p>
@@ -195,81 +163,62 @@ const products = [
 ];
 
 function Section3ProductLine() {
-    const containerRef = useRef<HTMLElement>(null);
-    const { scrollYProgress } = useScroll({
-        target: containerRef,
-        offset: ["start start", "end end"],
-    });
-
-    const smoothProgress = useSpring(scrollYProgress, { stiffness: 100, damping: 20 });
-    const xTranslate = useTransform(smoothProgress, [0, 1], ["0vw", "-200vw"]);
-
-    // Progress bar width
-    const progressWidth = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
+    const sectionRef = useRef<HTMLElement>(null);
+    const isInView = useInView(sectionRef, { once: true, margin: "-80px" });
 
     return (
-        <section id="product-line" ref={containerRef} className="relative h-[200vh] bg-[#0a0a0a]">
-            <div className="sticky top-0 h-screen w-full overflow-hidden flex flex-col">
+        <section id="product-line" ref={sectionRef} className="relative bg-[#0a0a0a] py-32 md:py-48 px-8 md:px-16">
 
-                {/* Top bar: title + progress */}
-                <div className="relative z-20 px-8 md:px-16 pt-12 pb-8">
-                    <div className="flex items-end justify-between mb-6">
-                        <div>
-                            <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-northern-amber/60 block mb-2">Chapter III</span>
-                            <h2 className="text-[clamp(2rem,4vw,3.5rem)] font-black tracking-tighter leading-none">
-                                The Product <span className="font-serif font-light italic text-northern-amber/80">Line</span>
-                            </h2>
-                        </div>
-                        <span className="text-xs uppercase tracking-[0.3em] text-white/30 hidden md:block">Scroll to explore →</span>
-                    </div>
-                    {/* Progress bar */}
-                    <div className="h-px bg-white/10 w-full">
-                        <motion.div className="h-full bg-northern-amber origin-left" style={{ width: progressWidth }} />
-                    </div>
-                </div>
+            {/* Header */}
+            <motion.div
+                className="max-w-[1400px] mx-auto mb-16"
+                initial={{ opacity: 0, y: 40 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.8 }}
+            >
+                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-northern-amber/60 block mb-2">Chapter III</span>
+                <h2 className="text-[clamp(2rem,4vw,3.5rem)] font-black tracking-tighter leading-none">
+                    The Product <span className="font-serif font-light italic text-northern-amber/80">Line</span>
+                </h2>
+            </motion.div>
 
-                {/* Horizontal track */}
-                <div className="flex-1 flex items-center">
+            {/* Product Cards */}
+            <div className="max-w-[1400px] mx-auto flex flex-col gap-8 md:gap-12">
+                {products.map((product, i) => (
                     <motion.div
-                        className="flex gap-8 md:gap-16 px-8 md:px-16 h-[70vh]"
-                        style={{ x: xTranslate }}
+                        key={i}
+                        className="group relative rounded-2xl overflow-hidden bg-white/5 border border-white/10 flex flex-col md:flex-row"
+                        initial={{ opacity: 0, y: 60 }}
+                        animate={isInView ? { opacity: 1, y: 0 } : {}}
+                        transition={{ duration: 0.8, delay: 0.2 + i * 0.15 }}
                     >
-                        {products.map((product, i) => (
-                            <div key={i} className="w-[85vw] md:w-[65vw] flex-shrink-0 group relative rounded-2xl overflow-hidden bg-white/5 border border-white/10 flex flex-col md:flex-row">
-                                {/* Image side */}
-                                <div className="relative w-full md:w-3/5 h-1/2 md:h-full">
-                                    <Image
-                                        src={product.img}
-                                        alt={product.title}
-                                        fill
-                                        className="object-cover transition-transform duration-1000 group-hover:scale-105"
-                                    />
-                                    <div className="absolute inset-0 bg-gradient-to-r from-transparent to-[#0a0a0a]/80 hidden md:block" />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a]/80 to-transparent md:hidden" />
-                                </div>
+                        {/* Image side */}
+                        <div className="relative w-full md:w-3/5 h-64 md:h-96">
+                            <Image
+                                src={product.img}
+                                alt={product.title}
+                                fill
+                                className="object-cover transition-transform duration-1000 group-hover:scale-105"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-r from-transparent to-[#0a0a0a]/80 hidden md:block" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a]/80 to-transparent md:hidden" />
+                        </div>
 
-                                {/* Info side */}
-                                <div className="relative z-10 w-full md:w-2/5 p-8 md:p-12 flex flex-col justify-center">
-                                    <span className="font-serif italic text-northern-amber text-3xl mb-4">0{i + 1}</span>
-                                    <h3 className="text-2xl md:text-4xl font-black tracking-tight leading-none mb-6">{product.title}</h3>
-                                    <p className="text-white/50 text-base leading-relaxed mb-8">{product.desc}</p>
-                                    <div className="flex flex-wrap gap-2">
-                                        {product.tags.map((tag) => (
-                                            <span key={tag} className="px-3 py-1 rounded-full border border-northern-amber/20 bg-northern-amber/5 text-xs font-bold uppercase tracking-wider text-northern-amber/70">
-                                                {tag}
-                                            </span>
-                                        ))}
-                                    </div>
-                                </div>
-
-                                {/* Amber separator between cards (visible on desktop) */}
-                                {i < products.length - 1 && (
-                                    <div className="absolute right-0 top-[15%] bottom-[15%] w-px bg-northern-amber/20 hidden md:block" />
-                                )}
+                        {/* Info side */}
+                        <div className="relative z-10 w-full md:w-2/5 p-8 md:p-12 flex flex-col justify-center">
+                            <span className="font-serif italic text-northern-amber text-3xl mb-4">0{i + 1}</span>
+                            <h3 className="text-2xl md:text-4xl font-black tracking-tight leading-none mb-6">{product.title}</h3>
+                            <p className="text-white/50 text-base leading-relaxed mb-8">{product.desc}</p>
+                            <div className="flex flex-wrap gap-2">
+                                {product.tags.map((tag) => (
+                                    <span key={tag} className="px-3 py-1 rounded-full border border-northern-amber/20 bg-northern-amber/5 text-xs font-bold uppercase tracking-wider text-northern-amber/70">
+                                        {tag}
+                                    </span>
+                                ))}
                             </div>
-                        ))}
+                        </div>
                     </motion.div>
-                </div>
+                ))}
             </div>
         </section>
     );
