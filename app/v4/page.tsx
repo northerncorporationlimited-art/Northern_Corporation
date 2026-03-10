@@ -1,408 +1,322 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
+import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import styles from "./v4.module.css";
 import Navbar from "@/components/Navbar";
 import ContactInfo from "@/components/ContactInfo";
+import InfiniteMarquee from "@/components/InfiniteMarquee";
+
+// Helper for Animated Counters
+function CountUp({ target, duration = 2, suffix = "" }: { target: number, duration?: number, suffix?: string }) {
+    const [count, setCount] = useState(0);
+    const ref = useRef(null);
+    const isInView = useInView(ref, { once: true, margin: "0px 0px -100px 0px" });
+
+    useEffect(() => {
+        if (!isInView) return;
+        let start = 0;
+        const totalFrames = Math.round(duration * 60);
+        let frame = 0;
+
+        const counter = setInterval(() => {
+            frame++;
+            const progress = frame / totalFrames;
+            const easeOutProgress = 1 - Math.pow(1 - progress, 3);
+            setCount(Math.round(target * easeOutProgress));
+
+            if (frame === totalFrames) {
+                clearInterval(counter);
+            }
+        }, 1000 / 60);
+
+        return () => clearInterval(counter);
+    }, [isInView, target, duration]);
+
+    return <span ref={ref}>{count}{suffix}</span>;
+}
 
 export default function V4Page() {
-    // We import Navbar separately since it's global, but the rest is scoped.
-    // Replace the legacy nav with the site's global Navbar component to maintain routing.
+    // ─── HERO ANIMATIONS ──────────────────────────────────────
+    const heroHeadlineVariants = {
+        hidden: { opacity: 0, y: 50 },
+        visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] as const } }
+    };
 
-    const maskTextLayerRef = useRef<HTMLDivElement>(null);
-    const maskContentRef = useRef<HTMLDivElement>(null);
-    const metricsRowRef = useRef<HTMLDivElement>(null);
+    // ─── ALPHA MASK SCROLL LOGIC ─────────────────────────────
+    const statementRef = useRef<HTMLElement>(null);
+    const { scrollYProgress: statementScroll } = useScroll({
+        target: statementRef,
+        offset: ["start start", "end end"]
+    });
 
-    // For intersection observers
-    const [revealedElements, setRevealedElements] = useState<Set<string>>(new Set());
-    const section2Ref = useRef<HTMLElement>(null);
+    // 0 to 0.4 => Mask scales from 1x to 150x. After 0.4 it stays huge.
+    const maskScale = useTransform(statementScroll, [0, 0.4], [1, 200]);
+    // The mask fades out exactly after it's fully zoomed so it stops interfering
+    const maskOpacity = useTransform(statementScroll, [0.38, 0.4], [1, 0]);
 
-    // Alpha mask scrolling logic translated from main.js
-    useEffect(() => {
-        const handleAlphaMaskScroll = () => {
-            const section = section2Ref.current;
-            const layer = maskTextLayerRef.current;
-            const content = maskContentRef.current;
+    // Staccato words flashing over the revealed image.
+    const staccato1 = useTransform(statementScroll, [0.42, 0.47, 0.52], [0, 1, 0]);
+    const staccato2 = useTransform(statementScroll, [0.52, 0.57, 0.62], [0, 1, 0]);
+    const staccato3 = useTransform(statementScroll, [0.62, 0.67, 0.72], [0, 1, 0]);
 
-            if (!section || !layer || !content) return;
+    // Final Content Reveal
+    const finalOpacity = useTransform(statementScroll, [0.75, 0.85], [0, 1]);
+    const finalY = useTransform(statementScroll, [0.75, 0.85], [60, 0]);
 
-            const target = document.getElementById("zoom-target");
-            if (target) {
-                const layerRect = layer.getBoundingClientRect();
-                const targetRect = target.getBoundingClientRect();
-                const originX = ((targetRect.left + targetRect.width / 2) - layerRect.left) / layerRect.width * 100;
-                const originY = ((targetRect.top + targetRect.height / 2) - layerRect.top) / layerRect.height * 100;
-                layer.style.transformOrigin = `${originX}% ${originY}%`;
-            }
-
-            const rect = section.getBoundingClientRect();
-            // Calculate progress from 0 to 1 based on sticky scrolling
-            let progress = -rect.top / (rect.height - window.innerHeight);
-            progress = Math.max(0, Math.min(1, progress));
-
-            // Phase 1: Scale text & fade out (progress 0.0 to 0.35)
-            let scaleProgress = Math.min(1, progress / 0.35);
-            const easeScale = scaleProgress < 0.5 ? 2 * scaleProgress * scaleProgress : -1 + (4 - 2 * scaleProgress) * scaleProgress;
-            let scale = 1 + easeScale * 150;
-            layer.style.transform = `scale(${scale})`;
-
-            // Hide text layer when zoomed fully to prevent blocking clicks
-            layer.style.opacity = progress > 0.35 ? "0" : "1";
-
-            // Phase 2: Staccato words in the void (progress 0.38 to 0.68)
-            const w1 = document.getElementById("staccato-1");
-            const w2 = document.getElementById("staccato-2");
-            const w3 = document.getElementById("staccato-3");
-
-            if (w1 && w2 && w3) {
-                w1.classList.toggle(styles.visible, progress > 0.38 && progress <= 0.48);
-                w2.classList.toggle(styles.visible, progress > 0.48 && progress <= 0.58);
-                w3.classList.toggle(styles.visible, progress > 0.58 && progress <= 0.68);
-            }
-
-            // Phase 3: Final content and image reveal (progress 0.72+)
-            content.classList.toggle(styles.visible, progress > 0.72);
-        };
-
-        window.addEventListener("scroll", handleAlphaMaskScroll, { passive: true });
-        // Trigger once to set initial state
-        handleAlphaMaskScroll();
-
-        return () => window.removeEventListener("scroll", handleAlphaMaskScroll);
-    }, []);
-
-    // Intersection Observers for revealed elements and counters
-    useEffect(() => {
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        const id = entry.target.getAttribute("data-reveal-id");
-                        if (id) {
-                            setRevealedElements((prev) => new Set(prev).add(id));
-                        }
-                    }
-                });
-            },
-            { threshold: 0.15, rootMargin: "0px 0px -60px 0px" }
-        );
-
-        const elements = document.querySelectorAll("[data-reveal-id]");
-        elements.forEach((el) => observer.observe(el));
-
-        return () => observer.disconnect();
-    }, []);
-
-    // Proof of Scale Counter Animation
-    const [counts, setCounts] = useState({ items: 0, countries: 0, years: 0, machines: 0 });
-    const [countersAnimated, setCountersAnimated] = useState(false);
-
-    useEffect(() => {
-        const row = metricsRowRef.current;
-        if (!row || countersAnimated) return;
-
-        const observer = new IntersectionObserver(
-            (entries) => {
-                if (entries[0].isIntersecting && !countersAnimated) {
-                    setCountersAnimated(true);
-
-                    const duration = 2000;
-                    const start = performance.now();
-
-                    const targetItems = 12;
-                    const targetCountries = 40;
-                    const targetYears = 34; // Later changing to 37 (Est 1987) based on client data
-                    const targetMachines = 1300;
-
-                    const animate = (now: number) => {
-                        const elapsed = now - start;
-                        const progress = Math.min(elapsed / duration, 1);
-                        const ease = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
-
-                        setCounts({
-                            items: Math.floor(ease * targetItems),
-                            countries: Math.floor(ease * targetCountries),
-                            years: Math.floor(ease * 37), // Est 1987 = ~37 years
-                            machines: Math.floor(ease * targetMachines),
-                        });
-
-                        if (progress < 1) {
-                            requestAnimationFrame(animate);
-                        }
-                    };
-                    requestAnimationFrame(animate);
-                    observer.disconnect();
-                }
-            },
-            { threshold: 0.3 }
-        );
-
-        observer.observe(row);
-        return () => observer.disconnect();
-    }, [countersAnimated]);
-
-    // Sticky accordion state
+    // ─── INFRASTRUCTURE STICKY LOGIC ─────────────────────────
     const [activePanel, setActivePanel] = useState(0);
 
+    const infraPanels = [
+        { num: "01", title: "KNITTING", img: "/v4/infrastructure/knitting.png", desc: "State-of-the-art European machinery ensuring unparalleled fabric consistency and unmatched production speed." },
+        { num: "02", title: "MATERIAL SCIENCE", img: "/v4/infrastructure/materials.png", desc: "Advanced R&D labs innovating sustainable, high-performance textiles engineered for the modern luxury market." },
+        { num: "03", title: "PRECISION SEWING", img: "/v4/infrastructure/sewing.png", desc: "Lean manufacturing principles deployed across 1300+ advanced workstations, achieving a 99.2% right-first-time quality rate." }
+    ];
+
     return (
-        <div className={styles.v4Container}>
+        <div className="bg-northern-evergreen text-white selection:bg-northern-amber/30 selection:text-white font-sans antialiased overflow-x-hidden">
             <Navbar />
 
             {/* ═══════════════════════════════════════════════════ */}
-            {/* SECTION 1 — CINEMATIC HERO                          */}
+            {/* 1. CINEMATIC HERO                                   */}
             {/* ═══════════════════════════════════════════════════ */}
-            <section className={styles.hero} id="home">
-                <div className={styles.heroBg}>
-                    <div className={styles.heroImageBg} />
-                    <div className={styles.heroBgOverlay} />
+            <section id="home" className="relative h-screen min-h-[700px] w-full flex flex-col justify-end overflow-hidden">
+                {/* Background (Ken Burns attached via globals.css) */}
+                <div className="absolute inset-0 z-0">
+                    <Image
+                        src="/hero-factory.png"
+                        alt="Northern Manufacturing Facility"
+                        fill
+                        className="object-cover animate-ken-burns scale-110"
+                        priority
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/10 to-northern-evergreen/90" />
                 </div>
 
-                <div className={styles.heroHeadline}>
-                    <div className={styles.heroHeadlineRow}>
-                        <span className={styles.heroWord} style={{ animationDelay: "0.4s" }}>Decades</span>
-                        <span className={styles.heroWord} style={{ animationDelay: "0.52s" }}>of</span>
-                    </div>
-                    <div className={styles.heroHeadlineRow}>
-                        <span className={`${styles.heroWord} ${styles.heroWordSerif}`} style={{ animationDelay: "0.64s" }}>Expertise</span>
-                    </div>
-                </div>
+                {/* Content */}
+                <motion.div
+                    className="relative z-10 px-8 md:px-16 pb-12 w-full max-w-[1600px] mx-auto flex flex-col md:flex-row md:items-end justify-between gap-8"
+                    initial="hidden"
+                    animate="visible"
+                    transition={{ staggerChildren: 0.15, delayChildren: 0.4 }}
+                >
+                    <div className="flex-1">
+                        <motion.h1 className="text-[clamp(3.5rem,8vw,8rem)] font-black leading-[0.85] tracking-tighter mb-8">
+                            <motion.span variants={heroHeadlineVariants} className="block text-white">Decades <span className="text-white/80 font-serif font-light italic text-[0.9em]">of</span></motion.span>
+                            <motion.span variants={heroHeadlineVariants} className="block text-northern-amber">Expertise.</motion.span>
+                        </motion.h1>
 
-                <div className={styles.heroBottom}>
-                    <div className={styles.heroSubtitle}>
-                        <div className={styles.heroSubLine}>
-                            <span className={styles.heroSubText} style={{ animationDelay: "0.9s" }}>
+                        <div className="max-w-md">
+                            <motion.p variants={heroHeadlineVariants} className="text-lg md:text-xl text-white/70 font-medium mb-2">
                                 Northern Corporation Ltd. —
-                            </span>
-                        </div>
-                        <div className={styles.heroSubLine}>
-                            <span className={styles.heroSubText} style={{ animationDelay: "1.05s" }}>
-                                Engineering comfort, durability, and style since 1987.
-                            </span>
+                            </motion.p>
+                            <motion.p variants={heroHeadlineVariants} className="text-white/50 leading-relaxed">
+                                Engineering comfort, durability, and style since 1987. Scaling premium multi-brand apparel manufacturing from Dhaka to the world.
+                            </motion.p>
                         </div>
                     </div>
-                    <Link href="#what-we-do" className={styles.heroCtaBtn}>
-                        <span className={styles.heroCtaText}>Discover More</span>
-                        <span className={styles.heroCtaArrow}>
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+
+                    <motion.div variants={heroHeadlineVariants} className="shrink-0 mb-4 md:mb-0">
+                        <Link href="#what-we-do" className="group inline-flex items-center gap-4 bg-white text-northern-evergreen px-8 py-4 rounded-full font-bold uppercase tracking-wider text-sm transition-all hover:bg-northern-amber hover:text-black">
+                            <span>Discover More</span>
+                            <svg className="w-5 h-5 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                 <path d="M5 12h14M12 5l7 7-7 7" />
                             </svg>
-                        </span>
-                    </Link>
-                </div>
+                        </Link>
+                    </motion.div>
+                </motion.div>
+            </section>
 
-                <div className={styles.heroScroll}>
-                    <div className={styles.heroScrollLine} />
+            {/* ═══════════════════════════════════════════════════ */}
+            {/* 2. ALPHA MASK STATEMENT                             */}
+            {/* ═══════════════════════════════════════════════════ */}
+            <section id="statement" ref={statementRef} className="relative h-[400vh] bg-black">
+                <div className="sticky top-0 h-screen w-full overflow-hidden bg-black flex items-center justify-center">
+
+                    {/* Revealed Background Image */}
+                    <div className="absolute inset-0 z-0">
+                        <Image
+                            src="/hero-factory.png"
+                            alt="Factory Interior"
+                            fill
+                            className="object-cover opacity-80"
+                        />
+                        <div className="absolute inset-0 bg-black/60" />
+                    </div>
+
+                    {/* Staccato Words (Flashing over image) */}
+                    <div className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none">
+                        <motion.h2 style={{ opacity: staccato1 }} className="absolute text-[clamp(3rem,10vw,12rem)] font-black text-white tracking-widest uppercase">PRECISION.</motion.h2>
+                        <motion.h2 style={{ opacity: staccato2 }} className="absolute text-[clamp(2.5rem,8vw,10rem)] font-black text-white tracking-widest uppercase">UNCOMPROMISING.</motion.h2>
+                        <motion.h2 style={{ opacity: staccato3 }} className="absolute text-[clamp(3rem,10vw,12rem)] font-black text-northern-amber tracking-widest uppercase">QUALITY.</motion.h2>
+                    </div>
+
+                    {/* Final Reveal Content */}
+                    <motion.div
+                        className="absolute inset-0 z-20 flex flex-col justify-end px-8 pb-24 md:px-16 md:pb-32 bg-gradient-to-t from-black via-black/40 to-transparent"
+                        style={{ opacity: finalOpacity }}
+                    >
+                        <div className="max-w-[1600px] w-full mx-auto">
+                            <motion.h3 style={{ y: finalY }} className="text-[clamp(2.5rem,6vw,5rem)] font-black leading-[1.1] tracking-tight text-white mb-16">
+                                Future-Focused<br />
+                                <span className="font-serif italic font-light text-northern-amber">Innovation.</span>
+                            </motion.h3>
+
+                            <motion.div style={{ y: finalY }} className="border-t border-white/20 pt-8 flex flex-col md:flex-row gap-12 md:gap-24">
+                                <div>
+                                    <div className="font-serif text-[clamp(2.5rem,5vw,4rem)] leading-none text-white mb-2">
+                                        <CountUp target={37} suffix="+" />
+                                    </div>
+                                    <div className="text-xs font-bold tracking-[0.2em] text-northern-amber uppercase">Years of Legacy</div>
+                                </div>
+                                <div>
+                                    <div className="font-serif text-[clamp(2.5rem,5vw,4rem)] leading-none text-white mb-2">
+                                        <CountUp target={3000} suffix="+" />
+                                    </div>
+                                    <div className="text-xs font-bold tracking-[0.2em] text-northern-amber uppercase">Employees</div>
+                                </div>
+                                <div>
+                                    <div className="font-serif text-[clamp(2.5rem,5vw,4rem)] leading-none text-white mb-2">
+                                        $<CountUp target={30} suffix="M+" />
+                                    </div>
+                                    <div className="text-xs font-bold tracking-[0.2em] text-northern-amber uppercase">Annual Revenue</div>
+                                </div>
+                            </motion.div>
+                        </div>
+                    </motion.div>
+
+                    {/* The White Mask Layer (Mix Blend Screen) */}
+                    <motion.div
+                        className="absolute inset-0 z-30 bg-white mix-blend-screen pointer-events-none flex flex-col items-center justify-center transform-gpu origin-center"
+                        style={{ scale: maskScale, opacity: maskOpacity }}
+                    >
+                        <span className="text-[clamp(4rem,20vw,24rem)] text-black font-black leading-[0.8] tracking-tighter mr-8">ROOTED</span>
+                        <span className="text-[clamp(4rem,20vw,24rem)] text-black font-black leading-[0.8] tracking-tighter">IN DHAKA</span>
+                    </motion.div>
                 </div>
             </section>
 
             {/* ═══════════════════════════════════════════════════ */}
-            {/* SECTION 2 — ALPHA STATEMENT (Mask Variant)          */}
+            {/* 3. INFRASTRUCTURE (Sticky Track)                    */}
             {/* ═══════════════════════════════════════════════════ */}
-            <section className={styles.alphaMaskSection} id="statement" ref={section2Ref}>
-                <div className={styles.alphaMaskSticky}>
+            <section id="what-we-do" className="relative bg-black py-24 md:py-48 px-8 md:px-16">
+                <div className="max-w-[1600px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 relative">
 
-                    <div className={styles.alphaMaskTextLayer} ref={maskTextLayerRef}>
-                        <div className={styles.alphaMaskWord}>ROOTED</div>
-                        <div className={styles.alphaMaskWord}>
-                            IN D<span className={styles.alphaMaskTarget} id="zoom-target">H</span>AKA
-                        </div>
-                    </div>
+                    {/* Left Sticky Nav */}
+                    <div className="relative">
+                        <div className="sticky top-32 lg:top-1/3">
+                            <h4 className="text-northern-amber text-xs font-bold tracking-[0.2em] uppercase mb-12">Infrastructure</h4>
 
-                    <div className={styles.alphaMaskStaccato}>
-                        <div className={styles.staccatoWord} id="staccato-1">PRECISION.</div>
-                        <div className={styles.staccatoWord} id="staccato-2">UNCOMPROMISING.</div>
-                        <div className={styles.staccatoWord} id="staccato-3">QUALITY.</div>
-                    </div>
-
-                    <div className={styles.alphaMaskContent} ref={maskContentRef}>
-                        <div className={styles.alphaMaskBgImage}>
-                            <Image
-                                src="/hero-factory.png"
-                                alt="Northern Manufacturing Facility"
-                                fill
-                                className="object-cover"
-                            />
-                        </div>
-                        <div className={styles.alphaMaskOverlay} />
-
-                        <div className={styles.finalRevealContainer}>
-                            <div className={styles.finalRevealHeadline}>
-                                <h2 className={`${styles.titleAlpha} ${styles.textWhite}`}>
-                                    Future-Focused<br />
-                                    <span className={`${styles.textSerif} ${styles.textAccentItalic}`}>Innovation.</span>
-                                </h2>
-                            </div>
-
-                            <div className={styles.finalRevealMetrics}>
-                                <div className={styles.metricCol}>
-                                    <div className={`${styles.metricVal} ${styles.textWhite}`}>
-                                        37<span className={styles.textAccent}>+</span>
-                                    </div>
-                                    <div className={styles.metricLabel}>Years of Legacy</div>
-                                </div>
-                                <div className={styles.metricCol}>
-                                    <div className={`${styles.metricVal} ${styles.textWhite}`}>
-                                        3000<span className={styles.textAccent}>+</span>
-                                    </div>
-                                    <div className={styles.metricLabel}>Employees</div>
-                                </div>
-                                <div className={styles.metricCol}>
-                                    <div className={`${styles.metricVal} ${styles.textWhite}`}>
-                                        30<span className={styles.textAccent}>M+</span>
-                                    </div>
-                                    <div className={styles.metricLabel}>Annual Revenue ($)</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* ═══════════════════════════════════════════════════ */}
-            {/* SECTION 3 — INFRASTRUCTURE (Sticky Variant)         */}
-            {/* ═══════════════════════════════════════════════════ */}
-            <section className={styles.infraStickySection} id="what-we-do">
-                <div className={`${styles.containerBase} ${styles.infraContainer}`}>
-                    <div className={styles.gridSplit}>
-
-                        <div className={styles.splitLeft}>
-                            <div className={styles.infraStickyNav}>
-                                <div className={`${styles.labelAccent} ${styles.mb4x}`}>INFRASTRUCTURE</div>
-
-                                {[
-                                    { num: "01", title: "KNITTING" },
-                                    { num: "02", title: "MATERIAL SCIENCE" },
-                                    { num: "03", title: "PRECISION SEWING" }
-                                ].map((item, i) => (
-                                    <div
+                            <div className="space-y-2">
+                                {infraPanels.map((item, i) => (
+                                    <button
                                         key={item.num}
-                                        className={`${styles.infraNavItem} ${activePanel === i ? styles.active : ""}`}
-                                        onClick={() => setActivePanel(i)}
+                                        onClick={() => {
+                                            const el = document.getElementById(`panel-${i}`);
+                                            if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                                        }}
+                                        className={`w-full text-left py-6 border-b border-white/10 flex items-start gap-6 transition-all duration-500 hover:opacity-100 ${activePanel === i ? 'opacity-100' : 'opacity-30'}`}
                                     >
-                                        <span className={styles.infraNum}>{item.num}</span>
-                                        <h3 className={styles.infraTitle}>{item.title}</h3>
-                                    </div>
+                                        <span className="font-serif italic text-northern-amber text-xl">{item.num}</span>
+                                        <h3 className="text-[clamp(1.5rem,3vw,2.5rem)] font-bold tracking-tight leading-none">{item.title}</h3>
+                                    </button>
                                 ))}
-
-                                <Link href="#contact-us" className={`${styles.btnOutline} ${styles.mt8x}`}>
-                                    Explore Facilities
-                                </Link>
                             </div>
-                        </div>
 
-                        <div className={styles.splitRight}>
-                            {[
-                                {
-                                    img: "/v4/infrastructure/knitting.png",
-                                    desc: "State-of-the-art European machinery ensuring unparalleled fabric consistency and unmatched production speed.",
-                                    idx: 0
-                                },
-                                {
-                                    img: "/v4/infrastructure/materials.png",
-                                    desc: "Advanced R&D labs innovating sustainable, high-performance textiles engineered for the modern luxury market.",
-                                    idx: 1
-                                },
-                                {
-                                    img: "/v4/infrastructure/sewing.png",
-                                    desc: "Lean manufacturing principles deployed across 1300+ advanced workstations, achieving a 99.2% right-first-time quality rate.",
-                                    idx: 2
-                                }
-                            ].map((panel, i) => (
-                                <div
-                                    key={i}
-                                    className={`${styles.infraPanel} ${activePanel === i ? styles.inView : ""}`}
-                                >
-                                    <div className={styles.infraPanelImg}>
-                                        <Image
-                                            src={panel.img}
-                                            alt={panel.desc}
-                                            width={800}
-                                            height={1000}
-                                        />
-                                    </div>
-                                    <div className={styles.infraPanelContent}>
-                                        <p>{panel.desc}</p>
-                                    </div>
+                            <Link href="#contact-us" className="inline-block mt-16 px-8 py-4 rounded-full border border-white/30 text-xs font-bold tracking-wider uppercase transition-colors hover:bg-white hover:text-black">
+                                Explore Facilities
+                            </Link>
+                        </div>
+                    </div>
+
+                    {/* Right Scrolling Panels */}
+                    <div className="pt-12 lg:pt-[30vh] pb-[20vh] space-y-[40vh]">
+                        {infraPanels.map((panel, i) => (
+                            <motion.div
+                                key={i}
+                                id={`panel-${i}`}
+                                initial={{ opacity: 0.2, scale: 0.95 }}
+                                whileInView={{ opacity: 1, scale: 1 }}
+                                viewport={{ margin: "-20% 0px -40% 0px" }}
+                                onViewportEnter={() => setActivePanel(i)}
+                                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                                className="w-full max-w-xl ml-auto"
+                            >
+                                <div className="relative aspect-[4/5] w-full rounded-lg overflow-hidden mb-8">
+                                    <Image
+                                        src={panel.img}
+                                        alt={panel.title}
+                                        fill
+                                        className="object-cover"
+                                    />
+                                    {/* Overlay vignette */}
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                                 </div>
-                            ))}
-                        </div>
-
-                    </div>
-                </div>
-            </section>
-
-            {/* ═══════════════════════════════════════════════════ */}
-            {/* SECTION 4 — PROOF OF SCALE                          */}
-            {/* ═══════════════════════════════════════════════════ */}
-            <section className={styles.proofOfScale} id="about-us">
-                <div className={styles.containerBase}>
-                    <div
-                        data-reveal-id="proof-header"
-                        className={`${styles.labelAccent} ${styles.mb6x} ${styles.revealBase} ${revealedElements.has("proof-header") ? styles.revealActive : ""}`}
-                    >
-                        PROOF OF SCALE
-                    </div>
-
-                    <div
-                        data-reveal-id="proof-metrics"
-                        ref={metricsRowRef}
-                        className={`${styles.posMetricsRow} ${styles.revealBase} ${revealedElements.has("proof-metrics") ? styles.revealActive : ""}`}
-                    >
-                        <div className={styles.posMetric}>
-                            <span className={styles.posMetricNum}>{counts.items}</span>
-                            <span className={styles.posMetricSuffix}>M+</span>
-                            <div className={styles.posMetricLabel}>Items Produced Yearly</div>
-                        </div>
-                        <div className={styles.posMetricDivider} />
-                        <div className={styles.posMetric}>
-                            <span className={styles.posMetricNum}>{counts.countries}</span>
-                            <span className={styles.posMetricSuffix}>+</span>
-                            <div className={styles.posMetricLabel}>Countries Exported To</div>
-                        </div>
-                        <div className={styles.posMetricDivider} />
-                        <div className={styles.posMetric}>
-                            <span className={styles.posMetricNum}>{counts.machines}</span>
-                            <span className={styles.posMetricSuffix}>+</span>
-                            <div className={styles.posMetricLabel}>Advanced Machines</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div className={styles.containerBase}>
-                    <p
-                        data-reveal-id="proof-tagline"
-                        className={`${styles.posTagline} ${styles.revealBase} ${revealedElements.has("proof-tagline") ? styles.revealActive : ""}`}
-                    >
-                        Trusted by the world&apos;s most demanding brands
-                    </p>
-                </div>
-
-                {/* Marquee */}
-                <div className={styles.marquee}>
-                    <div className={styles.marqueeTrack}>
-                        {[...Array(2)].map((_, groupIndex) => (
-                            <div key={groupIndex} className={styles.marqueeGroup}>
-                                <Image src="/client_logos/Picture2.png" alt="Client Logo" width={120} height={60} className={styles.partnerLogo} />
-                                <Image src="/client_logos/Picture3.png" alt="Client Logo" width={120} height={60} className={styles.partnerLogo} />
-                                <Image src="/client_logos/Picture4.png" alt="Client Logo" width={120} height={60} className={styles.partnerLogo} />
-                                <Image src="/client_logos/Picture5.png" alt="Client Logo" width={120} height={60} className={styles.partnerLogo} />
-                                <Image src="/client_logos/Picture6.png" alt="Client Logo" width={120} height={60} className={styles.partnerLogo} />
-                                <Image src="/client_logos/Picture7.png" alt="Client Logo" width={120} height={60} className={styles.partnerLogo} />
-                            </div>
+                                <p className="text-white/70 text-lg md:text-xl leading-relaxed">
+                                    {panel.desc}
+                                </p>
+                            </motion.div>
                         ))}
                     </div>
                 </div>
             </section>
 
-            <div id="contact-us">
+            {/* ═══════════════════════════════════════════════════ */}
+            {/* 4. PROOF OF SCALE & CLIENTS                         */}
+            {/* ═══════════════════════════════════════════════════ */}
+            <section id="about-us" className="py-32 bg-northern-evergreen relative overflow-hidden">
+                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-northern-amber/5 via-transparent to-transparent opacity-50 pointer-events-none" />
+
+                <div className="max-w-[1600px] mx-auto px-8 md:px-16 mb-24">
+                    <h4 className="text-northern-amber text-xs font-bold tracking-[0.2em] uppercase mb-16">Proof of Scale</h4>
+
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8 border-t border-white/10 pt-12">
+                        <div>
+                            <div className="font-serif text-[clamp(4rem,8vw,6rem)] leading-none text-white mb-4">
+                                <CountUp target={12} suffix="M+" />
+                            </div>
+                            <div className="text-sm font-bold tracking-widest text-white/50 uppercase">Items Produced Yearly</div>
+                        </div>
+                        <div className="hidden md:block w-px h-32 bg-white/10 mx-auto" />
+                        <div>
+                            <div className="font-serif text-[clamp(4rem,8vw,6rem)] leading-none text-white mb-4">
+                                <CountUp target={40} suffix="+" />
+                            </div>
+                            <div className="text-sm font-bold tracking-widest text-white/50 uppercase">Countries Exported To</div>
+                        </div>
+                        <div className="hidden md:block w-px h-32 bg-white/10 mx-auto" />
+                        <div>
+                            <div className="font-serif text-[clamp(4rem,8vw,6rem)] leading-none text-white mb-4">
+                                <CountUp target={1300} suffix="+" />
+                            </div>
+                            <div className="text-sm font-bold tracking-widest text-white/50 uppercase">Advanced Machines</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="mt-48 mb-24 text-center">
+                    <h3 className="font-serif italic text-[clamp(2rem,4vw,3rem)] text-white/90">Trusted by the world&apos;s most demanding brands.</h3>
+                </div>
+
+                {/* Import and use the exact InfiniteMarquee created for V1 */}
+                <div className="pb-16">
+                    <InfiniteMarquee />
+                </div>
+            </section>
+
+            {/* ═══════════════════════════════════════════════════ */}
+            {/* 5. FOOTER & CONTACT                                 */}
+            {/* ═══════════════════════════════════════════════════ */}
+            <div id="contact-us" className="bg-northern-evergreen">
                 <ContactInfo />
             </div>
 
-            <footer className={styles.footer}>
-                <div className={`${styles.containerBase} ${styles.pb8x}`}>
-                    <div className={styles.footerMassiveText}>NORTHERN</div>
+            <footer className="bg-northern-evergreen border-t border-white/10 py-16 overflow-hidden">
+                <div className="max-w-[1600px] mx-auto px-8 w-full flex justify-center">
+                    <h2 className="text-[clamp(4rem,18vw,26rem)] font-serif font-black leading-[0.8] tracking-tighter text-white/5 select-none">
+                        NORTHERN
+                    </h2>
                 </div>
             </footer>
         </div>
