@@ -1,14 +1,12 @@
 "use client";
 
 import { useRef, useState, useEffect } from "react";
-import { motion, useScroll, useTransform, useInView } from "framer-motion";
+import { motion, useScroll, useTransform, useSpring, useInView } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import ContactInfo from "@/components/ContactInfo";
-import InfiniteMarquee from "@/components/InfiniteMarquee";
 
-// Helper for Animated Counters
 function CountUp({ target, duration = 2, suffix = "" }: { target: number, duration?: number, suffix?: string }) {
     const [count, setCount] = useState(0);
     const ref = useRef(null);
@@ -38,318 +36,325 @@ function CountUp({ target, duration = 2, suffix = "" }: { target: number, durati
 }
 
 export default function V4Page() {
-    // ─── HERO ANIMATIONS ──────────────────────────────────────
-    const heroHeadlineVariants = {
-        hidden: { opacity: 0, y: 50 },
-        visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] as const } }
+    // ─── HERO CURTAIN VARIANTS ────────────────────────────────
+    const curtainVariants = {
+        hidden: { height: "50vh" },
+        visible: { height: "0vh", transition: { duration: 1.5, ease: [0.76, 0, 0.24, 1] as const, delay: 0.5 } }
     };
 
-    // ─── ALPHA MASK SCROLL LOGIC ─────────────────────────────
-    const statementRef = useRef<HTMLElement>(null);
-    const maskContainerRef = useRef<HTMLDivElement>(null);
-    const targetLetterRef = useRef<HTMLSpanElement>(null);
-    const [transformOrigin, setTransformOrigin] = useState("center");
+    const heroTextVariants = {
+        hidden: { opacity: 0, y: 50 },
+        visible: { opacity: 1, y: 0, transition: { duration: 1, ease: [0.16, 1, 0.3, 1] as const, delay: 1.5 } }
+    };
 
-    const { scrollYProgress: statementScroll } = useScroll({
-        target: statementRef,
+    // ─── EDITORIAL THREAD SCROLL ─────────────────────────────
+    const editorialRef = useRef<HTMLElement>(null);
+    const { scrollYProgress: editorialScroll } = useScroll({
+        target: editorialRef,
+        offset: ["start center", "end end"]
+    });
+
+    const threadHeight = useTransform(editorialScroll, [0, 0.9], ["0%", "100%"]);
+    const imageParallax1 = useTransform(editorialScroll, [0, 1], [50, -50]);
+    const imageParallax2 = useTransform(editorialScroll, [0, 1], [100, -100]);
+
+    // ─── HORIZONTAL SCROLL GALLERY ───────────────────────────
+    const horizontalContainerRef = useRef<HTMLElement>(null);
+    const { scrollYProgress: horizontalScroll } = useScroll({
+        target: horizontalContainerRef,
         offset: ["start start", "end end"]
     });
 
-    // Calculate exact center of the "H" to zoom into
-    useEffect(() => {
-        const calculateOrigin = () => {
-            if (!maskContainerRef.current || !targetLetterRef.current) return;
-            const container = maskContainerRef.current.getBoundingClientRect();
-            const letter = targetLetterRef.current.getBoundingClientRect();
+    // Smooth out the horizontal scrolling with a spring
+    const smoothHorizontalScroll = useSpring(horizontalScroll, { stiffness: 100, damping: 20 });
+    // Translate the wide container (400vw) backwards by up to -300vw
+    const xTranslate = useTransform(smoothHorizontalScroll, [0, 1], ["0vw", "-200vw"]);
 
-            // Calculate percentage position of the letter's center relative to the container
-            const centerX = ((letter.left + letter.width / 2) - container.left) / container.width * 100;
-            const centerY = ((letter.top + letter.height / 2) - container.top) / container.height * 100;
-
-            setTransformOrigin(`${centerX}% ${centerY}%`);
-        };
-
-        calculateOrigin();
-        window.addEventListener("resize", calculateOrigin);
-        // Small delay to ensure fonts/layout have painted
-        setTimeout(calculateOrigin, 100);
-
-        return () => window.removeEventListener("resize", calculateOrigin);
-    }, []);
-
-    // Scroll Map:
-    // 0.0 - 0.35: Mask zooms from 1x to 250x directly through the letter H
-    // 0.35 - 0.40: Mask fades out so it stops blocking clicks/rendering
-    // 0.45 - 0.75: Staccato words flash sequentially over the background
-    // 0.80 - 0.95: Final content fades up over the image
-
-    const maskScale = useTransform(statementScroll, [0, 0.35], [1, 250]);
-    const maskOpacity = useTransform(statementScroll, [0.35, 0.4], [1, 0]);
-
-    // Give each word `0.1` (about 40vh) of screen time
-    const staccato1 = useTransform(statementScroll, [0.40, 0.45, 0.55, 0.60], [0, 1, 1, 0]);
-    const staccato2 = useTransform(statementScroll, [0.55, 0.60, 0.70, 0.75], [0, 1, 1, 0]);
-    const staccato3 = useTransform(statementScroll, [0.70, 0.75, 0.85, 0.90], [0, 1, 1, 0]);
-
-    const finalOpacity = useTransform(statementScroll, [0.85, 0.90], [0, 1]);
-    const finalY = useTransform(statementScroll, [0.85, 0.90], [80, 0]);
-
-    // ─── INFRASTRUCTURE STICKY LOGIC ─────────────────────────
-    const [activePanel, setActivePanel] = useState(0);
-
-    const infraPanels = [
-        { num: "01", title: "KNITTING", img: "/v4/infrastructure/knitting.png", desc: "State-of-the-art European machinery ensuring unparalleled fabric consistency and unmatched production speed." },
-        { num: "02", title: "MATERIAL SCIENCE", img: "/v4/infrastructure/materials.png", desc: "Advanced R&D labs innovating sustainable, high-performance textiles engineered for the modern luxury market." },
-        { num: "03", title: "PRECISION SEWING", img: "/v4/infrastructure/sewing.png", desc: "Lean manufacturing principles deployed across 1300+ advanced workstations, achieving a 99.2% right-first-time quality rate." }
+    const galleryItems = [
+        {
+            title: "Advanced Knitting",
+            desc: "Precision European machinery driving scalable, high-speed textile creation.",
+            img: "/v4/infrastructure/knitting.png",
+            stat: "1,200kg",
+            statLabel: "Daily Capacity"
+        },
+        {
+            title: "Material Science",
+            desc: "Innovating sustainable dyes and durable synthetic blends for global brands.",
+            img: "/v4/infrastructure/materials.png",
+            stat: "100%",
+            statLabel: "Oeko-Tex Certified"
+        },
+        {
+            title: "Zero-Defect Sewing",
+            desc: "Over 1,300 workstations operating on lean manufacturing tolerances.",
+            img: "/v4/infrastructure/sewing.png",
+            stat: "99.8%",
+            statLabel: "Quality Yield"
+        }
     ];
 
     return (
-        <div className="bg-northern-evergreen text-white selection:bg-northern-amber/30 selection:text-white font-sans antialiased overflow-x-hidden">
-            <Navbar />
+        <div className="bg-[#FAF9F6] text-northern-evergreen selection:bg-northern-amber/30 selection:text-northern-evergreen font-sans antialiased overflow-x-hidden">
+            <Navbar /> {/* Assuming Navbar respects or handles light backgrounds if absolute */}
+
+            {/* Override navbar color specifically for this page using global css overrides or just letting it contrast */}
+            <div className="fixed top-0 left-0 w-full h-24 bg-gradient-to-b from-black/50 to-transparent z-40 pointer-events-none mix-blend-multiply" />
 
             {/* ═══════════════════════════════════════════════════ */}
-            {/* 1. CINEMATIC HERO                                   */}
+            {/* 1. CURTAIN REVEAL HERO (DARK)                       */}
             {/* ═══════════════════════════════════════════════════ */}
-            <section id="home" className="relative h-screen min-h-[700px] w-full flex flex-col justify-end overflow-hidden">
+            <section className="relative h-screen min-h-[800px] w-full bg-black overflow-hidden flex items-center justify-center">
+
+                {/* Background Image (Revealed) */}
                 <div className="absolute inset-0 z-0">
                     <Image
                         src="/hero-factory.png"
                         alt="Northern Manufacturing Facility"
                         fill
-                        className="object-cover animate-ken-burns scale-110"
+                        className="object-cover opacity-60"
                         priority
                     />
-                    <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/10 to-northern-evergreen/90" />
+                    <div className="absolute inset-0 bg-black/40" />
                 </div>
 
+                {/* Hero Content (Appears after curtain opens) */}
                 <motion.div
-                    className="relative z-10 px-8 md:px-16 pb-12 w-full max-w-[1600px] mx-auto flex flex-col justify-end gap-12"
+                    className="relative z-10 text-center px-8"
                     initial="hidden"
                     animate="visible"
-                    transition={{ staggerChildren: 0.15, delayChildren: 0.4 }}
+                    variants={{
+                        visible: { transition: { staggerChildren: 0.2 } }
+                    }}
                 >
-                    <div className="max-w-4xl">
-                        <motion.h1 className="text-[clamp(3.5rem,8vw,8rem)] font-black leading-[0.85] tracking-tighter mb-8">
-                            <motion.span variants={heroHeadlineVariants} className="block text-white">Decades <span className="font-serif font-light italic text-northern-amber">of</span></motion.span>
-                            <motion.span variants={heroHeadlineVariants} className="block text-white">Expertise.</motion.span>
-                        </motion.h1>
+                    <motion.div variants={heroTextVariants} className="uppercase tracking-[0.3em] text-northern-amber text-xs font-bold mb-8">
+                        The Northern Standard
+                    </motion.div>
+                    <motion.h1 variants={heroTextVariants} className="text-[clamp(3.5rem,8vw,8rem)] text-white font-black leading-[0.85] tracking-tighter mb-8 max-w-6xl mx-auto">
+                        Engineering the <span className="font-serif font-light italic text-[#FAF9F6]">Fabric</span> of Tomorrow.
+                    </motion.h1>
+                    <motion.p variants={heroTextVariants} className="text-white/70 text-lg md:text-xl max-w-2xl mx-auto mb-12">
+                        Pioneering ultra-premium, deeply scalable apparel manufacturing from Dhaka to the world's most demanding runways.
+                    </motion.p>
+                    <motion.div variants={heroTextVariants}>
+                        <Link href="#editorial" className="inline-flex items-center gap-4 bg-white text-black px-8 py-4 rounded-full font-bold uppercase tracking-wider text-sm hover:scale-105 transition-transform">
+                            Enter the Editorial
+                        </Link>
+                    </motion.div>
+                </motion.div>
 
-                        <div className="max-w-xl mb-10">
-                            <motion.p variants={heroHeadlineVariants} className="text-lg md:text-xl text-white/90 font-medium mb-2">
-                                Northern Corporation Ltd. —
-                            </motion.p>
-                            <motion.p variants={heroHeadlineVariants} className="text-white/70 text-lg leading-relaxed">
-                                Engineering comfort, durability, and style since 1987. Scaling premium multi-brand apparel manufacturing from Dhaka to the world.
-                            </motion.p>
-                        </div>
+                {/* The Top Curtain */}
+                <motion.div
+                    className="absolute top-0 left-0 w-full bg-northern-evergreen z-20 flex items-end justify-center pb-8"
+                    initial="hidden"
+                    animate="visible"
+                    variants={curtainVariants}
+                >
+                    {/* Optional: Half Logo */}
+                </motion.div>
 
-                        <motion.div variants={heroHeadlineVariants}>
-                            <Link href="#what-we-do" className="group inline-flex items-center gap-4 bg-white text-northern-evergreen px-8 py-4 rounded-full font-bold uppercase tracking-wider text-sm transition-all hover:bg-northern-amber hover:text-black">
-                                <span>Discover More</span>
-                                <svg className="w-5 h-5 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                    <path d="M5 12h14M12 5l7 7-7 7" />
-                                </svg>
-                            </Link>
-                        </motion.div>
-                    </div>
+                {/* The Bottom Curtain */}
+                <motion.div
+                    className="absolute bottom-0 left-0 w-full bg-northern-evergreen z-20 flex items-start justify-center pt-8"
+                    initial="hidden"
+                    animate="visible"
+                    variants={curtainVariants}
+                >
+                    {/* Optional: Half Logo */}
                 </motion.div>
             </section>
 
             {/* ═══════════════════════════════════════════════════ */}
-            {/* 2. ALPHA MASK STATEMENT                             */}
+            {/* 2. "THE THREAD" EDITORIAL (LIGHT)                   */}
             {/* ═══════════════════════════════════════════════════ */}
-            {/* REVERTED TO 400vh for proper timeline spacing */}
-            <section id="statement" ref={statementRef} className="relative h-[400vh] bg-black">
-                <div className="sticky top-0 h-screen w-full overflow-hidden bg-black flex items-center justify-center">
+            <section id="editorial" ref={editorialRef} className="relative py-32 md:py-64 px-8 md:px-16 max-w-[1600px] mx-auto min-h-[150vh]">
 
-                    {/* Revealed Background Image */}
-                    <div className="absolute inset-0 z-0">
+                {/* The Animated SVG Thread (Center Line) */}
+                <div className="absolute left-8 md:left-1/2 top-0 bottom-0 w-px bg-black/10 -translate-x-1/2 hidden md:block" />
+                <motion.div
+                    className="absolute left-8 md:left-1/2 top-0 w-1 bg-northern-evergreen -translate-x-1/2 origin-top hidden md:block"
+                    style={{ height: threadHeight }}
+                />
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-32 gap-y-48">
+
+                    {/* Left Column Block 1 */}
+                    <div className="flex flex-col justify-center">
+                        <h2 className="text-xs font-bold uppercase tracking-[0.2em] text-northern-amber mb-6">Chapter I : Origins</h2>
+                        <p className="font-serif text-[clamp(2rem,4vw,3rem)] leading-[1.1] mb-8">
+                            A heritage woven into the very fabric of standard-defiing textiles.
+                        </p>
+                        <p className="text-lg text-black/60 leading-relaxed max-w-md">
+                            Since our inception in 1987, Northern has rejected the paradigm of fast, disposable fashion.
+                            We implemented lean cellular manufacturing long before it became an industry buzzword, establishing
+                            our first campus with a singular obsession: uncompromised aesthetic integrity.
+                        </p>
+                    </div>
+
+                    {/* Right Column Image 1 (Parallax) */}
+                    <motion.div style={{ y: imageParallax1 }} className="relative aspect-[3/4] w-full max-w-lg mx-auto md:mt-32">
                         <Image
-                            src="/hero-factory.png"
-                            alt="Factory Interior"
+                            src="/hero-img.jpg" // Reusing a high-quality asset
+                            alt="Historical Craftsmanship"
                             fill
-                            className="object-cover opacity-60"
+                            className="object-cover rounded-sm grayscale hover:grayscale-0 transition-all duration-700"
                         />
-                        <div className="absolute inset-0 bg-black/50" />
-                    </div>
-
-                    {/* Staccato Words (Flashing sequentially) */}
-                    <div className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none">
-                        <motion.h2 style={{ opacity: staccato1 }} className="absolute text-[clamp(2.5rem,8vw,10rem)] font-black text-white tracking-widest uppercase text-center px-4">PRECISION.</motion.h2>
-                        <motion.h2 style={{ opacity: staccato2 }} className="absolute text-[clamp(2rem,6vw,8rem)] font-black text-white tracking-widest uppercase text-center px-4">UNCOMPROMISING.</motion.h2>
-                        <motion.h2 style={{ opacity: staccato3 }} className="absolute text-[clamp(2.5rem,8vw,10rem)] font-black text-northern-amber tracking-widest uppercase text-center px-4">QUALITY.</motion.h2>
-                    </div>
-
-                    {/* Final Reveal Content */}
-                    <motion.div
-                        className="absolute inset-0 z-20 flex flex-col justify-end px-8 pb-24 md:px-16 md:pb-32 bg-gradient-to-t from-black via-black/40 to-transparent"
-                        style={{ opacity: finalOpacity }}
-                    >
-                        <div className="max-w-[1600px] w-full mx-auto">
-                            <motion.h3 style={{ y: finalY }} className="text-[clamp(2.5rem,6vw,5rem)] font-black leading-[1.1] tracking-tight text-white mb-16">
-                                Future-Focused<br />
-                                <span className="font-serif italic font-light text-northern-amber">Innovation.</span>
-                            </motion.h3>
-
-                            <motion.div style={{ y: finalY }} className="border-t border-white/20 pt-8 flex flex-col md:flex-row gap-12 md:gap-24">
-                                <div>
-                                    <div className="font-serif text-[clamp(2.5rem,5vw,4rem)] leading-none text-white mb-2">
-                                        <CountUp target={37} suffix="+" />
-                                    </div>
-                                    <div className="text-xs font-bold tracking-[0.2em] text-northern-amber uppercase">Years of Legacy</div>
-                                </div>
-                                <div>
-                                    <div className="font-serif text-[clamp(2.5rem,5vw,4rem)] leading-none text-white mb-2">
-                                        <CountUp target={3000} suffix="+" />
-                                    </div>
-                                    <div className="text-xs font-bold tracking-[0.2em] text-northern-amber uppercase">Employees</div>
-                                </div>
-                                <div>
-                                    <div className="font-serif text-[clamp(2.5rem,5vw,4rem)] leading-none text-white mb-2">
-                                        $<CountUp target={30} suffix="M+" />
-                                    </div>
-                                    <div className="text-xs font-bold tracking-[0.2em] text-northern-amber uppercase">Annual Revenue</div>
-                                </div>
-                            </motion.div>
-                        </div>
                     </motion.div>
 
-                    {/* The Dark Mask Layer (Mix Blend Multiply) */}
-                    <motion.div
-                        ref={maskContainerRef}
-                        className="absolute inset-0 z-30 bg-black mix-blend-multiply pointer-events-none flex flex-col items-center justify-center transform-gpu"
-                        style={{ scale: maskScale, opacity: maskOpacity, transformOrigin }}
-                    >
-                        <span className="text-[clamp(3.5rem,15vw,18rem)] text-white font-black leading-[0.85] tracking-tighter mr-8 whitespace-nowrap">ROOTED</span>
-                        <span className="text-[clamp(3.5rem,15vw,18rem)] text-white font-black leading-[0.85] tracking-tighter whitespace-nowrap">
-                            IN D<span ref={targetLetterRef} className="opacity-100">H</span>AKA
-                        </span>
+                    {/* Left Column Image 2 (Parallax) */}
+                    <motion.div style={{ y: imageParallax2 }} className="relative aspect-[4/5] w-full max-w-md mx-auto order-last md:order-none">
+                        <div className="absolute -inset-4 bg-northern-amber/10 -z-10 translate-x-8 translate-y-8" />
+                        <Image
+                            src="/v4/infrastructure/materials.png"
+                            alt="Material Innovation"
+                            fill
+                            className="object-cover rounded-sm saturate-50 hover:saturate-100 transition-all duration-700"
+                        />
                     </motion.div>
+
+                    {/* Right Column Block 2 */}
+                    <div className="flex flex-col justify-center md:pb-64">
+                        <h2 className="text-xs font-bold uppercase tracking-[0.2em] text-northern-amber mb-6">Chapter II : Precision</h2>
+                        <p className="font-serif text-[clamp(2rem,4vw,3rem)] leading-[1.1] mb-8">
+                            The exactitude of modern metallurgy meets raw organic fibers.
+                        </p>
+                        <p className="text-lg text-black/60 leading-relaxed max-w-md">
+                            Walk our factory floor today, and the silence is what strikes you. Precision engineering
+                            means machines don't rattle—they glide. Over 1,300 advanced workstations operate in a synergistic
+                            matrix, ensuring that a micro-stitch engineered in R&D is replicated ten million times flawlessly.
+                        </p>
+                    </div>
+
                 </div>
             </section>
 
             {/* ═══════════════════════════════════════════════════ */}
-            {/* 3. INFRASTRUCTURE (Sticky Track)                    */}
+            {/* 3. "ASSEMBLY LINE" HORIZONTAL SCROLL (DARK)         */}
             {/* ═══════════════════════════════════════════════════ */}
-            <section id="what-we-do" className="relative bg-black py-24 md:py-48 px-8 md:px-16">
-                <div className="max-w-[1600px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 relative">
+            {/* The outer container is 300vh tall to allow scrolling space. */}
+            <section ref={horizontalContainerRef} className="relative h-[300vh] bg-northern-evergreen">
 
-                    {/* Left Sticky Nav */}
-                    <div className="relative">
-                        <div className="sticky top-32 lg:top-1/3">
-                            <h4 className="text-northern-amber text-xs font-bold tracking-[0.2em] uppercase mb-12">Infrastructure</h4>
+                {/* The pinned sticky section holding the horizontal track */}
+                <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center">
 
-                            <div className="space-y-4">
-                                {infraPanels.map((item, i) => (
-                                    <button
-                                        key={item.num}
-                                        onClick={() => {
-                                            const el = document.getElementById(`panel-${i}`);
-                                            if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                                        }}
-                                        className={`w-full text-left py-6 flex items-center gap-6 transition-all duration-500 hover:opacity-100 ${activePanel === i ? 'opacity-100' : 'opacity-50'}`}
-                                    >
-                                        <div className={`w-2 h-2 rounded-full transition-colors duration-500 ${activePanel === i ? 'bg-northern-amber' : 'bg-transparent'}`} />
+                    {/* The wide track that physically moves left (3 panels = roughly 300vw wide) */}
+                    <motion.div
+                        className="flex gap-16 md:gap-32 px-8 md:px-[10vw]"
+                        style={{ x: xTranslate }}
+                    >
 
-                                        <div className="flex items-center gap-6 border-b border-white/10 w-full pb-6">
-                                            <span className="font-serif italic text-northern-amber text-xl">{item.num}</span>
-                                            <h3 className="text-[clamp(1.5rem,3vw,2.5rem)] font-bold tracking-tight leading-none text-white">{item.title}</h3>
-                                        </div>
-                                    </button>
-                                ))}
-                            </div>
-
-                            <Link href="#contact-us" className="inline-block mt-16 px-8 py-4 rounded-full border border-white/30 text-xs font-bold tracking-wider uppercase transition-colors hover:bg-white hover:text-black">
-                                Explore Facilities
-                            </Link>
+                        {/* Intro Panel (Takes up standard viewport width) */}
+                        <div className="w-[85vw] md:w-[40vw] flex-shrink-0 flex flex-col justify-center text-white h-[70vh]">
+                            <svg className="w-12 h-12 text-northern-amber mb-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                            </svg>
+                            <h2 className="text-[clamp(3rem,6vw,5rem)] font-black leading-none tracking-tighter mb-6">
+                                The Assembly<br />
+                                <span className="font-serif font-light italic text-northern-amber">Line.</span>
+                            </h2>
+                            <p className="text-white/60 text-xl max-w-md">
+                                Scroll down to traverse our seamlessly integrated production ecosystem, from raw thread to runway-ready artifact.
+                            </p>
                         </div>
-                    </div>
 
-                    {/* Right Scrolling Panels */}
-                    <div className="pt-12 lg:pt-[30vh] pb-[10vh] border-l border-white/5 pl-8 md:pl-16">
-                        {infraPanels.map((panel, i) => (
-                            <motion.div
-                                key={i}
-                                id={`panel-${i}`}
-                                initial={{ opacity: 0.1, scale: 0.95 }}
-                                whileInView={{ opacity: 1, scale: 1 }}
-                                viewport={{ margin: "-30% 0px -40% 0px" }}
-                                onViewportEnter={() => setActivePanel(i)}
-                                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                                className={`w-full max-w-xl mx-auto ${i !== infraPanels.length - 1 ? 'mb-[40vh]' : ''}`}
-                            >
-                                <div className="relative aspect-[4/5] w-full rounded-lg overflow-hidden mb-8 shadow-2xl">
+                        {/* Gallery Panels */}
+                        {galleryItems.map((item, i) => (
+                            <div key={i} className="w-[85vw] md:w-[60vw] flex-shrink-0 flex flex-col md:flex-row gap-8 md:gap-16 items-center">
+                                {/* Large Image */}
+                                <div className="relative w-full md:w-2/3 aspect-[4/3] md:aspect-video rounded-xl overflow-hidden shadow-2xl group">
                                     <Image
-                                        src={panel.img}
-                                        alt={panel.title}
+                                        src={item.img}
+                                        alt={item.title}
                                         fill
-                                        className="object-cover"
+                                        className="object-cover transition-transform duration-1000 group-hover:scale-110"
                                     />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                                    <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-500" />
                                 </div>
-                                <div className="bg-white/5 p-8 rounded-lg backdrop-blur-sm border border-white/10">
-                                    <p className="text-white/80 text-lg md:text-xl leading-relaxed">
-                                        {panel.desc}
+
+                                {/* Info Block */}
+                                <div className="w-full md:w-1/3 flex flex-col justify-center text-white">
+                                    <span className="font-serif italic text-northern-amber text-2xl mb-4">0{i + 1}</span>
+                                    <h3 className="text-3xl md:text-5xl font-black tracking-tight leading-none mb-6">{item.title}</h3>
+                                    <p className="text-white/60 text-lg mb-12">
+                                        {item.desc}
                                     </p>
+                                    <div className="border-t border-white/20 pt-6">
+                                        <div className="text-4xl font-serif text-white">{item.stat}</div>
+                                        <div className="text-xs uppercase tracking-[0.2em] font-bold text-northern-amber mt-2">{item.statLabel}</div>
+                                    </div>
                                 </div>
-                            </motion.div>
+                            </div>
                         ))}
-                    </div>
+                    </motion.div>
                 </div>
             </section>
 
             {/* ═══════════════════════════════════════════════════ */}
-            {/* 4. PROOF OF SCALE & CLIENTS                         */}
+            {/* 4. "SCALE MATRIX" & FOOTER                          */}
             {/* ═══════════════════════════════════════════════════ */}
-            <section id="about-us" className="pt-32 pb-4bg-northern-evergreen relative overflow-hidden">
-                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-northern-amber/10 via-transparent to-transparent opacity-80 pointer-events-none" />
-
-                <div className="max-w-[1600px] mx-auto px-8 md:px-16 mb-24 relative z-10">
-                    <h4 className="text-northern-amber text-xs font-bold tracking-[0.2em] uppercase mb-16">Proof of Scale</h4>
-
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8 border-t border-northern-amber/20 pt-16">
-                        <div>
-                            <div className="font-serif text-[clamp(4rem,8vw,6rem)] leading-none text-white mb-4">
-                                <CountUp target={12} suffix="M+" />
-                            </div>
-                            <div className="text-sm font-bold tracking-widest text-northern-amber uppercase">Items Produced Yearly</div>
-                        </div>
-                        <div className="hidden md:block w-px h-32 bg-northern-amber/20 mx-auto" />
-                        <div>
-                            <div className="font-serif text-[clamp(4rem,8vw,6rem)] leading-none text-white mb-4">
-                                <CountUp target={40} suffix="+" />
-                            </div>
-                            <div className="text-sm font-bold tracking-widest text-northern-amber uppercase">Countries Exported To</div>
-                        </div>
-                        <div className="hidden md:block w-px h-32 bg-northern-amber/20 mx-auto" />
-                        <div>
-                            <div className="font-serif text-[clamp(4rem,8vw,6rem)] leading-none text-white mb-4">
-                                <CountUp target={1300} suffix="+" />
-                            </div>
-                            <div className="text-sm font-bold tracking-widest text-northern-amber uppercase">Advanced Machines</div>
-                        </div>
-                    </div>
+            <section className="bg-black text-white py-32 md:py-48 px-8 md:px-16 border-t border-white/10">
+                <div className="max-w-[1600px] mx-auto text-center mb-24">
+                    <h2 className="text-[clamp(3rem,6vw,5rem)] font-black leading-none tracking-tighter mb-6 relative inline-block">
+                        Scalable Impact
+                        <div className="absolute -top-6 -right-12 w-24 h-24 bg-northern-amber rounded-full blur-3xl opacity-20" />
+                    </h2>
+                    <p className="text-white/60 text-xl font-serif italic max-w-2xl mx-auto">
+                        Decades of compounding excellence resulting in undeniable global velocity.
+                    </p>
                 </div>
 
-                <div className="mt-48 mb-24 text-center relative z-10 px-8">
-                    <h3 className="font-serif italic text-[clamp(2rem,4vw,3.5rem)] text-white/90">Trusted by the world&apos;s most demanding brands.</h3>
-                </div>
+                {/* Brutalist 3D Grid */}
+                <div className="max-w-[1400px] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 px-4">
+                    {/* Stat Card */}
+                    <motion.div
+                        whileHover={{ scale: 0.98, rotateX: 5, rotateY: 5 }}
+                        className="bg-white/5 border border-white/10 p-12 flex flex-col justify-center items-center text-center aspect-square backdrop-blur-sm cursor-crosshair transition-colors hover:bg-white/10"
+                    >
+                        <div className="font-serif text-6xl text-white mb-4">
+                            <CountUp target={12} suffix="M+" />
+                        </div>
+                        <div className="text-xs font-bold tracking-widest text-northern-amber uppercase">Pieces/Year</div>
+                    </motion.div>
 
-                <div className="pb-16 relative z-10">
-                    <InfiniteMarquee />
+                    <motion.div
+                        whileHover={{ scale: 0.98, rotateX: 5, rotateY: -5 }}
+                        className="bg-white/5 border border-white/10 p-12 flex flex-col justify-center items-center text-center aspect-square backdrop-blur-sm cursor-crosshair transition-colors hover:bg-white/10"
+                    >
+                        <div className="font-serif text-6xl text-white mb-4">
+                            <CountUp target={1300} suffix="+" />
+                        </div>
+                        <div className="text-xs font-bold tracking-widest text-northern-amber uppercase">Advanced Stations</div>
+                    </motion.div>
+
+                    <motion.div
+                        whileHover={{ scale: 0.98, rotateX: -5, rotateY: 5 }}
+                        className="bg-white/5 border border-white/10 p-12 flex flex-col justify-center items-center text-center aspect-square backdrop-blur-sm cursor-crosshair transition-colors hover:bg-white/10"
+                    >
+                        <div className="font-serif text-6xl text-white mb-4">
+                            <CountUp target={3000} suffix="+" />
+                        </div>
+                        <div className="text-xs font-bold tracking-widest text-northern-amber uppercase">Craftsmen</div>
+                    </motion.div>
+
+                    <motion.div
+                        whileHover={{ scale: 0.98, rotateX: -5, rotateY: -5 }}
+                        className="bg-white/5 border border-white/10 p-12 flex flex-col justify-center items-center text-center aspect-square backdrop-blur-sm cursor-crosshair transition-colors hover:bg-white/10"
+                    >
+                        <div className="font-serif text-6xl text-white mb-4">
+                            <CountUp target={40} suffix="+" />
+                        </div>
+                        <div className="text-xs font-bold tracking-widest text-northern-amber uppercase">Export Nations</div>
+                    </motion.div>
                 </div>
             </section>
 
-            {/* ═══════════════════════════════════════════════════ */}
-            {/* 5. FOOTER & CONTACT                                 */}
-            {/* ═══════════════════════════════════════════════════ */}
-            <div id="contact-us" className="bg-northern-evergreen relative z-20 shadow-[0_-20px_50px_rgba(0,0,0,0.5)]">
+            <div id="contact-us" className="bg-northern-evergreen relative z-20 shadow-[0_-20px_50px_rgba(0,0,0,0.5)] border-t border-white/10">
                 <ContactInfo />
             </div>
 
-            <footer className="bg-northern-evergreen border-t border-white/10 py-16 overflow-hidden relative z-20">
+            <footer className="bg-northern-evergreen py-16 overflow-hidden relative z-20 mix-blend-screen opacity-50">
                 <div className="max-w-[1600px] mx-auto px-8 w-full flex justify-center">
-                    <h2 className="text-[clamp(4rem,18vw,26rem)] font-serif font-black leading-[0.8] tracking-tighter text-white/5 select-none">
+                    <h2 className="text-[clamp(4rem,18vw,26rem)] font-serif font-black leading-[0.8] tracking-tighter text-white/10 select-none pointer-events-none">
                         NORTHERN
                     </h2>
                 </div>
