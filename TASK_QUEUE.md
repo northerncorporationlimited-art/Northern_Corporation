@@ -23,7 +23,7 @@
 - Glassmorphism Trust Bar (LEED Gold, 3,000+ Employees, Est. 1987)
 - Infinite Client Marquee (H&M, ZARA, C&A, PRIMARK, NEXT, S.OLIVER)
 
-### ✅ Deployed — [northern-corporation.vercel.app](https://northern-corporation.vercel.app)
+
 
 ---
 
