@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState, useEffect } from "react";
-import { motion, useScroll, useTransform, useInView } from "framer-motion";
+import { motion, useScroll, useTransform, useSpring, useInView } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
@@ -167,6 +167,113 @@ function Section2IntoTheMachine() {
     );
 }
 
+/* ─────────────────────────────────────────────────────────
+   § 3 — "THE PRODUCT LINE"
+   Horizontal scroll gallery with progress bar.
+   ───────────────────────────────────────────────────────── */
+
+const products = [
+    {
+        title: "Fine Gauge Knitwear",
+        desc: "Ultra-lightweight, precision-knit fabrics engineered for luxury layering and next-to-skin softness.",
+        img: "/v4/products/fine_gauge.png",
+        tags: ["Premium", "Lightweight", "Technical"],
+    },
+    {
+        title: "Heavy Knit Construction",
+        desc: "Robust, structured textiles designed for outerwear and cold-weather performance garments.",
+        img: "/v4/products/heavy_knit.png",
+        tags: ["Durable", "Outerwear", "Structured"],
+    },
+    {
+        title: "Seamless Engineering",
+        desc: "Zero-stitch, body-mapped garments offering unparalleled comfort and a second-skin fit.",
+        img: "/v4/products/seamless.png",
+        tags: ["Innovative", "Body-Mapped", "Comfort"],
+    },
+];
+
+function Section3ProductLine() {
+    const containerRef = useRef<HTMLElement>(null);
+    const { scrollYProgress } = useScroll({
+        target: containerRef,
+        offset: ["start start", "end end"],
+    });
+
+    const smoothProgress = useSpring(scrollYProgress, { stiffness: 100, damping: 20 });
+    const xTranslate = useTransform(smoothProgress, [0, 1], ["0vw", "-200vw"]);
+
+    // Progress bar width
+    const progressWidth = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
+
+    return (
+        <section id="product-line" ref={containerRef} className="relative h-[300vh] bg-[#0a0a0a]">
+            <div className="sticky top-0 h-screen w-full overflow-hidden flex flex-col">
+
+                {/* Top bar: title + progress */}
+                <div className="relative z-20 px-8 md:px-16 pt-12 pb-8">
+                    <div className="flex items-end justify-between mb-6">
+                        <div>
+                            <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-northern-amber/60 block mb-2">Chapter III</span>
+                            <h2 className="text-[clamp(2rem,4vw,3.5rem)] font-black tracking-tighter leading-none">
+                                The Product <span className="font-serif font-light italic text-northern-amber/80">Line</span>
+                            </h2>
+                        </div>
+                        <span className="text-xs uppercase tracking-[0.3em] text-white/30 hidden md:block">Scroll to explore →</span>
+                    </div>
+                    {/* Progress bar */}
+                    <div className="h-px bg-white/10 w-full">
+                        <motion.div className="h-full bg-northern-amber origin-left" style={{ width: progressWidth }} />
+                    </div>
+                </div>
+
+                {/* Horizontal track */}
+                <div className="flex-1 flex items-center">
+                    <motion.div
+                        className="flex gap-8 md:gap-16 px-8 md:px-16 h-[70vh]"
+                        style={{ x: xTranslate }}
+                    >
+                        {products.map((product, i) => (
+                            <div key={i} className="w-[85vw] md:w-[65vw] flex-shrink-0 group relative rounded-2xl overflow-hidden bg-white/5 border border-white/10 flex flex-col md:flex-row">
+                                {/* Image side */}
+                                <div className="relative w-full md:w-3/5 h-1/2 md:h-full">
+                                    <Image
+                                        src={product.img}
+                                        alt={product.title}
+                                        fill
+                                        className="object-cover transition-transform duration-1000 group-hover:scale-105"
+                                    />
+                                    <div className="absolute inset-0 bg-gradient-to-r from-transparent to-[#0a0a0a]/80 hidden md:block" />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a]/80 to-transparent md:hidden" />
+                                </div>
+
+                                {/* Info side */}
+                                <div className="relative z-10 w-full md:w-2/5 p-8 md:p-12 flex flex-col justify-center">
+                                    <span className="font-serif italic text-northern-amber text-3xl mb-4">0{i + 1}</span>
+                                    <h3 className="text-2xl md:text-4xl font-black tracking-tight leading-none mb-6">{product.title}</h3>
+                                    <p className="text-white/50 text-base leading-relaxed mb-8">{product.desc}</p>
+                                    <div className="flex flex-wrap gap-2">
+                                        {product.tags.map((tag) => (
+                                            <span key={tag} className="px-3 py-1 rounded-full border border-northern-amber/20 bg-northern-amber/5 text-xs font-bold uppercase tracking-wider text-northern-amber/70">
+                                                {tag}
+                                            </span>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                {/* Amber separator between cards (visible on desktop) */}
+                                {i < products.length - 1 && (
+                                    <div className="absolute right-0 top-[15%] bottom-[15%] w-px bg-northern-amber/20 hidden md:block" />
+                                )}
+                            </div>
+                        ))}
+                    </motion.div>
+                </div>
+            </div>
+        </section>
+    );
+}
+
 export default function V4Page() {
     const heroRef = useRef<HTMLDivElement>(null);
     const { scrollYProgress: heroScroll } = useScroll({
@@ -303,10 +410,16 @@ export default function V4Page() {
             <Section2IntoTheMachine />
 
             {/* ═══════════════════════════════════════════════════════════
-                PLACEHOLDER: § 3+ coming next.
+                § 3 — THE PRODUCT LINE
+                Horizontal scroll gallery with progress bar.
             ═══════════════════════════════════════════════════════════ */}
-            <section id="product-line" className="h-screen bg-black flex items-center justify-center">
-                <p className="text-white/20 text-sm uppercase tracking-widest">§ 3 — The Product Line (Coming Next)</p>
+            <Section3ProductLine />
+
+            {/* ═══════════════════════════════════════════════════════════
+                PLACEHOLDER: § 4+ coming next.
+            ═══════════════════════════════════════════════════════════ */}
+            <section id="fabric-lab" className="h-screen bg-[#FAF9F6] flex items-center justify-center">
+                <p className="text-black/20 text-sm uppercase tracking-widest">§ 4 — The Fabric Lab (Coming Next)</p>
             </section>
         </div>
     );
