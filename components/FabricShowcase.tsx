@@ -105,7 +105,7 @@ export default function FabricShowcase() {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4"
+                        className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm"
                         onClick={() => setSelected(null)}
                     >
                         <motion.div
@@ -113,48 +113,51 @@ export default function FabricShowcase() {
                             animate={{ scale: 1, opacity: 1, y: 0 }}
                             exit={{ scale: 0.85, opacity: 0, y: 30 }}
                             transition={{ duration: 0.35, ease: [0.25, 0.1, 0.25, 1] }}
-                            className="relative w-full max-w-lg overflow-hidden rounded-3xl bg-white shadow-2xl"
+                            className="relative flex max-h-[90dvh] w-full max-w-lg flex-col overflow-hidden rounded-3xl bg-white shadow-2xl"
                             onClick={(e) => e.stopPropagation()}
                         >
-                            {/* Close */}
-                            <button
-                                onClick={() => setSelected(null)}
-                                className="absolute right-4 top-4 z-10 rounded-full bg-black/40 p-2 text-white backdrop-blur-sm transition-colors hover:bg-black/60"
-                                aria-label="Close"
-                            >
-                                <X size={18} />
-                            </button>
+                            {/* Scrollable Content Area */}
+                            <div className="overflow-y-auto">
+                                {/* Close */}
+                                <button
+                                    onClick={() => setSelected(null)}
+                                    className="absolute right-4 top-4 z-10 rounded-full bg-black/40 p-2 text-white backdrop-blur-sm transition-colors hover:bg-black/60"
+                                    aria-label="Close"
+                                >
+                                    <X size={18} />
+                                </button>
 
-                            {/* Image */}
-                            <div className="relative aspect-[16/10] w-full">
-                                <Image
-                                    src={fabrics[selected].image}
-                                    alt={fabrics[selected].name}
-                                    fill
-                                    sizes="(max-width: 512px) 100vw, 512px"
-                                    className="object-cover"
-                                />
-                            </div>
+                                {/* Image */}
+                                <div className="relative aspect-[16/10] w-full">
+                                    <Image
+                                        src={fabrics[selected].image}
+                                        alt={fabrics[selected].name}
+                                        fill
+                                        sizes="(max-width: 512px) 100vw, 512px"
+                                        className="object-cover"
+                                    />
+                                </div>
 
-                            {/* Content */}
-                            <div className="p-6">
-                                <h3 className="text-2xl font-bold text-northern-evergreen">
-                                    {fabrics[selected].name}
-                                </h3>
-                                <p className="mt-3 text-sm leading-relaxed text-northern-evergreen/70">
-                                    {fabrics[selected].description}
-                                </p>
+                                {/* Content */}
+                                <div className="p-6">
+                                    <h3 className="text-2xl font-bold text-northern-evergreen">
+                                        {fabrics[selected].name}
+                                    </h3>
+                                    <p className="mt-3 text-sm leading-relaxed text-northern-evergreen/70">
+                                        {fabrics[selected].description}
+                                    </p>
 
-                                {/* Tags */}
-                                <div className="mt-4 flex flex-wrap gap-2">
-                                    {fabrics[selected].uses.map((use) => (
-                                        <span
-                                            key={use}
-                                            className="rounded-full bg-northern-evergreen/10 px-3 py-1 text-xs font-medium text-northern-evergreen"
-                                        >
-                                            {use}
-                                        </span>
-                                    ))}
+                                    {/* Tags */}
+                                    <div className="mt-4 flex flex-wrap gap-2">
+                                        {fabrics[selected].uses.map((use) => (
+                                            <span
+                                                key={use}
+                                                className="rounded-full bg-northern-evergreen/10 px-3 py-1 text-xs font-medium text-northern-evergreen"
+                                            >
+                                                {use}
+                                            </span>
+                                        ))}
+                                    </div>
                                 </div>
                             </div>
                         </motion.div>

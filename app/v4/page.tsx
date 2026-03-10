@@ -291,35 +291,37 @@ function Section4FabricLab() {
                     >
                         <motion.div
                             layoutId={`fabric-${selected}`}
-                            className="relative w-full max-w-2xl bg-[#FAF9F6] rounded-3xl overflow-hidden shadow-2xl"
+                            className="relative flex max-h-[90dvh] w-full max-w-2xl flex-col overflow-hidden rounded-3xl bg-[#FAF9F6] shadow-2xl"
                             onClick={(e) => e.stopPropagation()}
                         >
-                            {/* Full image */}
-                            <div className="relative w-full aspect-[16/10]">
-                                <Image src={fabricSwatches[selected].img} alt={fabricSwatches[selected].name} fill className="object-cover" />
-                            </div>
-
-                            {/* Content */}
-                            <div className="p-8 md:p-12">
-                                <h3 className="text-3xl font-black tracking-tight text-northern-evergreen mb-4">
-                                    {fabricSwatches[selected].name}
-                                </h3>
-                                <p className="text-northern-evergreen/60 text-base leading-relaxed mb-6">
-                                    {fabricSwatches[selected].desc}
-                                </p>
-                                <div className="flex flex-wrap gap-2 mb-8">
-                                    {fabricSwatches[selected].uses.map((use) => (
-                                        <span key={use} className="px-4 py-1.5 rounded-full bg-northern-evergreen/10 text-xs font-bold uppercase tracking-wider text-northern-evergreen/80">
-                                            {use}
-                                        </span>
-                                    ))}
+                            <div className="overflow-y-auto">
+                                {/* Full image */}
+                                <div className="relative w-full aspect-[16/10]">
+                                    <Image src={fabricSwatches[selected].img} alt={fabricSwatches[selected].name} fill className="object-cover" />
                                 </div>
-                                <button
-                                    onClick={() => setSelected(null)}
-                                    className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-northern-evergreen/20 text-sm font-bold uppercase tracking-wider text-northern-evergreen/70 hover:bg-northern-evergreen/5 transition-colors"
-                                >
-                                    ← Back to Lab
-                                </button>
+
+                                {/* Content */}
+                                <div className="p-8 md:p-12">
+                                    <h3 className="text-3xl font-black tracking-tight text-northern-evergreen mb-4">
+                                        {fabricSwatches[selected].name}
+                                    </h3>
+                                    <p className="text-northern-evergreen/60 text-base leading-relaxed mb-6">
+                                        {fabricSwatches[selected].desc}
+                                    </p>
+                                    <div className="flex flex-wrap gap-2 mb-8">
+                                        {fabricSwatches[selected].uses.map((use) => (
+                                            <span key={use} className="px-4 py-1.5 rounded-full bg-northern-evergreen/10 text-xs font-bold uppercase tracking-wider text-northern-evergreen/80">
+                                                {use}
+                                            </span>
+                                        ))}
+                                    </div>
+                                    <button
+                                        onClick={() => setSelected(null)}
+                                        className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-northern-evergreen/20 text-sm font-bold uppercase tracking-wider text-northern-evergreen/70 hover:bg-northern-evergreen/5 transition-colors"
+                                    >
+                                        ← Back to Lab
+                                    </button>
+                                </div>
                             </div>
                         </motion.div>
                     </motion.div>
