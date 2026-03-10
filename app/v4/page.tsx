@@ -46,24 +46,53 @@ export default function V4Page() {
 
     // ─── ALPHA MASK SCROLL LOGIC ─────────────────────────────
     const statementRef = useRef<HTMLElement>(null);
+    const maskContainerRef = useRef<HTMLDivElement>(null);
+    const targetLetterRef = useRef<HTMLSpanElement>(null);
+    const [transformOrigin, setTransformOrigin] = useState("center");
+
     const { scrollYProgress: statementScroll } = useScroll({
         target: statementRef,
         offset: ["start start", "end end"]
     });
 
-    // 0 to 0.4 => Mask scales from 1x to 200x.
-    const maskScale = useTransform(statementScroll, [0, 0.4], [1, 200]);
-    // Fade out mask immediately upon full zoom to prevent invisible overlay blocking clicks
-    const maskOpacity = useTransform(statementScroll, [0.38, 0.4], [1, 0]);
+    // Calculate exact center of the "H" to zoom into
+    useEffect(() => {
+        const calculateOrigin = () => {
+            if (!maskContainerRef.current || !targetLetterRef.current) return;
+            const container = maskContainerRef.current.getBoundingClientRect();
+            const letter = targetLetterRef.current.getBoundingClientRect();
 
-    // Staccato words flashing over the revealed image.
-    const staccato1 = useTransform(statementScroll, [0.42, 0.47, 0.52], [0, 1, 0]);
-    const staccato2 = useTransform(statementScroll, [0.52, 0.57, 0.62], [0, 1, 0]);
-    const staccato3 = useTransform(statementScroll, [0.62, 0.67, 0.72], [0, 1, 0]);
+            // Calculate percentage position of the letter's center relative to the container
+            const centerX = ((letter.left + letter.width / 2) - container.left) / container.width * 100;
+            const centerY = ((letter.top + letter.height / 2) - container.top) / container.height * 100;
 
-    // Final Content Reveal
-    const finalOpacity = useTransform(statementScroll, [0.75, 0.85], [0, 1]);
-    const finalY = useTransform(statementScroll, [0.75, 0.85], [60, 0]);
+            setTransformOrigin(`${centerX}% ${centerY}%`);
+        };
+
+        calculateOrigin();
+        window.addEventListener("resize", calculateOrigin);
+        // Small delay to ensure fonts/layout have painted
+        setTimeout(calculateOrigin, 100);
+
+        return () => window.removeEventListener("resize", calculateOrigin);
+    }, []);
+
+    // Scroll Map:
+    // 0.0 - 0.35: Mask zooms from 1x to 250x directly through the letter H
+    // 0.35 - 0.40: Mask fades out so it stops blocking clicks/rendering
+    // 0.45 - 0.75: Staccato words flash sequentially over the background
+    // 0.80 - 0.95: Final content fades up over the image
+
+    const maskScale = useTransform(statementScroll, [0, 0.35], [1, 250]);
+    const maskOpacity = useTransform(statementScroll, [0.35, 0.4], [1, 0]);
+
+    // Give each word `0.1` (about 40vh) of screen time
+    const staccato1 = useTransform(statementScroll, [0.40, 0.45, 0.55, 0.60], [0, 1, 1, 0]);
+    const staccato2 = useTransform(statementScroll, [0.55, 0.60, 0.70, 0.75], [0, 1, 1, 0]);
+    const staccato3 = useTransform(statementScroll, [0.70, 0.75, 0.85, 0.90], [0, 1, 1, 0]);
+
+    const finalOpacity = useTransform(statementScroll, [0.85, 0.90], [0, 1]);
+    const finalY = useTransform(statementScroll, [0.85, 0.90], [80, 0]);
 
     // ─── INFRASTRUCTURE STICKY LOGIC ─────────────────────────
     const [activePanel, setActivePanel] = useState(0);
@@ -82,7 +111,6 @@ export default function V4Page() {
             {/* 1. CINEMATIC HERO                                   */}
             {/* ═══════════════════════════════════════════════════ */}
             <section id="home" className="relative h-screen min-h-[700px] w-full flex flex-col justify-end overflow-hidden">
-                {/* Background (Ken Burns attached via globals.css) */}
                 <div className="absolute inset-0 z-0">
                     <Image
                         src="/hero-factory.png"
@@ -94,7 +122,6 @@ export default function V4Page() {
                     <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/10 to-northern-evergreen/90" />
                 </div>
 
-                {/* Content */}
                 <motion.div
                     className="relative z-10 px-8 md:px-16 pb-12 w-full max-w-[1600px] mx-auto flex flex-col justify-end gap-12"
                     initial="hidden"
@@ -131,7 +158,8 @@ export default function V4Page() {
             {/* ═══════════════════════════════════════════════════ */}
             {/* 2. ALPHA MASK STATEMENT                             */}
             {/* ═══════════════════════════════════════════════════ */}
-            <section id="statement" ref={statementRef} className="relative h-[250vh] bg-black">
+            {/* REVERTED TO 400vh for proper timeline spacing */}
+            <section id="statement" ref={statementRef} className="relative h-[400vh] bg-black">
                 <div className="sticky top-0 h-screen w-full overflow-hidden bg-black flex items-center justify-center">
 
                     {/* Revealed Background Image */}
@@ -140,12 +168,12 @@ export default function V4Page() {
                             src="/hero-factory.png"
                             alt="Factory Interior"
                             fill
-                            className="object-cover opacity-80"
+                            className="object-cover opacity-60"
                         />
-                        <div className="absolute inset-0 bg-black/40" />
+                        <div className="absolute inset-0 bg-black/50" />
                     </div>
 
-                    {/* Staccato Words (Flashing over image) */}
+                    {/* Staccato Words (Flashing sequentially) */}
                     <div className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none">
                         <motion.h2 style={{ opacity: staccato1 }} className="absolute text-[clamp(2.5rem,8vw,10rem)] font-black text-white tracking-widest uppercase text-center px-4">PRECISION.</motion.h2>
                         <motion.h2 style={{ opacity: staccato2 }} className="absolute text-[clamp(2rem,6vw,8rem)] font-black text-white tracking-widest uppercase text-center px-4">UNCOMPROMISING.</motion.h2>
@@ -188,11 +216,14 @@ export default function V4Page() {
 
                     {/* The Dark Mask Layer (Mix Blend Multiply) */}
                     <motion.div
-                        className="absolute inset-0 z-30 bg-black mix-blend-multiply pointer-events-none flex flex-col items-center justify-center transform-gpu origin-center"
-                        style={{ scale: maskScale, opacity: maskOpacity }}
+                        ref={maskContainerRef}
+                        className="absolute inset-0 z-30 bg-black mix-blend-multiply pointer-events-none flex flex-col items-center justify-center transform-gpu"
+                        style={{ scale: maskScale, opacity: maskOpacity, transformOrigin }}
                     >
-                        <span className="text-[clamp(3rem,12vw,14rem)] text-white font-black leading-[0.8] tracking-tighter mr-8 whitespace-nowrap">ROOTED</span>
-                        <span className="text-[clamp(3rem,12vw,14rem)] text-white font-black leading-[0.8] tracking-tighter whitespace-nowrap">IN DHAKA</span>
+                        <span className="text-[clamp(3.5rem,15vw,18rem)] text-white font-black leading-[0.85] tracking-tighter mr-8 whitespace-nowrap">ROOTED</span>
+                        <span className="text-[clamp(3.5rem,15vw,18rem)] text-white font-black leading-[0.85] tracking-tighter whitespace-nowrap">
+                            IN D<span ref={targetLetterRef} className="opacity-100">H</span>AKA
+                        </span>
                     </motion.div>
                 </div>
             </section>
@@ -216,14 +247,13 @@ export default function V4Page() {
                                             const el = document.getElementById(`panel-${i}`);
                                             if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
                                         }}
-                                        className={`w-full text-left py-6 flex items-center gap-6 transition-all duration-500 hover:opacity-100 ${activePanel === i ? 'opacity-100' : 'opacity-30'}`}
+                                        className={`w-full text-left py-6 flex items-center gap-6 transition-all duration-500 hover:opacity-100 ${activePanel === i ? 'opacity-100' : 'opacity-50'}`}
                                     >
-                                        {/* Subtle Active Indicator */}
                                         <div className={`w-2 h-2 rounded-full transition-colors duration-500 ${activePanel === i ? 'bg-northern-amber' : 'bg-transparent'}`} />
 
                                         <div className="flex items-center gap-6 border-b border-white/10 w-full pb-6">
                                             <span className="font-serif italic text-northern-amber text-xl">{item.num}</span>
-                                            <h3 className="text-[clamp(1.5rem,3vw,2.5rem)] font-bold tracking-tight leading-none">{item.title}</h3>
+                                            <h3 className="text-[clamp(1.5rem,3vw,2.5rem)] font-bold tracking-tight leading-none text-white">{item.title}</h3>
                                         </div>
                                     </button>
                                 ))}
@@ -255,7 +285,6 @@ export default function V4Page() {
                                         fill
                                         className="object-cover"
                                     />
-                                    {/* Overlay vignette */}
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                                 </div>
                                 <div className="bg-white/5 p-8 rounded-lg backdrop-blur-sm border border-white/10">
@@ -272,7 +301,7 @@ export default function V4Page() {
             {/* ═══════════════════════════════════════════════════ */}
             {/* 4. PROOF OF SCALE & CLIENTS                         */}
             {/* ═══════════════════════════════════════════════════ */}
-            <section id="about-us" className="py-32 bg-northern-evergreen relative overflow-hidden">
+            <section id="about-us" className="pt-32 pb-4bg-northern-evergreen relative overflow-hidden">
                 <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-northern-amber/10 via-transparent to-transparent opacity-80 pointer-events-none" />
 
                 <div className="max-w-[1600px] mx-auto px-8 md:px-16 mb-24 relative z-10">
@@ -306,7 +335,6 @@ export default function V4Page() {
                     <h3 className="font-serif italic text-[clamp(2rem,4vw,3.5rem)] text-white/90">Trusted by the world&apos;s most demanding brands.</h3>
                 </div>
 
-                {/* Marquee component isolated to prevent scroll hijacking */}
                 <div className="pb-16 relative z-10">
                     <InfiniteMarquee />
                 </div>
