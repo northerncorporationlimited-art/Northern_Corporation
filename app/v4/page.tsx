@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState, useEffect } from "react";
-import { motion, useScroll, useTransform, useSpring, useInView } from "framer-motion";
+import { motion, useScroll, useTransform, useSpring, useInView, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
@@ -274,6 +274,111 @@ function Section3ProductLine() {
     );
 }
 
+/* ─────────────────────────────────────────────────────────
+   § 4 — "THE FABRIC LAB"
+   Interactive swatch explorer with full-screen expand.
+   ───────────────────────────────────────────────────────── */
+
+const fabricSwatches = [
+    { name: "French Terry", img: "/fabrics/french-terry.png", desc: "Soft, looped-back knit ideal for sweatshirts and loungewear.", uses: ["Hoodies", "Sweatshirts", "Joggers"] },
+    { name: "Interlock", img: "/fabrics/interlock.png", desc: "Double-knit with smooth finish on both sides. Luxurious hand feel.", uses: ["T-Shirts", "Dresses", "Baby Apparel"] },
+    { name: "Rib Fabric", img: "/fabrics/rib.png", desc: "Stretchy knit with vertical ridges, excellent elasticity.", uses: ["Cuffs & Collars", "Bodysuits", "Fitted Tops"] },
+    { name: "Piqué", img: "/fabrics/pique.png", desc: "Textured waffle-like pattern. Breathable and structured.", uses: ["Polo Shirts", "Sportswear", "Casual Wear"] },
+    { name: "Fleece", img: "/fabrics/fleece.png", desc: "Plush, insulating fabric with a soft napped surface.", uses: ["Jackets", "Blankets", "Winter Wear"] },
+    { name: "Jersey", img: "/fabrics/jersey.png", desc: "Single-knit fabric known for exceptional drape and stretch.", uses: ["T-Shirts", "Dresses", "Activewear"] },
+    { name: "Poly Fleece", img: "/fabrics/poly-fleece.png", desc: "Synthetic fleece with superior moisture-wicking properties.", uses: ["Outdoor Gear", "Sportswear", "Layering"] },
+    { name: "Knit Polyester", img: "/fabrics/knit-polyester.png", desc: "Durable, wrinkle-resistant synthetic with excellent color retention.", uses: ["Sportswear", "Uniforms", "Technical Wear"] },
+];
+
+function Section4FabricLab() {
+    const [selected, setSelected] = useState<number | null>(null);
+
+    return (
+        <section id="fabric-lab" className="relative bg-[#FAF9F6] text-northern-evergreen py-32 md:py-48 px-8 md:px-16 overflow-hidden">
+
+            {/* Section Header */}
+            <div className="max-w-[1400px] mx-auto text-center mb-20">
+                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-northern-amber/80 block mb-3">Chapter IV</span>
+                <h2 className="text-[clamp(2.5rem,5vw,4rem)] font-black tracking-tighter leading-none mb-6">
+                    The Fabric <span className="font-serif font-light italic text-northern-evergreen/60">Lab</span>
+                </h2>
+                <p className="text-northern-evergreen/50 text-lg max-w-xl mx-auto">
+                    Tap any swatch to explore its properties. Eight core textiles, each perfected over decades.
+                </p>
+            </div>
+
+            {/* Swatch Grid */}
+            <div className="max-w-[1200px] mx-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-8 md:gap-12">
+                {fabricSwatches.map((fabric, i) => (
+                    <motion.button
+                        key={fabric.name}
+                        layoutId={`fabric-${i}`}
+                        onClick={() => setSelected(i)}
+                        className="group flex flex-col items-center gap-4 cursor-pointer"
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                    >
+                        {/* Circular swatch */}
+                        <div className="relative w-28 h-28 md:w-36 md:h-36 rounded-full overflow-hidden ring-2 ring-northern-evergreen/10 group-hover:ring-northern-amber/50 transition-all duration-500 shadow-lg group-hover:shadow-xl">
+                            <Image src={fabric.img} alt={fabric.name} fill className="object-cover transition-transform duration-700 group-hover:scale-110" />
+                        </div>
+                        <span className="text-sm font-bold uppercase tracking-wider text-northern-evergreen/70 group-hover:text-northern-amber transition-colors">
+                            {fabric.name}
+                        </span>
+                    </motion.button>
+                ))}
+            </div>
+
+            {/* Full-screen Detail Overlay */}
+            <AnimatePresence>
+                {selected !== null && (
+                    <motion.div
+                        className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-md p-6"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        onClick={() => setSelected(null)}
+                    >
+                        <motion.div
+                            layoutId={`fabric-${selected}`}
+                            className="relative w-full max-w-2xl bg-[#FAF9F6] rounded-3xl overflow-hidden shadow-2xl"
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            {/* Full image */}
+                            <div className="relative w-full aspect-[16/10]">
+                                <Image src={fabricSwatches[selected].img} alt={fabricSwatches[selected].name} fill className="object-cover" />
+                            </div>
+
+                            {/* Content */}
+                            <div className="p-8 md:p-12">
+                                <h3 className="text-3xl font-black tracking-tight text-northern-evergreen mb-4">
+                                    {fabricSwatches[selected].name}
+                                </h3>
+                                <p className="text-northern-evergreen/60 text-base leading-relaxed mb-6">
+                                    {fabricSwatches[selected].desc}
+                                </p>
+                                <div className="flex flex-wrap gap-2 mb-8">
+                                    {fabricSwatches[selected].uses.map((use) => (
+                                        <span key={use} className="px-4 py-1.5 rounded-full bg-northern-evergreen/10 text-xs font-bold uppercase tracking-wider text-northern-evergreen/80">
+                                            {use}
+                                        </span>
+                                    ))}
+                                </div>
+                                <button
+                                    onClick={() => setSelected(null)}
+                                    className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-northern-evergreen/20 text-sm font-bold uppercase tracking-wider text-northern-evergreen/70 hover:bg-northern-evergreen/5 transition-colors"
+                                >
+                                    ← Back to Lab
+                                </button>
+                            </div>
+                        </motion.div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+        </section>
+    );
+}
+
 export default function V4Page() {
     const heroRef = useRef<HTMLDivElement>(null);
     const { scrollYProgress: heroScroll } = useScroll({
@@ -416,10 +521,16 @@ export default function V4Page() {
             <Section3ProductLine />
 
             {/* ═══════════════════════════════════════════════════════════
-                PLACEHOLDER: § 4+ coming next.
+                § 4 — THE FABRIC LAB
+                Interactive swatch explorer.
             ═══════════════════════════════════════════════════════════ */}
-            <section id="fabric-lab" className="h-screen bg-[#FAF9F6] flex items-center justify-center">
-                <p className="text-black/20 text-sm uppercase tracking-widest">§ 4 — The Fabric Lab (Coming Next)</p>
+            <Section4FabricLab />
+
+            {/* ═══════════════════════════════════════════════════════════
+                PLACEHOLDER: § 5+ coming next.
+            ═══════════════════════════════════════════════════════════ */}
+            <section id="trust-wall" className="h-screen bg-[#FAF9F6] flex items-center justify-center">
+                <p className="text-black/20 text-sm uppercase tracking-widest">§ 5 — The Trust Wall (Coming Next)</p>
             </section>
         </div>
     );
