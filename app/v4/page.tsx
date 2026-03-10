@@ -5,6 +5,7 @@ import { motion, useScroll, useTransform, useSpring, useInView, AnimatePresence 
 import Image from "next/image";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
+import ContactInfo from "@/components/ContactInfo";
 
 /* ─────────────────────────────────────────────────────────
    § 1 — "THE OPENING SEQUENCE"
@@ -379,6 +380,93 @@ function Section4FabricLab() {
     );
 }
 
+/* ─────────────────────────────────────────────────────────
+   § 5 — "THE TRUST WALL"
+   Dual-direction certification marquees.
+   ───────────────────────────────────────────────────────── */
+
+const certifications = [
+    "LEED Gold", "GOTS", "Oeko-Tex 100", "Oeko-Tex STeP", "WRAP",
+    "Better Cotton", "BSCI", "CMIA", "Organic Content", "Recycled Claim",
+    "RSC", "RWS", "SMETA",
+];
+
+const certLogos = [
+    "/certifications/leed-gold.png", "/certifications/gots.png", "/certifications/oeko-tex-100.png",
+    "/certifications/oeko-tex-step.png", "/certifications/wrap.png", "/certifications/better-cotton.png",
+    "/certifications/bsci.jpg", "/certifications/cmia.png", "/certifications/organic-content.png",
+    "/certifications/recycled-claim.png", "/certifications/rsc.png", "/certifications/rws.png",
+    "/certifications/smeta.png",
+];
+
+const buyers = ["H&M", "ZARA", "C&A", "PRIMARK", "NEXT", "S.OLIVER"];
+
+function CertMarqueeTrack({ direction = "left" }: { direction?: "left" | "right" }) {
+    const animationClass = direction === "left" ? "animate-marquee" : "animate-marquee-reverse";
+    return (
+        <div className={`flex shrink-0 items-center gap-12 ${animationClass}`}>
+            {certLogos.map((logo, i) => (
+                <div key={i} className="relative w-20 h-20 md:w-24 md:h-24 flex-shrink-0 bg-white rounded-xl p-3 shadow-sm border border-black/5">
+                    <Image src={logo} alt={certifications[i]} fill className="object-contain p-2" />
+                </div>
+            ))}
+        </div>
+    );
+}
+
+function BuyerMarqueeTrack() {
+    return (
+        <div className="flex shrink-0 items-center gap-8 animate-marquee-reverse">
+            {buyers.map((name) => (
+                <span key={name} className="flex shrink-0 items-center gap-8">
+                    <span className="text-[10px] text-northern-evergreen/20">◆</span>
+                    <span className="shrink-0 text-sm font-bold uppercase tracking-[0.2em] text-northern-evergreen/50">
+                        {name}
+                    </span>
+                </span>
+            ))}
+            <span className="text-[10px] text-northern-evergreen/20">◆</span>
+        </div>
+    );
+}
+
+function Section5TrustWall() {
+    return (
+        <section id="trust-wall" className="bg-[#FAF9F6] text-northern-evergreen py-32 md:py-48 overflow-hidden">
+            {/* Header */}
+            <div className="text-center px-8 mb-20">
+                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-northern-amber/80 block mb-3">Chapter V</span>
+                <h2 className="text-[clamp(2rem,4vw,3.5rem)] font-black tracking-tighter leading-none mb-4">
+                    Globally Certified. <span className="font-serif font-light italic text-northern-evergreen/50">Universally Trusted.</span>
+                </h2>
+            </div>
+
+            {/* Certification Marquee — scrolls left */}
+            <div className="overflow-hidden mb-8">
+                <div className="flex">
+                    <CertMarqueeTrack direction="left" />
+                    <CertMarqueeTrack direction="left" />
+                </div>
+            </div>
+
+            {/* Center stat line */}
+            <div className="text-center py-8 px-8">
+                <p className="text-sm md:text-base font-bold uppercase tracking-[0.2em] text-northern-evergreen/30">
+                    $30M+ Annual Revenue &nbsp;·&nbsp; 99.8% Quality Yield &nbsp;·&nbsp; Zero Tolerance for Compromise
+                </p>
+            </div>
+
+            {/* Buyer Marquee — scrolls right */}
+            <div className="overflow-hidden mt-8">
+                <div className="flex">
+                    <BuyerMarqueeTrack />
+                    <BuyerMarqueeTrack />
+                </div>
+            </div>
+        </section>
+    );
+}
+
 export default function V4Page() {
     const heroRef = useRef<HTMLDivElement>(null);
     const { scrollYProgress: heroScroll } = useScroll({
@@ -527,10 +615,34 @@ export default function V4Page() {
             <Section4FabricLab />
 
             {/* ═══════════════════════════════════════════════════════════
-                PLACEHOLDER: § 5+ coming next.
+                § 5 — THE TRUST WALL
+                Dual-direction marquees.
             ═══════════════════════════════════════════════════════════ */}
-            <section id="trust-wall" className="h-screen bg-[#FAF9F6] flex items-center justify-center">
-                <p className="text-black/20 text-sm uppercase tracking-widest">§ 5 — The Trust Wall (Coming Next)</p>
+            <Section5TrustWall />
+
+            {/* ═══════════════════════════════════════════════════════════
+                § 6 — THE CLOSE
+                Contact & cinematic ghost-text footer.
+            ═══════════════════════════════════════════════════════════ */}
+            <section className="bg-northern-evergreen relative">
+                {/* Contact */}
+                <div className="px-8 py-32 md:py-48">
+                    <ContactInfo />
+                </div>
+
+                {/* Closing Tagline */}
+                <div className="text-center px-8 pb-16">
+                    <p className="font-serif italic text-lg md:text-xl text-white/40 max-w-xl mx-auto">
+                        The Atelier is open. Let&apos;s build something extraordinary.
+                    </p>
+                </div>
+
+                {/* Ghost-text Footer */}
+                <div className="overflow-hidden pb-8">
+                    <h2 className="text-[clamp(5rem,20vw,28rem)] font-black leading-[0.75] tracking-tighter text-white/[0.04] select-none pointer-events-none text-center whitespace-nowrap">
+                        NORTHERN
+                    </h2>
+                </div>
             </section>
         </div>
     );

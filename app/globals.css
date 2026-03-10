@@ -8,6 +8,7 @@
   --font-mono: var(--font-geist-mono);
 
   --animate-marquee: marquee 25s linear infinite;
+  --animate-marquee-reverse: marquee-reverse 25s linear infinite;
   --animate-ken-burns: ken-burns 25s ease-in-out infinite alternate;
 }
 
@@ -15,8 +16,19 @@
   0% {
     transform: translateX(0%);
   }
+
   100% {
     transform: translateX(-100%);
+  }
+}
+
+@keyframes marquee-reverse {
+  0% {
+    transform: translateX(-100%);
+  }
+
+  100% {
+    transform: translateX(0%);
   }
 }
 
@@ -24,6 +36,7 @@
   0% {
     transform: scale(1);
   }
+
   100% {
     transform: scale(1.08);
   }
