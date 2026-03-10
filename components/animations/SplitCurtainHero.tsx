@@ -36,8 +36,8 @@ export default function SplitCurtainHero() {
                     style={{ scale: imgScale, opacity: imgOpacity }}
                 >
                     <Image
-                        src="/hero-macro.png"
-                        alt="Premium fabric texture"
+                        src="/v2-hero-factory.jpg"
+                        alt="Northern Corporation Factory Floor"
                         fill
                         priority
                         sizes="100vw"
