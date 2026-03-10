@@ -18,6 +18,11 @@
 - "WRAP YOURSELF IN LUXURY" integrated banner
 - Seamless bottom-fade into northern-linen section
 
+### ✅ Transform V1 Hero into B2B Conversion Engine — 2026-03-10
+- Ken Burns slow-zoom on background image
+- Glassmorphism Trust Bar (LEED Gold, 3,000+ Employees, Est. 1987)
+- Infinite Client Marquee (H&M, ZARA, C&A, PRIMARK, NEXT, S.OLIVER)
+
 ### ✅ Deployed — [northern-corporation.vercel.app](https://northern-corporation.vercel.app)
 
 ---

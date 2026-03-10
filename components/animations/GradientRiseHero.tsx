@@ -4,6 +4,8 @@ import { useRef } from "react";
 import Image from "next/image";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowDown } from "lucide-react";
+import TrustBar from "@/components/TrustBar";
+import InfiniteMarquee from "@/components/InfiniteMarquee";
 
 const ease = [0.76, 0, 0.24, 1] as const;
 
@@ -22,9 +24,9 @@ export default function GradientRiseHero() {
     return (
         <div ref={containerRef} className="relative h-[160vh]">
             <div className="sticky top-0 h-screen w-full overflow-hidden">
-                {/* Background Image */}
+                {/* ── Ken Burns Background Image ── */}
                 <motion.div
-                    className="absolute inset-0"
+                    className="absolute inset-0 overflow-hidden"
                     style={{ y: imgY, opacity: imgOpacity }}
                 >
                     <Image
@@ -33,12 +35,12 @@ export default function GradientRiseHero() {
                         fill
                         priority
                         sizes="100vw"
-                        className="object-cover scale-105"
+                        className="object-cover animate-ken-burns origin-center"
                     />
                 </motion.div>
 
                 {/* ── Sophisticated multi-layer overlay ── */}
-                {/* Layer 1: Radial vignette — darker edges, lighter center lets image peek */}
+                {/* Layer 1: Radial vignette — darker edges, lighter center */}
                 <motion.div
                     className="absolute inset-0"
                     initial={{ opacity: 0 }}
@@ -62,7 +64,7 @@ export default function GradientRiseHero() {
                     }}
                     transition={{ duration: 2, ease }}
                 />
-                {/* Layer 3: Subtle warm bottom glow for richness */}
+                {/* Layer 3: Subtle warm bottom glow */}
                 <div
                     className="absolute inset-0 pointer-events-none"
                     style={{
@@ -74,8 +76,8 @@ export default function GradientRiseHero() {
                 {/* Elegant vignette edges */}
                 <div className="absolute inset-0 shadow-[inset_0_0_200px_rgba(0,0,0,0.35)]" />
 
-                {/* Content */}
-                <div className="relative z-10 flex h-full flex-col items-center justify-center px-6 text-center">
+                {/* ── Content ── */}
+                <div className="relative z-10 flex h-full flex-col items-center justify-center px-6 text-center pb-16">
                     {/* Badge */}
                     <motion.span
                         initial={{ opacity: 0, y: 15 }}
@@ -86,7 +88,7 @@ export default function GradientRiseHero() {
                         Est. 1987 &nbsp;·&nbsp; Dhaka, Bangladesh
                     </motion.span>
 
-                    {/* Luxury banner — integrated above the headline */}
+                    {/* Luxury banner */}
                     <motion.div
                         initial={{ opacity: 0, scaleX: 0.6 }}
                         animate={{ opacity: 1, scaleX: 1 }}
@@ -125,15 +127,16 @@ export default function GradientRiseHero() {
                         <span className="h-px w-8 bg-gradient-to-l from-transparent to-northern-amber/50 sm:w-12" />
                     </motion.div>
 
-                    {/* Sub-text */}
+                    {/* Sub-text — updated with client copy */}
                     <motion.p
                         initial={{ opacity: 0, y: 25 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.9, delay: 1.9, ease }}
-                        className="mx-auto mt-5 max-w-lg text-base leading-relaxed text-northern-linen/55 sm:text-lg"
+                        className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-northern-linen/55 sm:text-lg"
                     >
-                        Premium garment manufacturing — where decades of expertise meet
-                        uncompromising quality.
+                        Engineering comfort, durability, and style since 1987.
+                        Bridging the gap between classic reliability and modern
+                        performance.
                     </motion.p>
 
                     {/* CTAs */}
@@ -160,31 +163,35 @@ export default function GradientRiseHero() {
                             Get in Touch
                         </a>
                     </motion.div>
+
+                    {/* ── Glassmorphism Trust Bar ── */}
+                    <TrustBar />
                 </div>
 
-                {/* Scroll hint */}
+                {/* Scroll hint — pushed above marquee */}
                 <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 2.8, duration: 1 }}
-                    className="absolute bottom-8 left-1/2 z-10 -translate-x-1/2"
+                    className="absolute bottom-14 left-1/2 z-20 -translate-x-1/2"
                 >
                     <motion.div
                         animate={{ y: [0, 8, 0] }}
-                        transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                        transition={{
+                            duration: 2,
+                            repeat: Infinity,
+                            ease: "easeInOut",
+                        }}
                     >
-                        <ArrowDown size={16} className="text-northern-linen/30" />
+                        <ArrowDown
+                            size={16}
+                            className="text-northern-linen/30"
+                        />
                     </motion.div>
                 </motion.div>
 
-                {/* ── Bottom fade: seamless blend into northern-linen ── */}
-                <div
-                    className="absolute bottom-0 left-0 right-0 z-20 h-36 pointer-events-none sm:h-44"
-                    style={{
-                        background:
-                            "linear-gradient(to bottom, transparent 0%, rgba(245,245,235,0.15) 30%, rgba(245,245,235,0.5) 60%, rgba(245,245,235,0.85) 80%, #F5F5EB 100%)",
-                    }}
-                />
+                {/* ── Infinite Client Marquee — anchored at bottom ── */}
+                <InfiniteMarquee />
             </div>
         </div>
     );
