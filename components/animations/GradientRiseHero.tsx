@@ -40,7 +40,7 @@ export default function GradientRiseHero() {
                     style={{ y: imgY, opacity: imgOpacity }}
                 >
                     <Image
-                        src="/hero-factory.png"
+                        src="/v1-hero-factory.jpg"
                         alt="Northern Corporation factory"
                         fill
                         priority
