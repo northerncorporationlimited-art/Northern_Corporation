@@ -23,6 +23,10 @@
 - Glassmorphism Trust Bar (LEED Gold, 3,000+ Employees, Est. 1987)
 - Infinite Client Marquee (H&M, ZARA, C&A, PRIMARK, NEXT, S.OLIVER)
 
+### ✅ Port northern-demo to V4 Route — 2026-03-10
+- Convert HTML/CSS to React and Tailwind
+- Strict CSS scoping via `v4.module.css`
+- Inject client data (Stats, Northern Corp Name)
 
 
 ---

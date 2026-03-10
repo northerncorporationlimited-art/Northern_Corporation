@@ -19,6 +19,9 @@ Starts at 3x zoom on fabric weave texture. On scroll → zooms out to 1x, text f
 ### V3: Kinetic Premium (`/v3`) — Radial Mask Reveal
 Pitch black screen with pulsing amber dot. On scroll → circular clip-path expands revealing atelier image with mouse parallax. Sticky curtain sections.
 
+### V4: Demo Template (`/v4`) — Legacy Alpha Mask Port
+Ported cinematic HTML/CSS/JS template with Alpha Mask statements, horizontal track infrastructure layout, and legacy stats. Cleanly scoped away from global styles.
+
 ## Tech Stack
 
 | Layer | Technology |

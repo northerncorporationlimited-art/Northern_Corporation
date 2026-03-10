@@ -17,6 +17,7 @@ const variations = [
     { label: "V1: Classic", href: "/" },
     { label: "V2: Premium Motion", href: "/v2" },
     { label: "V3: Kinetic Premium", href: "/v3" },
+    { label: "V4: Demo Template", href: "/v4" },
 ];
 
 export default function Navbar() {
