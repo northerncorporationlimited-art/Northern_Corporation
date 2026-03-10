@@ -289,6 +289,7 @@
     inset: 0;
     z-index: 0;
     transform: scale(1.1);
+    background: url('/hero-factory.png') center/cover no-repeat;
     animation: kenBurnsBg 25s ease-in-out infinite alternate;
 }
 
