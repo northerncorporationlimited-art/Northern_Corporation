@@ -37,16 +37,42 @@ export default function GradientRiseHero() {
                     />
                 </motion.div>
 
-                {/* Gradient overlay — rises from bottom on load */}
+                {/* ── Sophisticated multi-layer overlay ── */}
+                {/* Layer 1: Radial vignette — darker edges, lighter center lets image peek */}
                 <motion.div
                     className="absolute inset-0"
-                    initial={{ background: "linear-gradient(to top, rgba(2,48,32,1) 100%, transparent 100%)" }}
-                    animate={{ background: "linear-gradient(to top, rgba(2,48,32,0.85) 0%, rgba(2,48,32,0.4) 50%, rgba(2,48,32,0.15) 100%)" }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 2.5, ease }}
+                    style={{
+                        background:
+                            "radial-gradient(ellipse 70% 60% at 50% 45%, rgba(2,48,32,0.25) 0%, rgba(2,48,32,0.65) 100%)",
+                    }}
+                />
+                {/* Layer 2: Top-to-bottom linear depth gradient */}
+                <motion.div
+                    className="absolute inset-0"
+                    initial={{
+                        background:
+                            "linear-gradient(to bottom, rgba(2,48,32,1) 100%, transparent 100%)",
+                    }}
+                    animate={{
+                        background:
+                            "linear-gradient(to bottom, rgba(2,48,32,0.3) 0%, rgba(2,48,32,0.15) 30%, rgba(2,48,32,0.35) 60%, rgba(2,48,32,0.7) 100%)",
+                    }}
                     transition={{ duration: 2, ease }}
                 />
+                {/* Layer 3: Subtle warm bottom glow for richness */}
+                <div
+                    className="absolute inset-0 pointer-events-none"
+                    style={{
+                        background:
+                            "linear-gradient(to top, rgba(253,208,23,0.04) 0%, transparent 40%)",
+                    }}
+                />
 
-                {/* Vignette edges */}
-                <div className="absolute inset-0 shadow-[inset_0_0_150px_rgba(0,0,0,0.4)]" />
+                {/* Elegant vignette edges */}
+                <div className="absolute inset-0 shadow-[inset_0_0_200px_rgba(0,0,0,0.35)]" />
 
                 {/* Content */}
                 <div className="relative z-10 flex h-full flex-col items-center justify-center px-6 text-center">
@@ -60,23 +86,51 @@ export default function GradientRiseHero() {
                         Est. 1987 &nbsp;·&nbsp; Dhaka, Bangladesh
                     </motion.span>
 
-                    {/* Headline with staggered fade */}
+                    {/* Luxury banner — integrated above the headline */}
+                    <motion.div
+                        initial={{ opacity: 0, scaleX: 0.6 }}
+                        animate={{ opacity: 1, scaleX: 1 }}
+                        transition={{ duration: 1, delay: 1.4, ease }}
+                        className="mb-5 flex items-center gap-4"
+                    >
+                        <span className="h-px w-10 bg-northern-amber/40 sm:w-16" />
+                        <span className="text-[10px] font-medium uppercase tracking-[0.35em] text-northern-linen/50 sm:text-xs sm:tracking-[0.4em]">
+                            Wrap Yourself in Luxury
+                        </span>
+                        <span className="h-px w-10 bg-northern-amber/40 sm:w-16" />
+                    </motion.div>
+
+                    {/* Headline */}
                     <motion.h1
                         initial={{ opacity: 0, y: 40 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 1.2, delay: 1.5, ease }}
-                        className="text-4xl font-extrabold leading-[1.08] tracking-tight text-northern-linen sm:text-5xl md:text-6xl lg:text-7xl"
+                        className="text-4xl font-extrabold leading-[1.05] tracking-tight text-northern-linen sm:text-5xl md:text-6xl lg:text-7xl"
                     >
                         Knit to Fit{" "}
-                        <span className="text-northern-amber">Your World</span>
+                        <span className="bg-gradient-to-r from-northern-amber to-amber-300 bg-clip-text text-transparent">
+                            Your World
+                        </span>
                     </motion.h1>
+
+                    {/* Decorative separator */}
+                    <motion.div
+                        initial={{ opacity: 0, scaleX: 0 }}
+                        animate={{ opacity: 1, scaleX: 1 }}
+                        transition={{ duration: 0.8, delay: 1.8, ease }}
+                        className="mx-auto mt-6 flex items-center gap-3"
+                    >
+                        <span className="h-px w-8 bg-gradient-to-r from-transparent to-northern-amber/50 sm:w-12" />
+                        <span className="h-1.5 w-1.5 rotate-45 bg-northern-amber/60" />
+                        <span className="h-px w-8 bg-gradient-to-l from-transparent to-northern-amber/50 sm:w-12" />
+                    </motion.div>
 
                     {/* Sub-text */}
                     <motion.p
                         initial={{ opacity: 0, y: 25 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.9, delay: 1.9, ease }}
-                        className="mx-auto mt-6 max-w-lg text-base leading-relaxed text-northern-linen/60 sm:text-lg"
+                        className="mx-auto mt-5 max-w-lg text-base leading-relaxed text-northern-linen/55 sm:text-lg"
                     >
                         Premium garment manufacturing — where decades of expertise meet
                         uncompromising quality.
@@ -122,6 +176,15 @@ export default function GradientRiseHero() {
                         <ArrowDown size={16} className="text-northern-linen/30" />
                     </motion.div>
                 </motion.div>
+
+                {/* ── Bottom fade: seamless blend into northern-linen ── */}
+                <div
+                    className="absolute bottom-0 left-0 right-0 z-20 h-36 pointer-events-none sm:h-44"
+                    style={{
+                        background:
+                            "linear-gradient(to bottom, transparent 0%, rgba(245,245,235,0.15) 30%, rgba(245,245,235,0.5) 60%, rgba(245,245,235,0.85) 80%, #F5F5EB 100%)",
+                    }}
+                />
             </div>
         </div>
     );

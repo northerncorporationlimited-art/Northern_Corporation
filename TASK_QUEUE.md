@@ -13,6 +13,11 @@
 - V2: Fabric Macro Zoom-Out (3x→1x scroll-linked, pinned image, dark overlay)
 - V3: Radial Mask Reveal (pulsing dot, circular clip-path, mouse parallax)
 
+### ✅ Redesign V1 Hero section visually — 2026-03-10
+- Multi-layer radial/linear gradient overlay (factory image peeks through)
+- "WRAP YOURSELF IN LUXURY" integrated banner
+- Seamless bottom-fade into northern-linen section
+
 ### ✅ Deployed — [northern-corporation.vercel.app](https://northern-corporation.vercel.app)
 
 ---
