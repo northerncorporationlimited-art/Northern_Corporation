@@ -66,17 +66,17 @@ function Section2IntoTheMachine() {
     const midY = useTransform(scrollYProgress, [0, 1], ["0%", "-35%"]);
     const frontY = useTransform(scrollYProgress, [0, 1], ["0%", "-55%"]);
 
-    // Section title fades in early
-    const titleOpacity = useTransform(scrollYProgress, [0, 0.15], [0, 1]);
-    const titleY = useTransform(scrollYProgress, [0, 0.15], [60, 0]);
+    // Section title visible immediately, fades out at end
+    const titleOpacity = useTransform(scrollYProgress, [0, 0.05, 0.8, 1], [0.8, 1, 1, 0]);
+    const titleY = useTransform(scrollYProgress, [0, 0.05], [20, 0]);
 
-    // Stats stagger in as you scroll deeper
-    const stat1Opacity = useTransform(scrollYProgress, [0.2, 0.35], [0, 1]);
-    const stat1Y = useTransform(scrollYProgress, [0.2, 0.35], [80, 0]);
-    const stat2Opacity = useTransform(scrollYProgress, [0.35, 0.5], [0, 1]);
-    const stat2Y = useTransform(scrollYProgress, [0.35, 0.5], [80, 0]);
-    const stat3Opacity = useTransform(scrollYProgress, [0.5, 0.65], [0, 1]);
-    const stat3Y = useTransform(scrollYProgress, [0.5, 0.65], [80, 0]);
+    // Stats stagger in as you scroll deeper — tighter timing
+    const stat1Opacity = useTransform(scrollYProgress, [0.05, 0.2], [0, 1]);
+    const stat1Y = useTransform(scrollYProgress, [0.05, 0.2], [60, 0]);
+    const stat2Opacity = useTransform(scrollYProgress, [0.2, 0.4], [0, 1]);
+    const stat2Y = useTransform(scrollYProgress, [0.2, 0.4], [60, 0]);
+    const stat3Opacity = useTransform(scrollYProgress, [0.4, 0.6], [0, 1]);
+    const stat3Y = useTransform(scrollYProgress, [0.4, 0.6], [60, 0]);
 
     const statAnimations = [
         { opacity: stat1Opacity, y: stat1Y },
@@ -85,11 +85,11 @@ function Section2IntoTheMachine() {
     ];
 
     // Final narrative text at the bottom
-    const narrativeOpacity = useTransform(scrollYProgress, [0.7, 0.85], [0, 1]);
-    const narrativeY = useTransform(scrollYProgress, [0.7, 0.85], [40, 0]);
+    const narrativeOpacity = useTransform(scrollYProgress, [0.6, 0.8], [0, 1]);
+    const narrativeY = useTransform(scrollYProgress, [0.6, 0.8], [30, 0]);
 
     return (
-        <section id="into-the-machine" ref={containerRef} className="relative h-[300vh] bg-black">
+        <section id="into-the-machine" ref={containerRef} className="relative h-[200vh] bg-black">
             <div className="sticky top-0 h-screen w-full overflow-hidden">
 
                 {/* Layer 1 — Back: Blurred warm factory, slow */}
@@ -98,7 +98,7 @@ function Section2IntoTheMachine() {
                         src="/hero-factory.png"
                         alt="Factory ambient"
                         fill
-                        className="object-cover blur-sm opacity-30 saturate-150 scale-110"
+                        className="object-cover blur-sm opacity-50 saturate-150 scale-110"
                     />
                     <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black" />
                 </motion.div>
@@ -208,7 +208,7 @@ function Section3ProductLine() {
     const progressWidth = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
 
     return (
-        <section id="product-line" ref={containerRef} className="relative h-[300vh] bg-[#0a0a0a]">
+        <section id="product-line" ref={containerRef} className="relative h-[200vh] bg-[#0a0a0a]">
             <div className="sticky top-0 h-screen w-full overflow-hidden flex flex-col">
 
                 {/* Top bar: title + progress */}
