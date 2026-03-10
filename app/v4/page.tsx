@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState, useEffect } from "react";
-import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion";
+import { motion, useScroll, useTransform, useInView } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
@@ -51,9 +51,9 @@ export default function V4Page() {
         offset: ["start start", "end end"]
     });
 
-    // 0 to 0.4 => Mask scales from 1x to 150x. After 0.4 it stays huge.
+    // 0 to 0.4 => Mask scales from 1x to 200x.
     const maskScale = useTransform(statementScroll, [0, 0.4], [1, 200]);
-    // The mask fades out exactly after it's fully zoomed so it stops interfering
+    // Fade out mask immediately upon full zoom to prevent invisible overlay blocking clicks
     const maskOpacity = useTransform(statementScroll, [0.38, 0.4], [1, 0]);
 
     // Staccato words flashing over the revealed image.
@@ -96,42 +96,42 @@ export default function V4Page() {
 
                 {/* Content */}
                 <motion.div
-                    className="relative z-10 px-8 md:px-16 pb-12 w-full max-w-[1600px] mx-auto flex flex-col md:flex-row md:items-end justify-between gap-8"
+                    className="relative z-10 px-8 md:px-16 pb-12 w-full max-w-[1600px] mx-auto flex flex-col justify-end gap-12"
                     initial="hidden"
                     animate="visible"
                     transition={{ staggerChildren: 0.15, delayChildren: 0.4 }}
                 >
-                    <div className="flex-1">
+                    <div className="max-w-4xl">
                         <motion.h1 className="text-[clamp(3.5rem,8vw,8rem)] font-black leading-[0.85] tracking-tighter mb-8">
-                            <motion.span variants={heroHeadlineVariants} className="block text-white">Decades <span className="text-white/80 font-serif font-light italic text-[0.9em]">of</span></motion.span>
-                            <motion.span variants={heroHeadlineVariants} className="block text-northern-amber">Expertise.</motion.span>
+                            <motion.span variants={heroHeadlineVariants} className="block text-white">Decades <span className="font-serif font-light italic text-northern-amber">of</span></motion.span>
+                            <motion.span variants={heroHeadlineVariants} className="block text-white">Expertise.</motion.span>
                         </motion.h1>
 
-                        <div className="max-w-md">
-                            <motion.p variants={heroHeadlineVariants} className="text-lg md:text-xl text-white/70 font-medium mb-2">
+                        <div className="max-w-xl mb-10">
+                            <motion.p variants={heroHeadlineVariants} className="text-lg md:text-xl text-white/90 font-medium mb-2">
                                 Northern Corporation Ltd. —
                             </motion.p>
-                            <motion.p variants={heroHeadlineVariants} className="text-white/50 leading-relaxed">
+                            <motion.p variants={heroHeadlineVariants} className="text-white/70 text-lg leading-relaxed">
                                 Engineering comfort, durability, and style since 1987. Scaling premium multi-brand apparel manufacturing from Dhaka to the world.
                             </motion.p>
                         </div>
-                    </div>
 
-                    <motion.div variants={heroHeadlineVariants} className="shrink-0 mb-4 md:mb-0">
-                        <Link href="#what-we-do" className="group inline-flex items-center gap-4 bg-white text-northern-evergreen px-8 py-4 rounded-full font-bold uppercase tracking-wider text-sm transition-all hover:bg-northern-amber hover:text-black">
-                            <span>Discover More</span>
-                            <svg className="w-5 h-5 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                <path d="M5 12h14M12 5l7 7-7 7" />
-                            </svg>
-                        </Link>
-                    </motion.div>
+                        <motion.div variants={heroHeadlineVariants}>
+                            <Link href="#what-we-do" className="group inline-flex items-center gap-4 bg-white text-northern-evergreen px-8 py-4 rounded-full font-bold uppercase tracking-wider text-sm transition-all hover:bg-northern-amber hover:text-black">
+                                <span>Discover More</span>
+                                <svg className="w-5 h-5 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                    <path d="M5 12h14M12 5l7 7-7 7" />
+                                </svg>
+                            </Link>
+                        </motion.div>
+                    </div>
                 </motion.div>
             </section>
 
             {/* ═══════════════════════════════════════════════════ */}
             {/* 2. ALPHA MASK STATEMENT                             */}
             {/* ═══════════════════════════════════════════════════ */}
-            <section id="statement" ref={statementRef} className="relative h-[400vh] bg-black">
+            <section id="statement" ref={statementRef} className="relative h-[250vh] bg-black">
                 <div className="sticky top-0 h-screen w-full overflow-hidden bg-black flex items-center justify-center">
 
                     {/* Revealed Background Image */}
@@ -142,14 +142,14 @@ export default function V4Page() {
                             fill
                             className="object-cover opacity-80"
                         />
-                        <div className="absolute inset-0 bg-black/60" />
+                        <div className="absolute inset-0 bg-black/40" />
                     </div>
 
                     {/* Staccato Words (Flashing over image) */}
                     <div className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none">
-                        <motion.h2 style={{ opacity: staccato1 }} className="absolute text-[clamp(3rem,10vw,12rem)] font-black text-white tracking-widest uppercase">PRECISION.</motion.h2>
-                        <motion.h2 style={{ opacity: staccato2 }} className="absolute text-[clamp(2.5rem,8vw,10rem)] font-black text-white tracking-widest uppercase">UNCOMPROMISING.</motion.h2>
-                        <motion.h2 style={{ opacity: staccato3 }} className="absolute text-[clamp(3rem,10vw,12rem)] font-black text-northern-amber tracking-widest uppercase">QUALITY.</motion.h2>
+                        <motion.h2 style={{ opacity: staccato1 }} className="absolute text-[clamp(2.5rem,8vw,10rem)] font-black text-white tracking-widest uppercase text-center px-4">PRECISION.</motion.h2>
+                        <motion.h2 style={{ opacity: staccato2 }} className="absolute text-[clamp(2rem,6vw,8rem)] font-black text-white tracking-widest uppercase text-center px-4">UNCOMPROMISING.</motion.h2>
+                        <motion.h2 style={{ opacity: staccato3 }} className="absolute text-[clamp(2.5rem,8vw,10rem)] font-black text-northern-amber tracking-widest uppercase text-center px-4">QUALITY.</motion.h2>
                     </div>
 
                     {/* Final Reveal Content */}
@@ -186,13 +186,13 @@ export default function V4Page() {
                         </div>
                     </motion.div>
 
-                    {/* The White Mask Layer (Mix Blend Screen) */}
+                    {/* The Dark Mask Layer (Mix Blend Multiply) */}
                     <motion.div
-                        className="absolute inset-0 z-30 bg-white mix-blend-screen pointer-events-none flex flex-col items-center justify-center transform-gpu origin-center"
+                        className="absolute inset-0 z-30 bg-black mix-blend-multiply pointer-events-none flex flex-col items-center justify-center transform-gpu origin-center"
                         style={{ scale: maskScale, opacity: maskOpacity }}
                     >
-                        <span className="text-[clamp(4rem,20vw,24rem)] text-black font-black leading-[0.8] tracking-tighter mr-8">ROOTED</span>
-                        <span className="text-[clamp(4rem,20vw,24rem)] text-black font-black leading-[0.8] tracking-tighter">IN DHAKA</span>
+                        <span className="text-[clamp(3rem,12vw,14rem)] text-white font-black leading-[0.8] tracking-tighter mr-8 whitespace-nowrap">ROOTED</span>
+                        <span className="text-[clamp(3rem,12vw,14rem)] text-white font-black leading-[0.8] tracking-tighter whitespace-nowrap">IN DHAKA</span>
                     </motion.div>
                 </div>
             </section>
@@ -208,7 +208,7 @@ export default function V4Page() {
                         <div className="sticky top-32 lg:top-1/3">
                             <h4 className="text-northern-amber text-xs font-bold tracking-[0.2em] uppercase mb-12">Infrastructure</h4>
 
-                            <div className="space-y-2">
+                            <div className="space-y-4">
                                 {infraPanels.map((item, i) => (
                                     <button
                                         key={item.num}
@@ -216,10 +216,15 @@ export default function V4Page() {
                                             const el = document.getElementById(`panel-${i}`);
                                             if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
                                         }}
-                                        className={`w-full text-left py-6 border-b border-white/10 flex items-start gap-6 transition-all duration-500 hover:opacity-100 ${activePanel === i ? 'opacity-100' : 'opacity-30'}`}
+                                        className={`w-full text-left py-6 flex items-center gap-6 transition-all duration-500 hover:opacity-100 ${activePanel === i ? 'opacity-100' : 'opacity-30'}`}
                                     >
-                                        <span className="font-serif italic text-northern-amber text-xl">{item.num}</span>
-                                        <h3 className="text-[clamp(1.5rem,3vw,2.5rem)] font-bold tracking-tight leading-none">{item.title}</h3>
+                                        {/* Subtle Active Indicator */}
+                                        <div className={`w-2 h-2 rounded-full transition-colors duration-500 ${activePanel === i ? 'bg-northern-amber' : 'bg-transparent'}`} />
+
+                                        <div className="flex items-center gap-6 border-b border-white/10 w-full pb-6">
+                                            <span className="font-serif italic text-northern-amber text-xl">{item.num}</span>
+                                            <h3 className="text-[clamp(1.5rem,3vw,2.5rem)] font-bold tracking-tight leading-none">{item.title}</h3>
+                                        </div>
                                     </button>
                                 ))}
                             </div>
@@ -231,19 +236,19 @@ export default function V4Page() {
                     </div>
 
                     {/* Right Scrolling Panels */}
-                    <div className="pt-12 lg:pt-[30vh] pb-[20vh] space-y-[40vh]">
+                    <div className="pt-12 lg:pt-[30vh] pb-[10vh] border-l border-white/5 pl-8 md:pl-16">
                         {infraPanels.map((panel, i) => (
                             <motion.div
                                 key={i}
                                 id={`panel-${i}`}
-                                initial={{ opacity: 0.2, scale: 0.95 }}
+                                initial={{ opacity: 0.1, scale: 0.95 }}
                                 whileInView={{ opacity: 1, scale: 1 }}
-                                viewport={{ margin: "-20% 0px -40% 0px" }}
+                                viewport={{ margin: "-30% 0px -40% 0px" }}
                                 onViewportEnter={() => setActivePanel(i)}
                                 transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                                className="w-full max-w-xl ml-auto"
+                                className={`w-full max-w-xl mx-auto ${i !== infraPanels.length - 1 ? 'mb-[40vh]' : ''}`}
                             >
-                                <div className="relative aspect-[4/5] w-full rounded-lg overflow-hidden mb-8">
+                                <div className="relative aspect-[4/5] w-full rounded-lg overflow-hidden mb-8 shadow-2xl">
                                     <Image
                                         src={panel.img}
                                         alt={panel.title}
@@ -253,9 +258,11 @@ export default function V4Page() {
                                     {/* Overlay vignette */}
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                                 </div>
-                                <p className="text-white/70 text-lg md:text-xl leading-relaxed">
-                                    {panel.desc}
-                                </p>
+                                <div className="bg-white/5 p-8 rounded-lg backdrop-blur-sm border border-white/10">
+                                    <p className="text-white/80 text-lg md:text-xl leading-relaxed">
+                                        {panel.desc}
+                                    </p>
+                                </div>
                             </motion.div>
                         ))}
                     </div>
@@ -266,41 +273,41 @@ export default function V4Page() {
             {/* 4. PROOF OF SCALE & CLIENTS                         */}
             {/* ═══════════════════════════════════════════════════ */}
             <section id="about-us" className="py-32 bg-northern-evergreen relative overflow-hidden">
-                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-northern-amber/5 via-transparent to-transparent opacity-50 pointer-events-none" />
+                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-northern-amber/10 via-transparent to-transparent opacity-80 pointer-events-none" />
 
-                <div className="max-w-[1600px] mx-auto px-8 md:px-16 mb-24">
+                <div className="max-w-[1600px] mx-auto px-8 md:px-16 mb-24 relative z-10">
                     <h4 className="text-northern-amber text-xs font-bold tracking-[0.2em] uppercase mb-16">Proof of Scale</h4>
 
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8 border-t border-white/10 pt-12">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8 border-t border-northern-amber/20 pt-16">
                         <div>
                             <div className="font-serif text-[clamp(4rem,8vw,6rem)] leading-none text-white mb-4">
                                 <CountUp target={12} suffix="M+" />
                             </div>
-                            <div className="text-sm font-bold tracking-widest text-white/50 uppercase">Items Produced Yearly</div>
+                            <div className="text-sm font-bold tracking-widest text-northern-amber uppercase">Items Produced Yearly</div>
                         </div>
-                        <div className="hidden md:block w-px h-32 bg-white/10 mx-auto" />
+                        <div className="hidden md:block w-px h-32 bg-northern-amber/20 mx-auto" />
                         <div>
                             <div className="font-serif text-[clamp(4rem,8vw,6rem)] leading-none text-white mb-4">
                                 <CountUp target={40} suffix="+" />
                             </div>
-                            <div className="text-sm font-bold tracking-widest text-white/50 uppercase">Countries Exported To</div>
+                            <div className="text-sm font-bold tracking-widest text-northern-amber uppercase">Countries Exported To</div>
                         </div>
-                        <div className="hidden md:block w-px h-32 bg-white/10 mx-auto" />
+                        <div className="hidden md:block w-px h-32 bg-northern-amber/20 mx-auto" />
                         <div>
                             <div className="font-serif text-[clamp(4rem,8vw,6rem)] leading-none text-white mb-4">
                                 <CountUp target={1300} suffix="+" />
                             </div>
-                            <div className="text-sm font-bold tracking-widest text-white/50 uppercase">Advanced Machines</div>
+                            <div className="text-sm font-bold tracking-widest text-northern-amber uppercase">Advanced Machines</div>
                         </div>
                     </div>
                 </div>
 
-                <div className="mt-48 mb-24 text-center">
-                    <h3 className="font-serif italic text-[clamp(2rem,4vw,3rem)] text-white/90">Trusted by the world&apos;s most demanding brands.</h3>
+                <div className="mt-48 mb-24 text-center relative z-10 px-8">
+                    <h3 className="font-serif italic text-[clamp(2rem,4vw,3.5rem)] text-white/90">Trusted by the world&apos;s most demanding brands.</h3>
                 </div>
 
-                {/* Import and use the exact InfiniteMarquee created for V1 */}
-                <div className="pb-16">
+                {/* Marquee component isolated to prevent scroll hijacking */}
+                <div className="pb-16 relative z-10">
                     <InfiniteMarquee />
                 </div>
             </section>
@@ -308,11 +315,11 @@ export default function V4Page() {
             {/* ═══════════════════════════════════════════════════ */}
             {/* 5. FOOTER & CONTACT                                 */}
             {/* ═══════════════════════════════════════════════════ */}
-            <div id="contact-us" className="bg-northern-evergreen">
+            <div id="contact-us" className="bg-northern-evergreen relative z-20 shadow-[0_-20px_50px_rgba(0,0,0,0.5)]">
                 <ContactInfo />
             </div>
 
-            <footer className="bg-northern-evergreen border-t border-white/10 py-16 overflow-hidden">
+            <footer className="bg-northern-evergreen border-t border-white/10 py-16 overflow-hidden relative z-20">
                 <div className="max-w-[1600px] mx-auto px-8 w-full flex justify-center">
                     <h2 className="text-[clamp(4rem,18vw,26rem)] font-serif font-black leading-[0.8] tracking-tighter text-white/5 select-none">
                         NORTHERN
