@@ -1,5 +1,10 @@
 # Changelog
 
+## [Phase 3 - Bug Fix: Build Failure]
+- Root cause: `legacy_v1/` directory included in `tsconfig.json` compilation scope, producing 40 module-not-found errors from stale archived imports.
+- Fix: Added `"legacy_v1"` to `tsconfig.json` `exclude` array. Active `src/` imports were already correct.
+- Validated with `npx tsc --noEmit` — 0 errors.
+
 ## [Phase 3 - Content Integration]
 - Extracted and transferred legacy assets (`hero-factory.png`, `hero-macro.png`, `leed-gold.png`, etc.) into `public/images/`.
 - Populated `DualScroll.tsx` with 4 definitive client data sections (Home, About, Capacity, Products).
