@@ -1,13 +1,13 @@
 # Project State
 
-**Phase:** 2: Configuration
+**Phase:** 3: Content Integration
 **Status:** Active
-**Active Focus:** Tailwind Theme & Git Push
+**Active Focus:** Interactive Dual Scroll Content
 
-## Action Required by Human (Pending User Action)
+## Action Required by Human
 **Git Remote Initialization is pending:**
-You need to explicitly link the remotes so the `push:all` script works. Paste these in your terminal (update URLs with actual GitHub links if using personal tokens, although we synced `origin` partially earlier, you wanted access across both personal and client):
+You need to explicitly link the remotes so the `push:all` script works. Paste these in your terminal:
 ```bash
-git remote add origin <CLIENT_REPO_URL>
-git remote add portfolio <USER_REPO_URL>
+git remote set-url origin https://github.com/AdilAhmedAhir/Northern_Corporation.git
+git remote add portfolio <YOUR_PORTFOLIO_PRIVATE_REPO_URL_HERE>
 ```

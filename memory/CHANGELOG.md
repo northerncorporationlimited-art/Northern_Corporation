@@ -1,5 +1,12 @@
 # Changelog
 
+## [Phase 3 - Content Integration]
+- Extracted and transferred legacy assets (`hero-factory.png`, `hero-macro.png`, `leed-gold.png`, etc.) into `public/images/`.
+- Populated `DualScroll.tsx` with 4 definitive client data sections (Home, About, Capacity, Products).
+- Implemented an interactive Accordion module in the About section dynamically triggering `ScrollTrigger.refresh()` on expand/collapse to prevent GSAP pinning layout breaks.
+- Applied new global brand themes (brand-green, brand-gold) natively into the UI mapping structures.
+- Improved mobile responsive stacks gracefully ignoring desktop-reverse mappings when rendering accordions or images.
+
 ## [Phase 2 - Configuration]
 - Injected client brand color palette (brand-green, brand-gold, brand-cream) directly into Tailwind v4 `@theme inline` configuration.
 - Set default application background to brand-green (#023020) and text to brand-cream (#F5F5EB).
