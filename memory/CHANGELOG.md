@@ -1,5 +1,9 @@
 # Changelog
 
+## [Phase 2 - Configuration]
+- Injected client brand color palette (brand-green, brand-gold, brand-cream) directly into Tailwind v4 `@theme inline` configuration.
+- Set default application background to brand-green (#023020) and text to brand-cream (#F5F5EB).
+
 ## [Phase 2 - Layout Pivot]
 - Shifted away from standard Hero concept to an Awwwards-style SPA Dual Scroll layout.
 - Created `DualScroll` with GSAP ScrollTrigger implementing pinning, scrubbed reverse scrolling, and fallback fade-ins for mobile viewports using `matchMedia()`.
