@@ -1,5 +1,11 @@
 # Changelog
 
+## [Phase 2 - Layout Pivot]
+- Shifted away from standard Hero concept to an Awwwards-style SPA Dual Scroll layout.
+- Created `DualScroll` with GSAP ScrollTrigger implementing pinning, scrubbed reverse scrolling, and fallback fade-ins for mobile viewports using `matchMedia()`.
+- Added `ScrollProgress` dynamic fixed marker showing completion ratio on the vertical axis.
+- Updated `page.tsx` to handle cross-component state synchronization for scroll progress tracking.
+
 ## [Phase 1 - Foundation UI]
 - Extracted local `logo.svg` and converted it into a responsive Next.js React component format via `Logo.tsx`.
 - Created Framer Motion-powered `<Preloader />` with 1.5s liquid clip-path inset animation and exit transitions.
