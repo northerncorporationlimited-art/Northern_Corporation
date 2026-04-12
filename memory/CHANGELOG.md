@@ -1,5 +1,12 @@
 # Changelog
 
+## [Phase 1 - Foundation UI]
+- Extracted local `logo.svg` and converted it into a responsive Next.js React component format via `Logo.tsx`.
+- Created Framer Motion-powered `<Preloader />` with 1.5s liquid clip-path inset animation and exit transitions.
+- Implemented `<AppWrapper />` using `AnimatePresence` to orchestrate initial load state across all routes.
+- Sanitized `globals.css` replacing default boilerplate with premium dark mode base (#0a0a0a background).
+- Updated Layout to inject `AppWrapper` unconditionally into application loop.
+
 ## [Phase 0 - Initial Setup]
 - Logged the creation of Next.js foundation in current directory.
 - Installed premium dependencies: @supabase/supabase-js, gsap, @gsap/react, framer-motion.

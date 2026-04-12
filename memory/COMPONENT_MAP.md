@@ -1,3 +1,5 @@
 # Component Map
 
-(Initial setup - no components mapped yet)
+- `AppWrapper` -> conditionally renders `Preloader`
+- `Preloader` -> imports and animates `Logo`
+- `Logo` -> inline responsive SVG component
