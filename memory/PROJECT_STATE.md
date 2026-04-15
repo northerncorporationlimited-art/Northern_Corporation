@@ -1,13 +1,13 @@
 # Project State
 
-**Phase:** 5: Premium Animation Polish
-**Status:** Active
-**Active Focus:** Dual Scroll GSAP refinement — clip-path wipes and typography focus
+**Phase:** 5.2: Premium Micro-Interactions
+**Status:** Completed
+**Active Focus:** Scroll-drawn timeline spine + Magnetic hover CTA
 
-## Resolved Issues
-- **Build failure (40 tsc errors):** Fixed by excluding `legacy_v1/` from tsconfig scope.
-- **Framer Motion Variants type error:** Fixed cubic-bezier tuple type assertion.
-- **Content Accuracy (Phase 4.1-4.2):** All client data injected and verified.
+## Completed This Phase
+- Magnetic.tsx: Reusable spring-physics hover pull component
+- HistoryFlow.tsx: Scroll-drawn gold spine using useScroll/useTransform, animated dots
+- ContactFooter.tsx: CTA wrapped in Magnetic for tactile interaction
 
 ## Action Required by Human
 **Contact details need real data:**

@@ -1,7 +1,7 @@
 "use client";
 
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 
 const milestones = [
   {
@@ -57,6 +57,15 @@ const milestones = [
 ];
 
 export const HistoryFlow = () => {
+  const timelineRef = useRef<HTMLDivElement>(null);
+
+  const { scrollYProgress } = useScroll({
+    target: timelineRef,
+    offset: ["start center", "end center"],
+  });
+
+  const spineHeight = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
+
   return (
     <section className="w-full bg-brand-green py-32 px-8 md:px-20 overflow-hidden">
       {/* Header */}
@@ -80,9 +89,15 @@ export const HistoryFlow = () => {
       </motion.div>
 
       {/* Timeline */}
-      <div className="max-w-4xl mx-auto relative">
-        {/* Vertical spine */}
-        <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-px bg-brand-cream/10 -translate-x-1/2" />
+      <div ref={timelineRef} className="max-w-4xl mx-auto relative">
+        {/* Static background track */}
+        <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-px bg-brand-cream/5 -translate-x-1/2" />
+
+        {/* Scroll-drawn spine — grows downward as user scrolls */}
+        <motion.div
+          className="absolute left-4 md:left-1/2 top-0 w-px bg-brand-gold/40 -translate-x-1/2 origin-top"
+          style={{ height: spineHeight }}
+        />
 
         <div className="flex flex-col gap-16">
           {milestones.map((m, i) => {
@@ -93,7 +108,7 @@ export const HistoryFlow = () => {
                 className={`relative flex items-start gap-8 md:gap-0 ${isLeft ? "md:flex-row" : "md:flex-row-reverse"}`}
                 initial={{ opacity: 0, x: isLeft ? -40 : 40 }}
                 whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, amount: 0.3 }}
+                viewport={{ once: true, margin: "-100px" }}
                 transition={{ duration: 0.65, ease: [0.25, 0.1, 0.25, 1] as [number, number, number, number] }}
               >
                 {/* Content */}
@@ -104,7 +119,13 @@ export const HistoryFlow = () => {
                 </div>
 
                 {/* Timeline dot */}
-                <div className="absolute left-4 md:left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-brand-gold border-2 border-brand-green ring-4 ring-brand-gold/20 mt-1.5" />
+                <motion.div
+                  className="absolute left-4 md:left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-brand-gold/30 border-2 border-brand-green mt-1.5"
+                  whileInView={{ backgroundColor: "#FDD017", scale: 1.2 }}
+                  viewport={{ once: true, margin: "-100px" }}
+                  transition={{ duration: 0.4, delay: 0.1 }}
+                  style={{ boxShadow: "0 0 0 4px rgba(253, 208, 23, 0.15)" }}
+                />
 
                 {/* Spacer for alternating layout */}
                 <div className="hidden md:block md:w-1/2" />
@@ -118,11 +139,17 @@ export const HistoryFlow = () => {
           className="relative mt-20 pl-10 md:pl-0 md:text-center"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
+          viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.7 }}
         >
-          {/* Final dot */}
-          <div className="absolute left-4 md:left-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-brand-gold border-2 border-brand-green ring-4 ring-brand-gold/30 -mt-2" />
+          {/* Final dot — larger */}
+          <motion.div
+            className="absolute left-4 md:left-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-brand-gold/30 border-2 border-brand-green -mt-2"
+            whileInView={{ backgroundColor: "#FDD017", scale: 1.3 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.5, delay: 0.15 }}
+            style={{ boxShadow: "0 0 0 6px rgba(253, 208, 23, 0.2)" }}
+          />
           <div className="md:mx-auto md:max-w-2xl pt-6">
             <span className="text-brand-gold font-mono text-sm tracking-widest">Today</span>
             <h3 className="text-3xl md:text-4xl font-bold text-brand-cream mt-2 mb-4">A Legacy of Excellence</h3>

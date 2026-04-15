@@ -1,5 +1,13 @@
 # Changelog
 
+## [Phase 5.2 - Premium Micro-Interactions]
+- Created `Magnetic.tsx` — reusable physics-based hover component using Framer Motion `useSpring` (damping: 20, stiffness: 300). Max pull: configurable via `strength` prop (default 15px).
+- Rewrote `HistoryFlow.tsx` with scroll-drawn timeline spine: `useScroll` + `useTransform` maps scroll progress to a gold `height` line growing from top. Background track dimmed to 5% for contrast.
+- Timeline dots now animate from dim (`bg-brand-gold/30`) to full gold (`#FDD017`) with scale pulse on `whileInView` entry, using `viewport.margin: "-100px"` for tight triggering.
+- Wrapped ContactFooter "Send Us an Email" CTA in `<Magnetic strength={12}>` for tactile hover pull.
+- No Navbar exists in `src/` — skipped Navbar integration (only `legacy_v1` had one).
+- Validated with `npx tsc --noEmit` — 0 errors.
+
 ## [Phase 5 - Premium Animation Polish]
 - Refactored DualScroll right column from reverse-scrolling stacked panels to absolutely-positioned image layers with scrub-linked `clip-path: inset()` wipe transitions.
 - Images stack with ascending z-index; each new image reveals via `inset(100% 0% 0% 0%)` → `inset(0% 0% 0% 0%)` linked to scroll progress.

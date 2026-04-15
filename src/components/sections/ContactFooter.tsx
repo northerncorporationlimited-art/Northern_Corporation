@@ -2,6 +2,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
+import { Magnetic } from "@/components/ui/Magnetic";
 
 const contactDetails = [
   { label: "Head Office", value: "[Insert Factory Address]\nDhaka, Bangladesh" },
@@ -73,12 +74,14 @@ export const ContactFooter = () => {
           viewport={{ once: true, amount: 0.5 }}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
-          <a
-            href="mailto:info@northerncorp.com"
-            className="inline-flex items-center gap-2 rounded-full bg-brand-gold px-8 py-3 text-sm font-semibold text-brand-green shadow-lg shadow-brand-gold/20 transition-all hover:scale-105 hover:shadow-brand-gold/30"
-          >
-            Send Us an Email
-          </a>
+          <Magnetic strength={12}>
+            <a
+              href="mailto:info@northerncorp.com"
+              className="inline-flex items-center gap-2 rounded-full bg-brand-gold px-8 py-3 text-sm font-semibold text-brand-green shadow-lg shadow-brand-gold/20 transition-all hover:scale-105 hover:shadow-brand-gold/30"
+            >
+              Send Us an Email
+            </a>
+          </Magnetic>
           <a
             href="mailto:sales@northerncorp.com"
             className="text-sm text-brand-cream/40 hover:text-brand-cream transition-colors underline underline-offset-4"
