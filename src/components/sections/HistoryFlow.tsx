@@ -5,34 +5,44 @@ import { motion } from "framer-motion";
 
 const milestones = [
   {
+    year: "1967",
+    title: "Northern Steel Re-rolling Mill",
+    desc: "Founded by Shafiuddin Ahmed and Tosrifa Khatoon, Northern Steel Re-rolling Mill Limited was established — the seed of what would become the Northern Group of Companies.",
+  },
+  {
     year: "1987",
-    title: "Founded in Dhaka",
-    desc: "Northern Corporation Ltd. was established with a modest workshop in Dhaka, Bangladesh, with a vision to make quality knitwear for global markets.",
+    title: "Northern Corporation Limited",
+    desc: "NCL was formed, marking the group's strategic entry into the textile and RMG (Ready Made Garments) industry — beginning a journey of industrial excellence.",
   },
   {
-    year: "1995",
-    title: "First Export Partnership",
-    desc: "Secured our first major international export contract, supplying premium knitwear to European fashion brands.",
+    year: "2000",
+    title: "Fashion Asia Limited",
+    desc: "Fashion Asia Limited (FAL) joined the Northern Group, broadening the company's reach into fashion manufacturing and global export markets.",
   },
   {
-    year: "2003",
-    title: "Factory Expansion",
-    desc: "Expanded production capacity to 500+ machines, bringing on 1,000+ employees and doubling annual output.",
+    year: "2002",
+    title: "Tosrifa Industries Limited",
+    desc: "Tosrifa Industries Limited (TIL) was established with a focus on green, sustainable textile production — setting a benchmark for eco-conscious manufacturing in Bangladesh.",
   },
   {
-    year: "2010",
-    title: "Sustainability Commitment",
-    desc: "Achieved GOTS and OEKO-TEX® certifications, formalising our dedication to ethical and sustainable manufacturing.",
+    year: "2005",
+    title: "Printers and Printers Limited",
+    desc: "Printers and Printers Limited (PPL) was introduced to the group, enhancing in-house production efficiency and delivering integrated packaging and printing capabilities.",
+  },
+  {
+    year: "2011",
+    title: "Public Listings & Enviro Pac",
+    desc: "TIL and NCL became public limited companies. Enviro Pac Limited was introduced to the group, reinforcing the commitment to sustainable and environmentally responsible operations.",
   },
   {
     year: "2015",
-    title: "LEED Gold Certification",
-    desc: "Our primary facility achieved LEED Gold status, recognising world-class environmental design and energy efficiency.",
+    title: "Stock Exchange Listing",
+    desc: "Tosrifa Industries Limited was listed on both the Dhaka Stock Exchange and the Chittagong Stock Exchange, marking a milestone of institutional trust and public accountability.",
   },
   {
-    year: "2024",
-    title: "1,300 Machines & 30M+ Pieces/Year",
-    desc: "Today, Northern Corporation operates at full industrial scale — 1,300+ machines, 3,000+ employees, and trusted by the world's leading fashion brands.",
+    year: "2016",
+    title: "LEED Certified & BDT 155 Crore Expansion",
+    desc: "Achieved LEED certification, validating world-class environmental design. NCL simultaneously launched a BDT 155 Crore factory expansion project — positioning the group for the next era of scale.",
   },
 ];
 
@@ -51,17 +61,17 @@ export const HistoryFlow = () => {
           Our Story
         </span>
         <h2 className="text-5xl md:text-7xl font-bold uppercase tracking-tighter text-brand-cream mt-4">
-          Since 1987
+          Since 1967
         </h2>
         <p className="mx-auto mt-6 max-w-2xl text-brand-cream/60 text-lg leading-relaxed">
-          Established in 1987, Northern Corporation Ltd. has spent nearly four decades mastering the art
-          of garment manufacturing — from a modest beginning to a globally trusted partner.
+          Founded by Shafiuddin Ahmed and Tosrifa Khatoon, the Northern Group has grown over six decades
+          from a steel re-rolling mill into one of Bangladesh&apos;s most respected garment manufacturing conglomerates.
         </p>
       </motion.div>
 
       {/* Timeline */}
       <div className="max-w-4xl mx-auto relative">
-        {/* Vertical line */}
+        {/* Vertical spine */}
         <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-px bg-brand-cream/10 -translate-x-1/2" />
 
         <div className="flex flex-col gap-16">
@@ -73,8 +83,8 @@ export const HistoryFlow = () => {
                 className={`relative flex items-start gap-8 md:gap-0 ${isLeft ? "md:flex-row" : "md:flex-row-reverse"}`}
                 initial={{ opacity: 0, x: isLeft ? -40 : 40 }}
                 whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, amount: 0.4 }}
-                transition={{ duration: 0.65, ease: [0.25, 0.1, 0.25, 1] }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.65, ease: [0.25, 0.1, 0.25, 1] as [number, number, number, number] }}
               >
                 {/* Content */}
                 <div className={`pl-10 md:pl-0 md:w-1/2 ${isLeft ? "md:pr-16 md:text-right" : "md:pl-16 md:text-left"}`}>
@@ -83,10 +93,10 @@ export const HistoryFlow = () => {
                   <p className="text-brand-cream/60 text-base leading-relaxed">{m.desc}</p>
                 </div>
 
-                {/* Dot */}
+                {/* Timeline dot */}
                 <div className="absolute left-4 md:left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-brand-gold border-2 border-brand-green ring-4 ring-brand-gold/20 mt-1.5" />
 
-                {/* Empty half for alternating layout */}
+                {/* Spacer for alternating layout */}
                 <div className="hidden md:block md:w-1/2" />
               </motion.div>
             );

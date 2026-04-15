@@ -1,5 +1,13 @@
 # Changelog
 
+## [Phase 4.1 - Content Accuracy Fixes]
+- Corrected Section 3 capacity stats: added `3,000+ Employees`, changed `Production/Yr` to `$30M USD — Yearly Turnover`.
+- Updated stats layout to vertical flex column to gracefully handle 3 items without overflow.
+- Replaced dummy 6-milestone history with exact 8-milestone client timeline (1967–2016).
+- Timeline: Northern Steel (1967) → NCL (1987) → FAL (2000) → TIL (2002) → PPL (2005) → Public Listings + Enviro Pac (2011) → Stock Exchange Listing (2015) → LEED + BDT 155 Crore Expansion (2016).
+- Updated HistoryFlow header to "Since 1967" with accurate founder attribution.
+- Validated with `npx tsc --noEmit` — 0 errors.
+
 ## [Phase 4 - Full Content Migration]
 - Audited `legacy_v1/` and extracted all content from `AboutUsContent.tsx`, `ContactInfo.tsx`, `CertificationGrid.tsx`, `FabricShowcase.tsx`.
 - Migrated cert and fabric images from `legacy_v1/public/` into active `public/certifications/` and `public/fabrics/` directories.

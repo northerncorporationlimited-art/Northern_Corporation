@@ -32,7 +32,8 @@ const portfolioSections = [
     desc: "Equipped to handle global demand at uncompromising pace and quality.",
     stats: [
       { label: "Machines", value: "1,300+" },
-      { label: "Production/Yr", value: "30M Pcs" }
+      { label: "Employees", value: "3,000+" },
+      { label: "Yearly Turnover", value: "$30M USD" }
     ],
     image: "/images/macro.png" 
   },
@@ -175,10 +176,10 @@ export const DualScroll = ({ setProgress }: { setProgress: (val: number) => void
             )}
 
             {section.type === "stats" && (
-              <div className="flex flex-col sm:flex-row gap-8 sm:gap-12 mt-8">
+              <div className="flex flex-col gap-8 mt-8">
                 {section.stats?.map((stat, idx) => (
                   <div key={idx} className="flex flex-col">
-                    <span className="text-5xl font-light text-brand-gold">{stat.value}</span>
+                    <span className="text-4xl md:text-5xl font-light text-brand-gold">{stat.value}</span>
                     <span className="text-sm tracking-widest uppercase mt-2 opacity-60 text-brand-cream">{stat.label}</span>
                   </div>
                 ))}
