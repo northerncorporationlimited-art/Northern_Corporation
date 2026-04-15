@@ -91,6 +91,9 @@ export const Sustainability = () => {
           <span className="font-bold text-brand-gold">BGMEA Best Environment Compliant Factory</span>
           {" "}and a proud signatory of the{" "}
           <span className="font-bold text-brand-gold">UN Global Compact</span>.
+          {" "}The group also partners with{" "}
+          <span className="font-bold text-brand-gold">SNV Netherlands</span>
+          {" "}to advance sustainable development across the textile supply chain.
         </p>
       </motion.div>
     </section>

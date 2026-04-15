@@ -5,6 +5,7 @@ import { DualScroll } from "@/components/sections/DualScroll";
 import { ScrollProgress } from "@/components/ui/ScrollProgress";
 import { HistoryFlow } from "@/components/sections/HistoryFlow";
 import { Sustainability } from "@/components/sections/Sustainability";
+import { WorkLife } from "@/components/sections/WorkLife";
 import { ContactFooter } from "@/components/sections/ContactFooter";
 
 export default function Home() {
@@ -21,6 +22,7 @@ export default function Home() {
       {/* Phase 2: Natural vertical scroll — Pin releases, page flows normally */}
       <HistoryFlow />
       <Sustainability />
+      <WorkLife />
       <ContactFooter />
     </div>
   );

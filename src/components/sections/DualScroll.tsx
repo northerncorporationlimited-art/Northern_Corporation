@@ -187,9 +187,11 @@ export const DualScroll = ({ setProgress }: { setProgress: (val: number) => void
             )}
 
             {section.type === "certs" && (
-              <div className="mt-8 flex flex-wrap gap-4">
+              <div className="mt-8 flex flex-wrap gap-3">
                  <span className="px-6 py-2 border border-brand-gold text-brand-gold rounded-full text-sm tracking-widest uppercase">Knitwear</span>
                  <span className="px-6 py-2 border border-brand-gold text-brand-gold rounded-full text-sm tracking-widest uppercase">Sportswear</span>
+                 <span className="px-6 py-2 border border-brand-gold text-brand-gold rounded-full text-sm tracking-widest uppercase">Kids</span>
+                 <span className="px-6 py-2 border border-brand-gold text-brand-gold rounded-full text-sm tracking-widest uppercase">Sleepwear</span>
               </div>
             )}
 

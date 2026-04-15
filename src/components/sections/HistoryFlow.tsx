@@ -44,6 +44,16 @@ const milestones = [
     title: "LEED Certified & BDT 155 Crore Expansion",
     desc: "Achieved LEED certification, validating world-class environmental design. NCL simultaneously launched a BDT 155 Crore factory expansion project — positioning the group for the next era of scale.",
   },
+  {
+    year: "2017",
+    title: "FAL Expansion Project",
+    desc: "Fashion Asia Limited started a major expansion project to significantly increase production capacity, reinforcing the group's ability to meet growing global demand.",
+  },
+  {
+    year: "2018",
+    title: "NTG Farms",
+    desc: "NTG Farms joined the Northern Group to diversify operations beyond textiles, extending the group's footprint into agriculture and agribusiness.",
+  },
 ];
 
 export const HistoryFlow = () => {
@@ -102,6 +112,27 @@ export const HistoryFlow = () => {
             );
           })}
         </div>
+
+        {/* Today — Concluding Block */}
+        <motion.div
+          className="relative mt-20 pl-10 md:pl-0 md:text-center"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.7 }}
+        >
+          {/* Final dot */}
+          <div className="absolute left-4 md:left-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-brand-gold border-2 border-brand-green ring-4 ring-brand-gold/30 -mt-2" />
+          <div className="md:mx-auto md:max-w-2xl pt-6">
+            <span className="text-brand-gold font-mono text-sm tracking-widest">Today</span>
+            <h3 className="text-3xl md:text-4xl font-bold text-brand-cream mt-2 mb-4">A Legacy of Excellence</h3>
+            <p className="text-brand-cream/60 text-base md:text-lg leading-relaxed">
+              Today, Northern is recognized as a leading textile manufacturer in Bangladesh, known for
+              quality, innovation, and sustainability. The group is committed to environmentally friendly
+              production and actively supports the UN Sustainable Development Goals (SDGs).
+            </p>
+          </div>
+        </motion.div>
       </div>
     </section>
   );

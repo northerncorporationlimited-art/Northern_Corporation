@@ -4,9 +4,10 @@ import React from "react";
 import { motion } from "framer-motion";
 
 const contactDetails = [
-  { label: "Location", value: "Northern Corporation Ltd.\nDhaka, Bangladesh" },
-  { label: "Work Hours", value: "Monday – Friday\n9:00 AM – 6:00 PM (BST)" },
-  { label: "Phone", value: "+880-2-XXXX-XXXX\n+880-1XXX-XXXXXX" },
+  { label: "Head Office", value: "[Insert Factory Address]\nDhaka, Bangladesh" },
+  { label: "Factory Location", value: "[Insert Factory Unit Address]\nGazipur / Narayanganj, Bangladesh" },
+  { label: "Work Hours", value: "Saturday – Thursday\n8:00 AM – 5:00 PM (BST)" },
+  { label: "Phone", value: "[Insert Phone Number]\n[Insert Phone Number]" },
   { label: "Email", value: "info@northerncorp.com\nsales@northerncorp.com" },
   { label: "Web", value: "www.northerncorp.com" },
 ];

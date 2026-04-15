@@ -1,5 +1,15 @@
 # Changelog
 
+## [Phase 4.2 - Complete Content Injection]
+- Added 2017 milestone (FAL expansion) and 2018 milestone (NTG Farms diversification) to `HistoryFlow.tsx`.
+- Added a concluding "Today" block breaking out of the alternating layout — centered, full-width text about UN SDGs commitment.
+- Updated Section 4 product categories: added `Kids` and `Sleepwear` tag pills alongside `Knitwear` and `Sportswear`.
+- Updated `Sustainability.tsx` recognition banner to include `SNV Netherlands` partnership.
+- Created `WorkLife.tsx` — "Life at Northern" section with 6 HR/well-being cards (Daycare, Equality, Professional Dev, Prayer Rooms, Medical, Dining).
+- Updated `ContactFooter.tsx` with structural placeholder fields: Head Office, Factory Location, Work Hours, Phone, Email, Web.
+- Updated `page.tsx` render order: DualScroll → HistoryFlow → Sustainability → WorkLife → ContactFooter.
+- Validated with `npx tsc --noEmit` — 0 errors.
+
 ## [Phase 4.1 - Content Accuracy Fixes]
 - Corrected Section 3 capacity stats: added `3,000+ Employees`, changed `Production/Yr` to `$30M USD — Yearly Turnover`.
 - Updated stats layout to vertical flex column to gracefully handle 3 items without overflow.
