@@ -1,5 +1,14 @@
 # Changelog
 
+## [Phase 5 - Premium Animation Polish]
+- Refactored DualScroll right column from reverse-scrolling stacked panels to absolutely-positioned image layers with scrub-linked `clip-path: inset()` wipe transitions.
+- Images stack with ascending z-index; each new image reveals via `inset(100% 0% 0% 0%)` → `inset(0% 0% 0% 0%)` linked to scroll progress.
+- Implemented left-column typography focus: active panel at `opacity: 1`, inactive panels dim to `opacity: 0.15`, crossfading with scroll scrub.
+- Left column now translates in discrete `100vh` steps per section, synchronized with clip-path reveals.
+- Accordion `ScrollTrigger.refresh()` still fires on expand/collapse without breaking clip-path math.
+- Mobile view completely isolated via `gsap.matchMedia()` — all desktop transforms/clips cleared with `clearProps: "all"`.
+- Validated with `npx tsc --noEmit` — 0 errors.
+
 ## [Phase 4.2 - Complete Content Injection]
 - Added 2017 milestone (FAL expansion) and 2018 milestone (NTG Farms diversification) to `HistoryFlow.tsx`.
 - Added a concluding "Today" block breaking out of the alternating layout — centered, full-width text about UN SDGs commitment.

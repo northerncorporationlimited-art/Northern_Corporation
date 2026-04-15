@@ -46,6 +46,8 @@ const portfolioSections = [
   },
 ];
 
+const SECTION_COUNT = portfolioSections.length;
+
 const AboutAccordion = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
   
@@ -90,51 +92,105 @@ export const DualScroll = ({ setProgress }: { setProgress: (val: number) => void
   const containerRef = useRef<HTMLDivElement>(null);
   const leftColumnRef = useRef<HTMLDivElement>(null);
   const rightColumnRef = useRef<HTMLDivElement>(null);
+  const leftPanelsRef = useRef<HTMLDivElement[]>([]);
+  const imageLayersRef = useRef<HTMLDivElement[]>([]);
 
   useGSAP(() => {
     if (!containerRef.current || !leftColumnRef.current || !rightColumnRef.current) return;
 
-    let mm = gsap.matchMedia();
+    const mm = gsap.matchMedia();
 
+    // ============================
+    // DESKTOP — Clip-path wipes + text focus
+    // ============================
     mm.add("(min-width: 768px)", () => {
-      // Dynamic calculations for refresh safety
-      const getLeftHeight = () => leftColumnRef.current!.scrollHeight - window.innerHeight;
-      const getRightHeight = () => rightColumnRef.current!.scrollHeight - window.innerHeight;
+      const panels = leftPanelsRef.current.filter(Boolean);
+      const images = imageLayersRef.current.filter(Boolean);
+      const panelCount = panels.length;
+      const totalScrollHeight = panelCount * window.innerHeight;
 
-      // Start position for the right side
-      gsap.set(rightColumnRef.current, { y: () => -getRightHeight() });
+      // Initial states: first image visible, rest clipped from bottom
+      images.forEach((img, i) => {
+        if (i === 0) {
+          gsap.set(img, { clipPath: "inset(0% 0% 0% 0%)" });
+        } else {
+          gsap.set(img, { clipPath: "inset(100% 0% 0% 0%)" });
+        }
+      });
 
+      // All text panels start dimmed except the first
+      panels.forEach((panel, i) => {
+        gsap.set(panel, { opacity: i === 0 ? 1 : 0.15 });
+      });
+
+      // Main pinned timeline
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: containerRef.current,
           start: "top top",
-          end: () => `+=${leftColumnRef.current!.scrollHeight}`,
+          end: `+=${totalScrollHeight}`,
           pin: true,
-          scrub: 1, 
+          scrub: 1,
           invalidateOnRefresh: true,
-          onUpdate: (self) => setProgress(self.progress)
-        }
+          onUpdate: (self) => setProgress(self.progress),
+        },
       });
 
-      tl.fromTo(leftColumnRef.current, 
-        { y: 0 },
-        { y: () => -getLeftHeight(), ease: "none" }, 0
-      ).fromTo(rightColumnRef.current, 
-        { y: () => -getRightHeight() },
-        { y: 0, ease: "none" }, 0
-      );
+      // For each transition between sections
+      for (let i = 0; i < panelCount - 1; i++) {
+        const segStart = i / (panelCount - 1);
+        const segEnd = (i + 1) / (panelCount - 1);
+        const segDuration = segEnd - segStart;
+
+        // Left column: scroll the text upward by one panel height
+        tl.fromTo(
+          leftColumnRef.current,
+          { y: `-${i * 100}vh` },
+          { y: `-${(i + 1) * 100}vh`, ease: "none" },
+          segStart
+        );
+
+        // Fade out current text panel, fade in next
+        tl.to(panels[i], { opacity: 0.15, ease: "none" }, segStart);
+        tl.fromTo(
+          panels[i + 1],
+          { opacity: 0.15 },
+          { opacity: 1, ease: "none" },
+          segStart + segDuration * 0.15
+        );
+
+        // Clip-path wipe: reveal next image from bottom to top
+        if (images[i + 1]) {
+          tl.to(
+            images[i + 1],
+            {
+              clipPath: "inset(0% 0% 0% 0%)",
+              ease: "power2.inOut",
+              duration: segDuration,
+            },
+            segStart
+          );
+        }
+      }
 
       return () => tl.kill();
     });
 
+    // ============================
+    // MOBILE — Standard vertical blocks
+    // ============================
     mm.add("(max-width: 767px)", () => {
-      gsap.set([leftColumnRef.current, rightColumnRef.current], { clearProps: "all" });
+      // Clear any desktop transforms/clips
+      gsap.set(leftColumnRef.current, { clearProps: "all" });
+      gsap.set(rightColumnRef.current, { clearProps: "all" });
+      leftPanelsRef.current.forEach((p) => p && gsap.set(p, { clearProps: "all" }));
+      imageLayersRef.current.forEach((img) => img && gsap.set(img, { clearProps: "all" }));
 
       const st = ScrollTrigger.create({
         trigger: containerRef.current,
         start: "top top",
         end: "bottom bottom",
-        onUpdate: (self) => setProgress(self.progress)
+        onUpdate: (self) => setProgress(self.progress),
       });
 
       const mobileSections = gsap.utils.toArray<HTMLElement>(".mobile-section");
@@ -144,11 +200,11 @@ export const DualScroll = ({ setProgress }: { setProgress: (val: number) => void
             trigger: section,
             start: "top 85%",
             end: "top 55%",
-            scrub: true
+            scrub: true,
           },
           opacity: 0,
           y: 50,
-          ease: "none"
+          ease: "none",
         });
       });
 
@@ -159,16 +215,23 @@ export const DualScroll = ({ setProgress }: { setProgress: (val: number) => void
   }, { scope: containerRef });
 
   return (
-    <section ref={containerRef} className="h-auto md:h-screen w-full flex flex-col md:flex-row overflow-hidden bg-brand-green text-brand-cream">
-      {/* Left Column (Main Text Strategy) */}
+    <section
+      ref={containerRef}
+      className="h-auto md:h-screen w-full flex flex-col md:flex-row overflow-hidden bg-brand-green text-brand-cream"
+    >
+      {/* ====== LEFT COLUMN — Text Panels ====== */}
       <div ref={leftColumnRef} className="left-column w-full md:w-1/2 flex flex-col">
-        {portfolioSections.map((section) => (
-          <div key={`left-${section.id}`} className="mobile-section min-h-screen w-full flex flex-col justify-center px-8 md:px-20 py-20 shrink-0 border-b border-brand-cream/10 md:border-none">
-            <h2 className="text-5xl md:text-7xl font-bold uppercase tracking-tighter mb-4 text-brand-cream">{section.title}</h2>
-            <p className="text-brand-cream/80 text-xl max-w-md mb-8">
-              {section.desc}
-            </p>
-            
+        {portfolioSections.map((section, i) => (
+          <div
+            key={`left-${section.id}`}
+            ref={(el) => { if (el) leftPanelsRef.current[i] = el; }}
+            className="mobile-section min-h-screen w-full flex flex-col justify-center px-8 md:px-20 py-20 shrink-0 border-b border-brand-cream/10 md:border-none"
+          >
+            <h2 className="text-5xl md:text-7xl font-bold uppercase tracking-tighter mb-4 text-brand-cream">
+              {section.title}
+            </h2>
+            <p className="text-brand-cream/80 text-xl max-w-md mb-8">{section.desc}</p>
+
             {section.type === "accordion" && (
               <div className="md:hidden w-full mt-4">
                 <AboutAccordion />
@@ -180,7 +243,9 @@ export const DualScroll = ({ setProgress }: { setProgress: (val: number) => void
                 {section.stats?.map((stat, idx) => (
                   <div key={idx} className="flex flex-col">
                     <span className="text-4xl md:text-5xl font-light text-brand-gold">{stat.value}</span>
-                    <span className="text-sm tracking-widest uppercase mt-2 opacity-60 text-brand-cream">{stat.label}</span>
+                    <span className="text-sm tracking-widest uppercase mt-2 opacity-60 text-brand-cream">
+                      {stat.label}
+                    </span>
                   </div>
                 ))}
               </div>
@@ -188,38 +253,48 @@ export const DualScroll = ({ setProgress }: { setProgress: (val: number) => void
 
             {section.type === "certs" && (
               <div className="mt-8 flex flex-wrap gap-3">
-                 <span className="px-6 py-2 border border-brand-gold text-brand-gold rounded-full text-sm tracking-widest uppercase">Knitwear</span>
-                 <span className="px-6 py-2 border border-brand-gold text-brand-gold rounded-full text-sm tracking-widest uppercase">Sportswear</span>
-                 <span className="px-6 py-2 border border-brand-gold text-brand-gold rounded-full text-sm tracking-widest uppercase">Kids</span>
-                 <span className="px-6 py-2 border border-brand-gold text-brand-gold rounded-full text-sm tracking-widest uppercase">Sleepwear</span>
+                <span className="px-6 py-2 border border-brand-gold text-brand-gold rounded-full text-sm tracking-widest uppercase">Knitwear</span>
+                <span className="px-6 py-2 border border-brand-gold text-brand-gold rounded-full text-sm tracking-widest uppercase">Sportswear</span>
+                <span className="px-6 py-2 border border-brand-gold text-brand-gold rounded-full text-sm tracking-widest uppercase">Kids</span>
+                <span className="px-6 py-2 border border-brand-gold text-brand-gold rounded-full text-sm tracking-widest uppercase">Sleepwear</span>
               </div>
             )}
 
-            {/* Mobile inline visual blocks */}
+            {/* Mobile inline images */}
             {section.type !== "accordion" && (
               <div className="md:hidden w-full h-[40vh] rounded-2xl overflow-hidden relative shadow-2xl mt-12 bg-black/20">
-                 <Image src={section.image} alt={section.title} fill className="object-cover" />
+                <Image src={section.image} alt={section.title} fill className="object-cover" />
               </div>
             )}
           </div>
         ))}
       </div>
 
-      {/* Right Column (Visual/Interactive Split) */}
-      <div ref={rightColumnRef} className="right-column hidden md:flex w-1/2 flex-col h-auto bg-black/10">
-        {[...portfolioSections].reverse().map((section) => (
-          <div key={`right-${section.id}`} className="min-h-screen w-full flex flex-col items-center justify-center p-12 shrink-0 relative overflow-hidden">
-             
-            {section.type !== "accordion" && (
-              <Image src={section.image} alt={section.title} fill className="object-cover opacity-90" />
-            )}
-
-            {section.type === "accordion" && (
-              <div className="w-full max-w-2xl h-full flex items-center justify-center z-10 p-12">
-                 <AboutAccordion />
+      {/* ====== RIGHT COLUMN — Stacked Clip-Path Image Layers (Desktop Only) ====== */}
+      <div
+        ref={rightColumnRef}
+        className="right-column hidden md:block w-1/2 h-screen relative"
+      >
+        {portfolioSections.map((section, i) => (
+          <div
+            key={`img-${section.id}`}
+            ref={(el) => { if (el) imageLayersRef.current[i] = el; }}
+            className="absolute inset-0 w-full h-full"
+            style={{ zIndex: i + 1 }}
+          >
+            {section.type === "accordion" ? (
+              <div className="w-full h-full flex items-center justify-center bg-brand-green p-12">
+                <AboutAccordion />
               </div>
+            ) : (
+              <Image
+                src={section.image}
+                alt={section.title}
+                fill
+                className="object-cover"
+                priority={i === 0}
+              />
             )}
-
           </div>
         ))}
       </div>
