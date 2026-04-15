@@ -273,14 +273,14 @@ export const DualScroll = ({ setProgress }: { setProgress: (val: number) => void
       {/* ====== RIGHT COLUMN — Stacked Clip-Path Image Layers (Desktop Only) ====== */}
       <div
         ref={rightColumnRef}
-        className="right-column hidden md:block w-1/2 h-screen relative"
+        className="right-column hidden md:block w-1/2 h-screen relative overflow-hidden"
       >
         {portfolioSections.map((section, i) => (
           <div
             key={`img-${section.id}`}
             ref={(el) => { if (el) imageLayersRef.current[i] = el; }}
-            className="absolute inset-0 w-full h-full"
-            style={{ zIndex: i + 1 }}
+            className="absolute inset-0 w-full h-full overflow-hidden"
+            style={{ zIndex: i + 1, clipPath: i === 0 ? "inset(0% 0% 0% 0%)" : "inset(100% 0% 0% 0%)" }}
           >
             {section.type === "accordion" ? (
               <div className="w-full h-full flex items-center justify-center bg-brand-green p-12">

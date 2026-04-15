@@ -53,7 +53,7 @@ export const Sustainability = () => {
       </motion.div>
 
       {/* Cert Grid */}
-      <div className="max-w-6xl mx-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 lg:gap-5">
+      <div className="max-w-6xl mx-auto flex flex-wrap justify-center gap-4 lg:gap-5">
         {certifications.map((cert, i) => (
           <motion.div
             key={cert.name}
@@ -62,7 +62,7 @@ export const Sustainability = () => {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.1 }}
-            className="group flex flex-col items-center justify-center rounded-2xl border border-brand-green/10 bg-white p-4 sm:p-5 shadow-sm hover:shadow-md transition-all"
+            className="group flex flex-col items-center justify-center rounded-2xl border border-brand-green/10 bg-white p-4 sm:p-5 shadow-sm hover:shadow-md transition-all w-[calc(50%-8px)] sm:w-[calc(33.333%-11px)] md:w-[calc(25%-15px)] lg:w-[calc(20%-16px)]"
           >
             <div className="relative mb-3 h-16 w-full sm:h-20">
               <Image
