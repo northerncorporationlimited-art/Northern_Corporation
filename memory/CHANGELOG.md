@@ -1,5 +1,15 @@
 # Changelog
 
+## [Phase 4 - Full Content Migration]
+- Audited `legacy_v1/` and extracted all content from `AboutUsContent.tsx`, `ContactInfo.tsx`, `CertificationGrid.tsx`, `FabricShowcase.tsx`.
+- Migrated cert and fabric images from `legacy_v1/public/` into active `public/certifications/` and `public/fabrics/` directories.
+- Created `HistoryFlow.tsx` — alternating timeline from 1987 to 2024 with Framer Motion `whileInView` slide-in reveals.
+- Created `Sustainability.tsx` — full certification grid (13 certs) with staggered fade-up reveals and brand recognition banner.
+- Created `ContactFooter.tsx` — premium dark footer with contact cards, CTA button, and copyright bar.
+- Updated `page.tsx` to implement the Pin and Flow architecture: GSAP `DualScroll` pin followed by natural vertical scroll into `HistoryFlow` → `Sustainability` → `ContactFooter`.
+- Fixed Framer Motion `Variants` type error: cast cubic-bezier ease tuples as `[number, number, number, number]`.
+- Validated with `npx tsc --noEmit` — 0 errors.
+
 ## [Phase 3 - Bug Fix: Build Failure]
 - Root cause: `legacy_v1/` directory included in `tsconfig.json` compilation scope, producing 40 module-not-found errors from stale archived imports.
 - Fix: Added `"legacy_v1"` to `tsconfig.json` `exclude` array. Active `src/` imports were already correct.
