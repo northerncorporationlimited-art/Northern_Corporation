@@ -1,15 +1,14 @@
 # Project State
 
-**Phase:** 7: Navigation & Advanced Scrolling
+**Phase:** 8: Elite Polish
 **Status:** Completed
-**Active Focus:** Premium Navbar + Sticky Curtain Reveal Architecture
+**Active Focus:** Lenis smooth scrolling + GSAP synchronization
 
 ## Completed This Phase
-- Created `Navbar.tsx` — fixed header with scroll-based transparent→frosted glass transition, Magnetic hover links, animated hamburger, and full-screen mobile overlay with staggered clip-path reveal
-- Integrated Navbar into `AppWrapper.tsx` (renders after preloader completes)
-- Implemented sticky stack curtain reveal in `page.tsx` — each post-DualScroll section uses `sticky top-0` with ascending z-index (10→40), creating a card-stack reveal effect
-- Updated `HistoryFlow`, `Sustainability`, `WorkLife`, `ContactFooter` with `min-h-screen` and `flex flex-col justify-center` for full-viewport presentation
-- Added anchor IDs (`#work`, `#about`, `#impact`, `#contact`) for smooth-scroll navigation
+- Installed `lenis@1.3.23` — sub-pixel smooth scrolling library
+- Created `SmoothScroll.tsx` — Lenis `<ReactLenis root>` wrapper with GSAP ScrollTrigger synchronization via `scrollerProxy` and `gsap.ticker` RAF alignment
+- Integrated into `AppWrapper.tsx` — wraps all app content (Preloader, Navbar, pages)
+- Verified GSAP pin, clip-path wipes, sticky curtain reveal, and Navbar all function correctly with Lenis interpolated scroll
 
 ## Action Required by Human
 **Contact details need real data:**

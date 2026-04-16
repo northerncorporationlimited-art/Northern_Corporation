@@ -1,5 +1,12 @@
 # Changelog
 
+## [Phase 8 - Elite Polish: Lenis Smooth Scrolling]
+- Installed `lenis@1.3.23` for sub-pixel smooth scrolling with inertia (lerp: 0.08, smoothWheel: true, syncTouch: false).
+- Created `SmoothScroll.tsx` — wraps app in `<ReactLenis root>`. Synchronizes with GSAP via `scrollerProxy(document.documentElement)` and `gsap.ticker.add()` for frame-perfect RAF alignment. `lagSmoothing(0)` disabled to prevent GSAP frame throttling.
+- Integrated into `AppWrapper.tsx` — `<SmoothScroll>` wraps Preloader, Navbar, and all page content.
+- Verified: GSAP pin/scrub, clip-path wipes, sticky curtain reveal, and Navbar frost-glass all function correctly with Lenis interpolated scroll position.
+- Validated with `npx tsc --noEmit` — 0 errors.
+
 ## [Phase 7 - Navigation & Advanced Scrolling]
 - Created `Navbar.tsx` — fixed `z-[100]` header. Desktop: Logo + 4 Magnetic nav links (Work, About, Impact, Contact). Scroll-based `bg-transparent` → `bg-brand-green/80 backdrop-blur-md` transition at 50px threshold via `useMotionValueEvent`.
 - Mobile: Animated 3-line hamburger (transforms to X), full-screen `clip-path: inset()` overlay with staggered link reveals (0.08s delay cascade).
