@@ -1,5 +1,12 @@
 # Changelog
 
+## [Phase 6 - Final Polish & SEO]
+- Deleted default Vercel `favicon.ico` from `src/app/`.
+- Created `src/app/icon.svg` using the Northern Corporation logo SVG path on a brand-green (#0C2E1E) rounded-rect background with brand-cream (#D4C9A8) fill. Next.js auto-resolves this as the site favicon.
+- Removed 5 unused default boilerplate assets from `public/` (vercel.svg, next.svg, file.svg, globe.svg, window.svg).
+- Overhauled `layout.tsx` metadata: title template (`%s | Northern Corporation Limited`), premium description, `metadataBase`, full `openGraph` block (siteName, locale, type), `twitter` card config, and `robots` directive.
+- Final codebase audit: 0 `console.log` / `console.warn` / `console.error` in custom components. TSC clean.
+
 ## [Phase 5.2 - Premium Micro-Interactions]
 - Created `Magnetic.tsx` — reusable physics-based hover component using Framer Motion `useSpring` (damping: 20, stiffness: 300). Max pull: configurable via `strength` prop (default 15px).
 - Rewrote `HistoryFlow.tsx` with scroll-drawn timeline spine: `useScroll` + `useTransform` maps scroll progress to a gold `height` line growing from top. Background track dimmed to 5% for contrast.

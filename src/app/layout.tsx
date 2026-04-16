@@ -14,10 +14,35 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const siteTitle = "Northern Corporation Limited | Knit to Fit Your World";
+const siteDescription =
+  "Established in 1987, Northern Corporation Limited bridges the gap between classic reliability and modern performance, manufacturing premium knitwear and activewear at a global scale.";
+const siteUrl = "https://northerncorp.com";
+
 export const metadata: Metadata = {
-  title: "Northern Corporation Limited — Knit to Fit Your World",
-  description: "Northern Corporation Limited pioneers the intersection of bespoke craftsmanship and industrial scale. Premium knitwear, sportswear, and sustainable textile manufacturing since 1967.",
-  icons: [],
+  title: {
+    default: siteTitle,
+    template: `%s | Northern Corporation Limited`,
+  },
+  description: siteDescription,
+  metadataBase: new URL(siteUrl),
+  openGraph: {
+    title: siteTitle,
+    description: siteDescription,
+    siteName: "Northern Corporation Limited",
+    locale: "en_US",
+    type: "website",
+    url: siteUrl,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: siteTitle,
+    description: siteDescription,
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({
