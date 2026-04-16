@@ -67,7 +67,7 @@ export const HistoryFlow = () => {
   const spineHeight = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
 
   return (
-    <section className="w-full bg-brand-green py-32 px-8 md:px-20 overflow-hidden">
+    <section className="w-full bg-brand-green min-h-screen flex flex-col justify-center py-32 px-8 md:px-20 overflow-hidden">
       {/* Header */}
       <motion.div
         className="text-center mb-24"

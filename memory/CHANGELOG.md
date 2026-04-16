@@ -1,5 +1,14 @@
 # Changelog
 
+## [Phase 7 - Navigation & Advanced Scrolling]
+- Created `Navbar.tsx` — fixed `z-[100]` header. Desktop: Logo + 4 Magnetic nav links (Work, About, Impact, Contact). Scroll-based `bg-transparent` → `bg-brand-green/80 backdrop-blur-md` transition at 50px threshold via `useMotionValueEvent`.
+- Mobile: Animated 3-line hamburger (transforms to X), full-screen `clip-path: inset()` overlay with staggered link reveals (0.08s delay cascade).
+- Integrated Navbar into `AppWrapper.tsx` — only renders after preloader completes (`{!isLoading && <Navbar />}`).
+- Implemented "Sticky Stack Curtain Reveal" in `page.tsx`: each post-DualScroll section wrapped in `sticky top-0` with ascending z-index ladder (z-10 → z-40). Sections slide over each other like stacked cards as user scrolls.
+- Added anchor IDs (`#work`, `#about`, `#impact`, `#contact`) to section wrappers for smooth-scroll nav targeting.
+- Updated all 4 flow sections (`HistoryFlow`, `Sustainability`, `WorkLife`, `ContactFooter`) with `min-h-screen flex flex-col justify-center` for full-viewport presentation. Removed redundant `border-t` separators.
+- Validated with `npx tsc --noEmit` — 0 errors.
+
 ## [Phase 6 - Final Polish & SEO]
 - Deleted default Vercel `favicon.ico` from `src/app/`.
 - Created `src/app/icon.svg` using the Northern Corporation logo SVG path on a brand-green (#0C2E1E) rounded-rect background with brand-cream (#D4C9A8) fill. Next.js auto-resolves this as the site favicon.

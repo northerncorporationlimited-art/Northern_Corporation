@@ -31,7 +31,7 @@ const fadeUp = {
 
 export const Sustainability = () => {
   return (
-    <section className="w-full bg-brand-cream py-32 px-8 md:px-20">
+    <section className="w-full bg-brand-cream min-h-screen flex flex-col justify-center py-32 px-8 md:px-20">
       {/* Header */}
       <motion.div
         className="text-center mb-20"

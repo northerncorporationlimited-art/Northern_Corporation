@@ -1,19 +1,16 @@
 # Project State
 
-**Phase:** 6: Final Polish
+**Phase:** 7: Navigation & Advanced Scrolling
 **Status:** Completed
-**Active Focus:** SEO metadata, favicon branding, production readiness
+**Active Focus:** Premium Navbar + Sticky Curtain Reveal Architecture
 
 ## Completed This Phase
-- Replaced default Vercel `favicon.ico` with brand `icon.svg` (Northern Corp logo on brand-green background)
-- Removed unused default assets (vercel.svg, next.svg, file.svg, globe.svg, window.svg)
-- Enriched `layout.tsx` with full SEO metadata: OpenGraph, Twitter cards, title template, metadataBase
-- Final audit: 0 stray `console.log` / `console.warn` / `console.error` statements
-- TSC clean: 0 type errors
+- Created `Navbar.tsx` — fixed header with scroll-based transparent→frosted glass transition, Magnetic hover links, animated hamburger, and full-screen mobile overlay with staggered clip-path reveal
+- Integrated Navbar into `AppWrapper.tsx` (renders after preloader completes)
+- Implemented sticky stack curtain reveal in `page.tsx` — each post-DualScroll section uses `sticky top-0` with ascending z-index (10→40), creating a card-stack reveal effect
+- Updated `HistoryFlow`, `Sustainability`, `WorkLife`, `ContactFooter` with `min-h-screen` and `flex flex-col justify-center` for full-viewport presentation
+- Added anchor IDs (`#work`, `#about`, `#impact`, `#contact`) for smooth-scroll navigation
 
 ## Action Required by Human
 **Contact details need real data:**
 Search for `[Insert` in `ContactFooter.tsx` to fill in actual factory addresses and phone numbers.
-
-**Domain & Deployment:**
-Update `metadataBase` in `layout.tsx` if the production URL differs from `https://northerncorp.com`.

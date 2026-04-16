@@ -17,13 +17,26 @@ export default function Home() {
       <ScrollProgress progress={progress} />
 
       {/* Phase 1: GSAP Pinned Dual Scroll SPA */}
-      <DualScroll setProgress={setProgress} />
+      <div id="work">
+        <DualScroll setProgress={setProgress} />
+      </div>
 
-      {/* Phase 2: Natural vertical scroll — Pin releases, page flows normally */}
-      <HistoryFlow />
-      <Sustainability />
-      <WorkLife />
-      <ContactFooter />
+      {/* Phase 2: Sticky Stack Curtain Reveal — each section slides over the previous */}
+      <div id="about" className="sticky top-0 z-10 min-h-screen bg-brand-green">
+        <HistoryFlow />
+      </div>
+
+      <div id="impact" className="sticky top-0 z-20 min-h-screen bg-brand-cream">
+        <Sustainability />
+      </div>
+
+      <div className="sticky top-0 z-30 min-h-screen bg-brand-green">
+        <WorkLife />
+      </div>
+
+      <div id="contact" className="sticky top-0 z-40 min-h-screen bg-[#010f0a]">
+        <ContactFooter />
+      </div>
     </div>
   );
 }

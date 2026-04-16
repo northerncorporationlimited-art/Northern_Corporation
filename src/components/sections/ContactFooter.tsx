@@ -24,7 +24,7 @@ const fadeUp = {
 
 export const ContactFooter = () => {
   return (
-    <footer className="w-full bg-[#010f0a] py-32 px-8 md:px-20 border-t border-white/5">
+    <footer className="w-full bg-[#010f0a] min-h-screen flex flex-col justify-center py-32 px-8 md:px-20">
       <div className="max-w-6xl mx-auto">
 
         {/* Header */}

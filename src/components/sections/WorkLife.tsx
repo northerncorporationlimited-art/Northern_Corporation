@@ -41,7 +41,7 @@ const fadeUp = {
 
 export const WorkLife = () => {
   return (
-    <section className="w-full bg-brand-green py-32 px-8 md:px-20 border-t border-brand-cream/5">
+    <section className="w-full bg-brand-green min-h-screen flex flex-col justify-center py-32 px-8 md:px-20">
       {/* Header */}
       <motion.div
         className="max-w-6xl mx-auto mb-20"
