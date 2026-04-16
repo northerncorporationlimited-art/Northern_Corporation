@@ -1,5 +1,13 @@
 # Changelog
 
+## [Phase 9 - Scroll & Responsive Fix + Menu Overhaul]
+- **P0 Fix:** Simplified `SmoothScroll.tsx` — removed conflicting `scrollerProxy` (was double-proxying). Now uses `useLenis()` callback → `ScrollTrigger.update()` for clean frame sync. Lenis root mode already updates `window.scrollY` natively.
+- **P0 Fix:** Made sticky curtain reveal desktop-only via `.sticky-section` CSS media query class. Mobile sections now flow naturally — no more overlapping.
+- **P0 Fix:** Removed `HistoryFlow` from sticky stack — its ~3000px content (10 milestones) was trapped in a `min-h-screen` sticky frame causing content clipping.
+- **P1 Fix:** Added 88px top padding to first DualScroll panel on mobile for Navbar safe area.
+- **P1 Fix:** Overhauled `Navbar.tsx` — all nav links now use `lenis.scrollTo()` instead of native `scrollIntoView()`. Added `IntersectionObserver`-based active section tracking with gold underline indicator. Fixed mobile menu → scroll race condition (650ms delay for Lenis restart). Added `matchMedia` listener to auto-close mobile menu on resize to desktop. Lenis stop/start on menu open/close.
+- **P2 Fix:** Removed duplicate `bg-*` and `min-h-screen` from page.tsx sticky wrappers — inner components own their backgrounds.
+
 ## [Phase 8 - Elite Polish: Lenis Smooth Scrolling]
 - Installed `lenis@1.3.23` for sub-pixel smooth scrolling with inertia (lerp: 0.08, smoothWheel: true, syncTouch: false).
 - Created `SmoothScroll.tsx` — wraps app in `<ReactLenis root>`. Synchronizes with GSAP via `scrollerProxy(document.documentElement)` and `gsap.ticker.add()` for frame-perfect RAF alignment. `lagSmoothing(0)` disabled to prevent GSAP frame throttling.

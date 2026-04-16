@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-motion";
+import { useLenis } from "lenis/react";
 import { Logo } from "@/components/ui/Logo";
 import { Magnetic } from "@/components/ui/Magnetic";
 
@@ -15,19 +16,96 @@ const navLinks = [
 export const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState<string>("#work");
   const { scrollY } = useScroll();
+  const lenis = useLenis();
 
+  // Scroll-based background transition
   useMotionValueEvent(scrollY, "change", (latest) => {
     setScrolled(latest > 50);
   });
 
-  const handleLinkClick = (href: string) => {
-    setMobileOpen(false);
-    const el = document.querySelector(href);
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth" });
+  // Active section tracking via IntersectionObserver
+  useEffect(() => {
+    const sectionIds = navLinks.map((l) => l.href.replace("#", ""));
+    const observers: IntersectionObserver[] = [];
+
+    sectionIds.forEach((id) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            setActiveSection(`#${id}`);
+          }
+        },
+        { rootMargin: "-40% 0px -40% 0px", threshold: 0 }
+      );
+
+      observer.observe(el);
+      observers.push(observer);
+    });
+
+    return () => observers.forEach((o) => o.disconnect());
+  }, []);
+
+  // Auto-close mobile menu on resize to desktop
+  useEffect(() => {
+    const mql = window.matchMedia("(min-width: 768px)");
+    const handler = (e: MediaQueryListEvent) => {
+      if (e.matches) setMobileOpen(false);
+    };
+    mql.addEventListener("change", handler);
+    return () => mql.removeEventListener("change", handler);
+  }, []);
+
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (mobileOpen) {
+      document.body.style.overflow = "hidden";
+      lenis?.stop();
+    } else {
+      document.body.style.overflow = "";
+      lenis?.start();
     }
-  };
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [mobileOpen, lenis]);
+
+  const handleLinkClick = useCallback(
+    (href: string) => {
+      setMobileOpen(false);
+
+      // Small delay to let Lenis restart (useEffect on mobileOpen calls lenis.start())
+      // before issuing the scroll command
+      const scrollToTarget = () => {
+        if (lenis) {
+          lenis.scrollTo(href, { offset: -72, duration: 1.2 });
+        } else {
+          const el = document.querySelector(href);
+          if (el) el.scrollIntoView({ behavior: "smooth" });
+        }
+      };
+
+      // If coming from mobile menu, wait for menu close animation + Lenis restart
+      if (mobileOpen) {
+        setTimeout(scrollToTarget, 650);
+      } else {
+        scrollToTarget();
+      }
+    },
+    [lenis, mobileOpen]
+  );
+
+  const handleLogoClick = useCallback(() => {
+    if (lenis) {
+      lenis.scrollTo(0, { duration: 1.5 });
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }, [lenis]);
 
   return (
     <>
@@ -44,13 +122,13 @@ export const Navbar = () => {
               : "bg-transparent"
           }`}
         >
-          <div className="max-w-[1440px] mx-auto flex items-center justify-between px-6 md:px-12 py-4">
+          <div className="max-w-[1440px] mx-auto flex items-center justify-between px-6 md:px-12 h-[72px]">
             {/* Logo */}
             <a
               href="#"
               onClick={(e) => {
                 e.preventDefault();
-                window.scrollTo({ top: 0, behavior: "smooth" });
+                handleLogoClick();
               }}
               className="relative z-[101] flex items-center gap-3 group"
             >
@@ -70,10 +148,23 @@ export const Navbar = () => {
                       e.preventDefault();
                       handleLinkClick(link.href);
                     }}
-                    className="relative px-5 py-2 text-[13px] font-medium uppercase tracking-widest text-brand-cream/70 hover:text-brand-cream transition-colors duration-300"
+                    className={`relative px-5 py-2 text-[13px] font-medium uppercase tracking-widest transition-colors duration-300 ${
+                      activeSection === link.href
+                        ? "text-brand-gold"
+                        : "text-brand-cream/70 hover:text-brand-cream"
+                    }`}
                   >
                     {link.label}
-                    <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-[1px] bg-brand-gold transition-all duration-300 group-hover:w-full" />
+                    {/* Active underline indicator */}
+                    <motion.span
+                      className="absolute bottom-0 left-1/2 h-[1.5px] bg-brand-gold rounded-full"
+                      initial={false}
+                      animate={{
+                        width: activeSection === link.href ? "60%" : "0%",
+                        x: "-50%",
+                      }}
+                      transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
+                    />
                   </a>
                 </Magnetic>
               ))}
@@ -123,7 +214,11 @@ export const Navbar = () => {
                   e.preventDefault();
                   handleLinkClick(link.href);
                 }}
-                className="text-4xl sm:text-5xl font-bold uppercase tracking-tight text-brand-cream hover:text-brand-gold transition-colors"
+                className={`text-4xl sm:text-5xl font-bold uppercase tracking-tight transition-colors ${
+                  activeSection === link.href
+                    ? "text-brand-gold"
+                    : "text-brand-cream hover:text-brand-gold"
+                }`}
                 initial={{ opacity: 0, y: 40 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}

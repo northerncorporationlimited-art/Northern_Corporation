@@ -23,3 +23,12 @@ body {
   overflow-x: hidden;
 }
 
+/* Desktop-only sticky for curtain reveal architecture.
+   On mobile, sections flow naturally to avoid overlap. */
+@media (min-width: 768px) {
+  .sticky-section {
+    position: sticky;
+    top: 0;
+  }
+}
+

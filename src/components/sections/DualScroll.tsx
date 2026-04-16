@@ -225,7 +225,7 @@ export const DualScroll = ({ setProgress }: { setProgress: (val: number) => void
           <div
             key={`left-${section.id}`}
             ref={(el) => { if (el) leftPanelsRef.current[i] = el; }}
-            className="mobile-section min-h-screen w-full flex flex-col justify-center px-8 md:px-20 py-20 shrink-0 border-b border-brand-cream/10 md:border-none"
+            className={`mobile-section min-h-screen w-full flex flex-col justify-center px-8 md:px-20 py-20 shrink-0 border-b border-brand-cream/10 md:border-none ${i === 0 ? "pt-[88px] md:pt-20" : ""}`}
           >
             <h2 className="text-5xl md:text-7xl font-bold uppercase tracking-tighter mb-4 text-brand-cream">
               {section.title}

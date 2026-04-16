@@ -21,20 +21,26 @@ export default function Home() {
         <DualScroll setProgress={setProgress} />
       </div>
 
-      {/* Phase 2: Sticky Stack Curtain Reveal — each section slides over the previous */}
-      <div id="about" className="sticky top-0 z-10 min-h-screen bg-brand-green">
+      {/* Phase 2: Curtain Reveal sections.
+          Desktop: sticky-section (from CSS) + z-index ladder = card-stack reveal.
+          Mobile: normal document flow — no sticky to avoid overlap issues. */}
+
+      {/* HistoryFlow — NOT sticky. Its content (~3000px with 10 milestones)
+          is far taller than one viewport, so it scrolls naturally. */}
+      <div id="about" className="relative z-10">
         <HistoryFlow />
       </div>
 
-      <div id="impact" className="sticky top-0 z-20 min-h-screen bg-brand-cream">
+      {/* These sections fit within ~1 viewport each, so sticky curtain works */}
+      <div id="impact" className="sticky-section z-20 relative">
         <Sustainability />
       </div>
 
-      <div className="sticky top-0 z-30 min-h-screen bg-brand-green">
+      <div className="sticky-section z-30 relative">
         <WorkLife />
       </div>
 
-      <div id="contact" className="sticky top-0 z-40 min-h-screen bg-[#010f0a]">
+      <div id="contact" className="sticky-section z-40 relative">
         <ContactFooter />
       </div>
     </div>
