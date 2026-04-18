@@ -132,8 +132,8 @@ export const Navbar = () => {
               }}
               className="relative z-[101] flex items-center gap-3 group"
             >
-              <Logo className="w-10 h-10 text-brand-cream transition-transform duration-300 group-hover:scale-110" />
-              <span className="hidden sm:block text-xs font-semibold uppercase tracking-[0.2em] text-brand-cream/80">
+              <Logo className="w-14 h-14 text-brand-cream transition-transform duration-300 group-hover:scale-110" />
+              <span className="hidden sm:block text-sm font-semibold uppercase tracking-[0.2em] text-brand-cream/80">
                 Northern Corp.
               </span>
             </a>
