@@ -12,7 +12,7 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 2000);
+    }, 3500);
     return () => clearTimeout(timer);
   }, []);
 
