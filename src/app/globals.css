@@ -34,6 +34,7 @@ body {
 
 /* ═══════════════════════════════════════════════════
    PRELOADER — Var G: Logo Becomes The N
+   Fully responsive: mobile (320px) → tablet → desktop
    ═══════════════════════════════════════════════════ */
 
 .preloader-root {
@@ -51,16 +52,13 @@ body {
 /* ── Logo: morphs from center to N position ── */
 .preloader-logo-morph {
   position: absolute;
-  width: 220px;
-  height: 220px;
+  width: clamp(100px, 30vw, 280px);
+  height: clamp(100px, 30vw, 280px);
   object-fit: contain;
   z-index: 10;
   opacity: 0;
   filter: brightness(0) invert(0.94) sepia(0.15) saturate(1.5) hue-rotate(5deg);
   animation: preloader-logo-enter 1.0s cubic-bezier(0.22, 1, 0.36, 1) 0.1s forwards;
-}
-@media (min-width: 768px) {
-  .preloader-logo-morph { width: 280px; height: 280px; }
 }
 
 @keyframes preloader-logo-enter {
@@ -72,16 +70,13 @@ body {
 /* ── Ghost watermark — expands behind text ── */
 .preloader-logo-ghost {
   position: absolute;
-  width: 220px;
-  height: 220px;
+  width: clamp(100px, 30vw, 280px);
+  height: clamp(100px, 30vw, 280px);
   object-fit: contain;
   z-index: 1;
   opacity: 0;
   filter: brightness(0) invert(0.94) sepia(0.15) saturate(1.5) hue-rotate(5deg);
   pointer-events: none;
-}
-@media (min-width: 768px) {
-  .preloader-logo-ghost { width: 280px; height: 280px; }
 }
 
 @keyframes preloader-ghost-expand {
@@ -104,8 +99,8 @@ body {
   animation: preloader-lock-ring 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 @keyframes preloader-lock-ring {
-  0%   { width: 30px; height: 30px; opacity: 0.9; }
-  100% { width: 350px; height: 350px; opacity: 0; }
+  0%   { width: 20px; height: 20px; opacity: 0.9; }
+  100% { width: clamp(150px, 40vw, 350px); height: clamp(150px, 40vw, 350px); opacity: 0; }
 }
 
 /* ── Content layout ── */
@@ -115,6 +110,12 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
+  max-width: 100vw;
+  padding: 0 12px;
+}
+@media (min-width: 768px) {
+  .preloader-content { padding: 0; }
 }
 
 .preloader-letters {
@@ -130,18 +131,12 @@ body {
 }
 
 .preloader-letter {
-  font-size: 13vw;
+  font-size: clamp(28px, 11vw, 160px);
   font-weight: 900;
   line-height: 0.9;
   letter-spacing: -0.02em;
   color: #F5F0E1;
   display: block;
-}
-@media (min-width: 768px) {
-  .preloader-letter { font-size: 11vw; }
-}
-@media (min-width: 1024px) {
-  .preloader-letter { font-size: 9vw; }
 }
 
 .preloader-n-slot { position: relative; }
@@ -149,13 +144,17 @@ body {
 /* ── Subtitle ── */
 .preloader-subtitle-wrap {
   overflow: hidden;
-  margin-top: 0.5rem;
+  margin-top: 0.35rem;
 }
+@media (min-width: 768px) {
+  .preloader-subtitle-wrap { margin-top: 0.5rem; }
+}
+
 .preloader-subtitle {
-  font-size: 2.5vw;
+  font-size: clamp(8px, 1.8vw, 18px);
   font-weight: 300;
   text-transform: uppercase;
-  letter-spacing: 0.5em;
+  letter-spacing: 0.35em;
   color: rgba(191,163,80,0.45);
   font-family: var(--font-geist-sans), system-ui, sans-serif;
   transform: translateY(100%);
@@ -163,10 +162,10 @@ body {
   animation: preloader-slide-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) 3.0s forwards;
 }
 @media (min-width: 768px) {
-  .preloader-subtitle { font-size: 1.4vw; letter-spacing: 0.7em; }
+  .preloader-subtitle { letter-spacing: 0.5em; }
 }
 @media (min-width: 1024px) {
-  .preloader-subtitle { font-size: 1.1vw; }
+  .preloader-subtitle { letter-spacing: 0.7em; }
 }
 
 @keyframes preloader-slide-up {
@@ -176,8 +175,8 @@ body {
 /* ── Decorative corners ── */
 .preloader-corner {
   position: fixed;
-  width: 30px;
-  height: 30px;
+  width: 24px;
+  height: 24px;
   border-color: rgba(191,163,80,0.12);
   border-style: solid;
   z-index: 4;
@@ -187,10 +186,10 @@ body {
 @media (min-width: 768px) {
   .preloader-corner { width: 40px; height: 40px; }
 }
-.preloader-corner-tl { top: 20px; left: 20px; border-width: 1px 0 0 1px; }
-.preloader-corner-tr { top: 20px; right: 20px; border-width: 1px 1px 0 0; }
-.preloader-corner-bl { bottom: 20px; left: 20px; border-width: 0 0 1px 1px; }
-.preloader-corner-br { bottom: 20px; right: 20px; border-width: 0 1px 1px 0; }
+.preloader-corner-tl { top: 16px; left: 16px; border-width: 1px 0 0 1px; }
+.preloader-corner-tr { top: 16px; right: 16px; border-width: 1px 1px 0 0; }
+.preloader-corner-bl { bottom: 16px; left: 16px; border-width: 0 0 1px 1px; }
+.preloader-corner-br { bottom: 16px; right: 16px; border-width: 0 1px 1px 0; }
 @media (min-width: 768px) {
   .preloader-corner-tl { top: 32px; left: 32px; }
   .preloader-corner-tr { top: 32px; right: 32px; }
@@ -201,24 +200,21 @@ body {
 /* ── Ambient glow ── */
 .preloader-glow {
   position: absolute;
-  width: 400px;
-  height: 400px;
+  width: clamp(200px, 60vw, 500px);
+  height: clamp(200px, 60vw, 500px);
   border-radius: 50%;
   background: radial-gradient(circle, rgba(191,163,80,0.1) 0%, transparent 60%);
   opacity: 0;
   animation: preloader-fade-in 1.5s 0.3s forwards;
   z-index: 0;
 }
-@media (min-width: 768px) {
-  .preloader-glow { width: 500px; height: 500px; }
-}
 
 /* ── Bottom bar ── */
 .preloader-bottom-bar {
   position: absolute;
-  bottom: 32px;
-  left: 24px;
-  right: 24px;
+  bottom: 20px;
+  left: 16px;
+  right: 16px;
   z-index: 2;
 }
 @media (min-width: 768px) {
@@ -226,14 +222,17 @@ body {
 }
 
 .preloader-est {
-  font-size: 10px;
+  font-size: 9px;
   text-transform: uppercase;
-  letter-spacing: 0.3em;
+  letter-spacing: 0.25em;
   color: rgba(245,240,225,0.2);
-  margin-bottom: 12px;
+  margin-bottom: 8px;
   font-family: var(--font-geist-sans), system-ui, sans-serif;
   opacity: 0;
   animation: preloader-fade-in 0.6s 2.8s forwards;
+}
+@media (min-width: 768px) {
+  .preloader-est { font-size: 10px; letter-spacing: 0.3em; margin-bottom: 12px; }
 }
 
 .preloader-progress-track {
@@ -256,23 +255,33 @@ body {
   position: absolute;
   top: -2px;
   height: 5px;
-  width: 40px;
+  width: 30px;
   border-radius: 10px;
   background: radial-gradient(ellipse, rgba(212,175,55,0.6) 0%, transparent 70%);
   transition: left 0.1s linear;
+}
+@media (min-width: 768px) {
+  .preloader-progress-glow { width: 40px; }
 }
 
 .preloader-pct-row {
   display: flex;
   justify-content: flex-end;
-  margin-top: 8px;
+  margin-top: 6px;
 }
+@media (min-width: 768px) {
+  .preloader-pct-row { margin-top: 8px; }
+}
+
 .preloader-pct {
   font-family: var(--font-geist-mono), monospace;
-  font-size: 11px;
-  letter-spacing: 0.15em;
+  font-size: 10px;
+  letter-spacing: 0.1em;
   font-variant-numeric: tabular-nums;
   transition: color 0.5s ease;
+}
+@media (min-width: 768px) {
+  .preloader-pct { font-size: 11px; letter-spacing: 0.15em; }
 }
 
 /* ── Film grain ── */
@@ -289,3 +298,4 @@ body {
 @keyframes preloader-fade-in {
   to { opacity: 1; }
 }
+
