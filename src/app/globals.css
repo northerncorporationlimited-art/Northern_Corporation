@@ -299,3 +299,560 @@ body {
   to { opacity: 1; }
 }
 
+/* ═══════════════════════════════════════════════════
+   HERO PREVIEW LABEL (shared)
+   ═══════════════════════════════════════════════════ */
+.hero-preview-label {
+  position: fixed;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0,0,0,0.7);
+  color: #F5F0E1;
+  padding: 8px 20px;
+  border-radius: 100px;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  z-index: 9999;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.1);
+  white-space: nowrap;
+}
+
+/* ═══════════════════════════════════════════════════
+   HERO A — "The Monument" — Full-Bleed Cinematic
+   ═══════════════════════════════════════════════════ */
+.hero-a-root {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  min-height: 600px;
+  overflow: hidden;
+  background: #060a06;
+}
+
+.hero-a-image-wrap {
+  position: absolute;
+  inset: 0;
+}
+
+.hero-a-gradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(2, 48, 32, 0.92) 0%,
+    rgba(2, 48, 32, 0.6) 25%,
+    rgba(2, 48, 32, 0.2) 50%,
+    rgba(0, 0, 0, 0.05) 75%,
+    transparent 100%
+  );
+  z-index: 1;
+}
+
+.hero-a-color-grade {
+  position: absolute;
+  inset: 0;
+  background: rgba(191, 163, 80, 0.04);
+  mix-blend-mode: overlay;
+  z-index: 2;
+}
+
+.hero-a-content {
+  position: absolute;
+  bottom: clamp(60px, 10vh, 120px);
+  left: clamp(24px, 5vw, 80px);
+  z-index: 3;
+}
+
+.hero-a-headline-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.hero-a-headline-line {
+  display: flex;
+  overflow: hidden;
+}
+
+.hero-a-char {
+  display: inline-block;
+  font-family: var(--font-playfair), Georgia, serif;
+  font-size: clamp(42px, 10vw, 130px);
+  font-weight: 900;
+  line-height: 0.95;
+  color: #F5F0E1;
+  letter-spacing: -0.02em;
+}
+
+.hero-a-subtitle {
+  margin-top: clamp(16px, 2vw, 28px);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.hero-a-divider {
+  width: 40px;
+  height: 1px;
+  background: rgba(191, 163, 80, 0.5);
+}
+@media (min-width: 768px) {
+  .hero-a-divider { width: 60px; }
+}
+
+.hero-a-subtitle p {
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  font-size: clamp(11px, 1.2vw, 15px);
+  text-transform: uppercase;
+  letter-spacing: 0.25em;
+  color: rgba(191, 163, 80, 0.6);
+  font-weight: 300;
+}
+
+.hero-a-scroll-cue {
+  position: absolute;
+  bottom: clamp(24px, 4vh, 48px);
+  right: clamp(24px, 5vw, 80px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  z-index: 3;
+}
+
+.hero-a-scroll-text {
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  color: rgba(245, 240, 225, 0.3);
+}
+
+.hero-a-scroll-line {
+  width: 1px;
+  height: 40px;
+  background: linear-gradient(to bottom, rgba(191,163,80,0.4), transparent);
+  animation: hero-a-scroll-pulse 2s ease-in-out infinite;
+}
+
+@keyframes hero-a-scroll-pulse {
+  0%, 100% { opacity: 0.3; transform: scaleY(0.6); }
+  50% { opacity: 1; transform: scaleY(1); }
+}
+
+/* ═══════════════════════════════════════════════════
+   HERO B — "The Split" — Editorial Magazine
+   ═══════════════════════════════════════════════════ */
+.hero-b-root {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  min-height: 600px;
+  display: flex;
+  flex-direction: column;
+  background: #023020;
+}
+@media (min-width: 768px) {
+  .hero-b-root { flex-direction: row; }
+}
+
+.hero-b-left {
+  position: relative;
+  width: 100%;
+  height: 45vh;
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 32px 24px;
+  z-index: 2;
+}
+@media (min-width: 768px) {
+  .hero-b-left {
+    width: 40%;
+    height: 100vh;
+    padding: 48px 40px;
+  }
+}
+@media (min-width: 1200px) {
+  .hero-b-left { padding: 60px 64px; }
+}
+
+.hero-b-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: absolute;
+  top: 24px;
+  left: 24px;
+}
+@media (min-width: 768px) {
+  .hero-b-logo { top: 40px; left: 40px; }
+}
+
+.hero-b-logo-img {
+  width: 28px;
+  height: 28px;
+  filter: brightness(0) invert(0.94) sepia(0.15) saturate(1.5) hue-rotate(5deg);
+}
+
+.hero-b-logo-text {
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.25em;
+  color: rgba(245, 240, 225, 0.5);
+  text-transform: uppercase;
+}
+
+.hero-b-headline {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.hero-b-word-wrap {
+  overflow: hidden;
+}
+
+.hero-b-word {
+  display: block;
+  font-family: var(--font-playfair), Georgia, serif;
+  font-size: clamp(36px, 5vw, 72px);
+  font-weight: 900;
+  line-height: 1.05;
+  color: #F5F0E1;
+  letter-spacing: -0.01em;
+}
+
+.hero-b-meta {
+  margin-top: clamp(20px, 3vw, 36px);
+}
+
+.hero-b-rule {
+  width: 48px;
+  height: 2px;
+  background: linear-gradient(90deg, #BFA350, rgba(191,163,80,0.3));
+  margin-bottom: 16px;
+}
+
+.hero-b-tagline {
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  font-size: clamp(12px, 1.2vw, 15px);
+  color: rgba(245, 240, 225, 0.6);
+  letter-spacing: 0.02em;
+  line-height: 1.5;
+}
+
+.hero-b-location {
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  font-size: clamp(10px, 1vw, 12px);
+  color: rgba(191, 163, 80, 0.5);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-top: 8px;
+}
+
+.hero-b-scroll {
+  position: absolute;
+  bottom: 24px;
+  left: 24px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(245, 240, 225, 0.25);
+}
+@media (min-width: 768px) {
+  .hero-b-scroll { bottom: 40px; left: 40px; }
+}
+
+.hero-b-right {
+  position: relative;
+  width: 100%;
+  height: 55vh;
+  flex-shrink: 0;
+}
+@media (min-width: 768px) {
+  .hero-b-right {
+    width: 60%;
+    height: 100vh;
+  }
+}
+
+.hero-b-vignette {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, rgba(2,48,32,0.3) 0%, transparent 30%);
+  z-index: 1;
+}
+
+/* ═══════════════════════════════════════════════════
+   HERO C — "The Reveal" — Scroll-Triggered Cinematic
+   ═══════════════════════════════════════════════════ */
+.hero-c-root {
+  position: relative;
+  height: 300vh;
+  background: #023020;
+}
+
+.hero-c-sticky {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.hero-c-text-phase {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 3;
+  will-change: transform, opacity;
+}
+
+.hero-c-headline {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.hero-c-line {
+  display: block;
+  font-family: var(--font-playfair), Georgia, serif;
+  font-size: clamp(40px, 10vw, 140px);
+  font-weight: 900;
+  line-height: 0.95;
+  color: #F5F0E1;
+  letter-spacing: -0.02em;
+}
+
+.hero-c-initial-sub {
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  font-size: clamp(10px, 1.2vw, 14px);
+  text-transform: uppercase;
+  letter-spacing: 0.4em;
+  color: rgba(191, 163, 80, 0.5);
+  margin-top: clamp(16px, 2vw, 28px);
+}
+
+.hero-c-image-phase {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  will-change: clip-path, opacity;
+}
+
+.hero-c-warm-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(2, 48, 32, 0.25);
+  mix-blend-mode: multiply;
+}
+
+.hero-c-final-text {
+  position: absolute;
+  bottom: clamp(60px, 10vh, 120px);
+  left: clamp(24px, 5vw, 80px);
+  z-index: 4;
+  will-change: opacity;
+}
+
+.hero-c-final-headline {
+  font-family: var(--font-playfair), Georgia, serif;
+  font-size: clamp(24px, 4vw, 56px);
+  font-weight: 900;
+  color: #F5F0E1;
+  letter-spacing: -0.01em;
+}
+
+.hero-c-final-rule {
+  width: 48px;
+  height: 2px;
+  background: linear-gradient(90deg, #BFA350, rgba(191,163,80,0.2));
+  margin: 12px 0;
+}
+
+.hero-c-final-sub {
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  font-size: clamp(10px, 1.1vw, 13px);
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  color: rgba(191, 163, 80, 0.6);
+}
+
+.hero-c-frame {
+  position: absolute;
+  inset: 20px;
+  border: 1px solid rgba(191, 163, 80, 0.12);
+  z-index: 5;
+  pointer-events: none;
+}
+@media (min-width: 768px) {
+  .hero-c-frame { inset: 32px; }
+}
+
+.hero-c-scroll-cue {
+  position: absolute;
+  bottom: clamp(32px, 5vh, 60px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 6;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: rgba(191, 163, 80, 0.5);
+}
+
+.hero-c-scroll-pulse {
+  width: 24px;
+  height: 24px;
+  border: 1px solid rgba(191, 163, 80, 0.3);
+  border-radius: 50%;
+  animation: hero-c-pulse 2s ease-in-out infinite;
+}
+
+@keyframes hero-c-pulse {
+  0%, 100% { transform: scale(0.8); opacity: 0.3; }
+  50% { transform: scale(1.2); opacity: 0.7; }
+}
+
+/* ═══════════════════════════════════════════════════
+   HERO D — "The Frame" — Architectural Showcase
+   ═══════════════════════════════════════════════════ */
+.hero-d-root {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  min-height: 600px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #023020;
+  overflow: hidden;
+  padding: clamp(16px, 3vw, 40px);
+}
+
+.hero-d-headline-wrap {
+  position: relative;
+  z-index: 3;
+  text-align: center;
+  margin-bottom: clamp(-28px, -3vw, -48px);
+}
+
+.hero-d-headline-line {
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.hero-d-char {
+  display: inline-block;
+  font-family: var(--font-playfair), Georgia, serif;
+  font-size: clamp(32px, 7vw, 90px);
+  font-weight: 900;
+  line-height: 1;
+  color: #F5F0E1;
+  letter-spacing: -0.02em;
+  text-shadow: 0 4px 30px rgba(0,0,0,0.4);
+}
+
+.hero-d-frame {
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  aspect-ratio: 16 / 7;
+  border-radius: 6px;
+  overflow: hidden;
+}
+@media (max-width: 767px) {
+  .hero-d-frame {
+    aspect-ratio: 16 / 10;
+  }
+}
+
+.hero-d-frame-border {
+  position: absolute;
+  inset: -1px;
+  border: 1px solid rgba(191, 163, 80, 0.15);
+  border-radius: 7px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.hero-d-image-wrap {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.hero-d-image-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(2,48,32,0.1) 0%, rgba(2,48,32,0.25) 100%);
+}
+
+.hero-d-meta {
+  width: 100%;
+  max-width: 1200px;
+  margin-top: clamp(16px, 2vw, 28px);
+}
+
+.hero-d-meta-rule {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(191,163,80,0.2), transparent);
+  margin-bottom: 12px;
+}
+
+.hero-d-meta-row {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  font-size: clamp(9px, 1vw, 12px);
+  text-transform: uppercase;
+  letter-spacing: 0.25em;
+  color: rgba(191, 163, 80, 0.45);
+}
+
+.hero-d-corners {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 4;
+}
+
+.hero-d-corner {
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  border-color: rgba(191, 163, 80, 0.1);
+  border-style: solid;
+}
+@media (min-width: 768px) {
+  .hero-d-corner { width: 36px; height: 36px; }
+}
+
+.hero-d-corner-tl { top: 20px; left: 20px; border-width: 1px 0 0 1px; }
+.hero-d-corner-tr { top: 20px; right: 20px; border-width: 1px 1px 0 0; }
+.hero-d-corner-bl { bottom: 20px; left: 20px; border-width: 0 0 1px 1px; }
+.hero-d-corner-br { bottom: 20px; right: 20px; border-width: 0 1px 1px 0; }
+@media (min-width: 768px) {
+  .hero-d-corner-tl { top: 32px; left: 32px; }
+  .hero-d-corner-tr { top: 32px; right: 32px; }
+  .hero-d-corner-bl { bottom: 32px; left: 32px; }
+  .hero-d-corner-br { bottom: 32px; right: 32px; }
+}
+
