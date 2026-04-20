@@ -22,7 +22,8 @@ export default function HeroA() {
           fill
           priority
           sizes="100vw"
-          style={{ objectFit: "cover", objectPosition: "center 40%" }}
+          className="hero-a-bg-image"
+          style={{ objectFit: "cover" }}
         />
         {/* Cinematic gradient overlay — dark from bottom */}
         <div className="hero-a-gradient" />
@@ -78,7 +79,11 @@ export default function HeroA() {
           transition={{ duration: 0.8, delay: 1.4, ease: [0.22, 1, 0.36, 1] }}
         >
           <div className="hero-a-divider" />
-          <p>Northern Corporation Limited — Est. 1967</p>
+          <div className="hero-a-subtitle-text">
+            <span>Northern Corporation Limited</span>
+            <span className="hero-a-subtitle-sep">—</span>
+            <span>Est. 1967</span>
+          </div>
         </motion.div>
       </div>
 
@@ -93,8 +98,6 @@ export default function HeroA() {
         <div className="hero-a-scroll-line" />
       </motion.div>
 
-      {/* Label tag */}
-      <div className="hero-preview-label">A — "The Monument" (Full-Bleed Cinematic)</div>
     </div>
   );
 }
