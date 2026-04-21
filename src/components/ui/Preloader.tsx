@@ -282,11 +282,12 @@ export const Preloader = () => {
       const oWrap = wrapRefs.current[0];
       if (!oWrap) return;
       const oRect = oWrap.getBoundingClientRect();
-      const nCenterX = nRect.left + nRect.width / 2;
+      // Anchor to 40% of N-slot width (left of center) so the arrow clears the "O"
+      const nAnchorX = nRect.left + nRect.width * 0.4;
       const oCenterY = oRect.top + oRect.height / 2;
-      const dx = nCenterX - logoCX;
+      const dx = nAnchorX - logoCX;
       const dy = oCenterY - logoCY;
-      const targetSize = oRect.height * 1.15;
+      const targetSize = oRect.height * 1.5;
       const scaleFactor = targetSize / logoRect.height;
 
       logo.animate(
@@ -313,7 +314,7 @@ export const Preloader = () => {
       // Lock-in chime + flash
       setTimeout(() => {
         playChime();
-        flash.style.left = nCenterX + "px";
+        flash.style.left = nAnchorX + "px";
         flash.style.top = oRect.top + oRect.height / 2 + "px";
         flash.style.transform = "translate(-50%, -50%)";
         flash.classList.add("preloader-flash-active");
