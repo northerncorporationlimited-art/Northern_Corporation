@@ -1,30 +1,73 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect, useContext } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
+import { PresentationContext } from "@/components/layout/PresentationDeck";
 
 /* ═══════════════════════════════════════════════
-   PRODUCTS — Interactive Category Lookbook
-   Left: category menu, Right: crossfade product image
+   PRODUCTS — Nested Sub-Slider Lookbook
+   Scrolling cycles through categories before
+   advancing to the next full slide.
    ═══════════════════════════════════════════════ */
 
 const CATEGORIES = [
-  { name: "Tee & Polo", slug: "tee-polo", image: "/products/tee-polo/1.jpg" },
-  { name: "Bottoms", slug: "bottom", image: "/products/bottom/1.jpg" },
-  { name: "Nightwear", slug: "nightwear", image: "/products/nightwear/1.png" },
+  { title: "Tee & Polo", slug: "tee-polo", image: "/products/tee-polo/1.jpg" },
+  { title: "Bottoms", slug: "bottoms", image: "/products/bottoms/1.jpg" },
   {
-    name: "Sports & Active",
-    slug: "sports",
-    image: "/products/sports/1.jpeg",
+    title: "Nightwear",
+    slug: "nightwear",
+    image: "/products/nightwear/1.PNG",
   },
-  { name: "Winter", slug: "winter", image: "/products/winter/1.jpeg" },
+  {
+    title: "Sports & Active",
+    slug: "sports-active",
+    image: "/products/sports-active/1.jpeg",
+  },
+  { title: "Winter", slug: "winter", image: "/products/winter/1.jpeg" },
 ];
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
 export const Products = () => {
   const [activeIndex, setActiveIndex] = useState(0);
+  const activeIndexRef = useRef(activeIndex);
+  const ctx = useContext(PresentationContext);
+
+  // Keep ref in sync
+  useEffect(() => {
+    activeIndexRef.current = activeIndex;
+  }, [activeIndex]);
+
+  // Register as sub-slider
+  useEffect(() => {
+    if (!ctx) return;
+
+    ctx.registerSubSlider(
+      // onNext: returns true if we consumed the scroll
+      () => {
+        if (activeIndexRef.current < CATEGORIES.length - 1) {
+          setActiveIndex((i) => i + 1);
+          return true;
+        }
+        return false; // let PresentationDeck advance to next slide
+      },
+      // onPrev: returns true if we consumed the scroll
+      () => {
+        if (activeIndexRef.current > 0) {
+          setActiveIndex((i) => i - 1);
+          return true;
+        }
+        return false; // let PresentationDeck go back
+      }
+    );
+
+    return () => {
+      ctx.unregisterSubSlider();
+    };
+  }, [ctx]);
+
   const active = CATEGORIES[activeIndex];
 
   return (
@@ -46,34 +89,49 @@ export const Products = () => {
               Product Categories
             </motion.p>
 
-            <nav className="flex flex-col gap-2">
-              {CATEGORIES.map((cat, i) => (
-                <motion.button
-                  key={cat.slug}
-                  onMouseEnter={() => setActiveIndex(i)}
-                  onClick={() => setActiveIndex(i)}
-                  className={`group flex items-baseline gap-4 py-3 text-left transition-all duration-300 ${
-                    i === activeIndex
-                      ? "translate-x-4 opacity-100"
-                      : "opacity-30 hover:opacity-60"
-                  }`}
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: i === 0 ? 1 : 0.3, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{
-                    duration: 0.5,
-                    delay: i * 0.08,
-                    ease: EASE,
-                  }}
-                >
-                  <span className="font-mono text-xs text-[#023020]/40">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <span className="font-playfair text-4xl leading-tight lg:text-5xl xl:text-6xl">
-                    {cat.name}
-                  </span>
-                </motion.button>
-              ))}
+            <nav className="flex flex-col gap-1">
+              {CATEGORIES.map((cat, i) => {
+                const isActive = i === activeIndex;
+                return (
+                  <div key={cat.slug}>
+                    <button
+                      onClick={() => setActiveIndex(i)}
+                      className={`group flex w-full items-baseline gap-4 py-3 text-left outline-none transition-all duration-300 ${
+                        isActive
+                          ? "translate-x-4 opacity-100"
+                          : "opacity-30 hover:opacity-60"
+                      }`}
+                    >
+                      <span className="font-mono text-xs text-[#023020]/40">
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
+                      <span className="font-playfair text-3xl leading-tight lg:text-4xl xl:text-5xl">
+                        {cat.title}
+                      </span>
+                    </button>
+
+                    {/* Explore link — slides in under active category */}
+                    <AnimatePresence>
+                      {isActive && (
+                        <motion.div
+                          className="ml-12 overflow-hidden"
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: "auto", opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.4, ease: EASE }}
+                        >
+                          <Link
+                            href={`/products/${cat.slug}`}
+                            className="mt-1 mb-2 inline-flex items-center gap-2 text-sm uppercase tracking-widest text-[#FDD017] transition-opacity hover:opacity-70"
+                          >
+                            Explore Collection ↗
+                          </Link>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                );
+              })}
             </nav>
           </div>
 
@@ -91,7 +149,7 @@ export const Products = () => {
                 >
                   <Image
                     src={active.image}
-                    alt={active.name}
+                    alt={active.title}
                     fill
                     sizes="(max-width: 1024px) 100vw, 60vw"
                     className="object-cover object-center"
@@ -110,9 +168,23 @@ export const Products = () => {
                     exit={{ opacity: 0, y: -10 }}
                     transition={{ duration: 0.3, ease: EASE }}
                   >
-                    {active.name}
+                    {active.title}
                   </motion.p>
                 </AnimatePresence>
+              </div>
+
+              {/* Sub-slide progress dots */}
+              <div className="absolute bottom-8 right-8 z-10 flex gap-1.5">
+                {CATEGORIES.map((_, i) => (
+                  <div
+                    key={i}
+                    className={`h-1.5 rounded-full transition-all duration-300 ${
+                      i === activeIndex
+                        ? "w-6 bg-[#FDD017]"
+                        : "w-1.5 bg-[#F5F5EB]/40"
+                    }`}
+                  />
+                ))}
               </div>
             </div>
           </div>
