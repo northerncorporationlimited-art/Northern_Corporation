@@ -14,6 +14,7 @@ import { useLenis } from "lenis/react";
 /* ═══════════════════════════════════════════════
    PRESENTATION DECK — Fullpage Slide Architecture
    Desktop: snapping slides. Mobile: normal scroll.
+   Broadcasts SLIDE_CHANGED for navbar integration.
    ═══════════════════════════════════════════════ */
 
 const LOCK_DURATION = 1200;
@@ -82,6 +83,13 @@ export const PresentationDeck = ({ children, labels }: PresentationDeckProps) =>
     return () => window.removeEventListener("resize", check);
   }, []);
 
+  // Broadcast SLIDE_CHANGED for Navbar integration
+  useEffect(() => {
+    window.dispatchEvent(
+      new CustomEvent("SLIDE_CHANGED", { detail: index })
+    );
+  }, [index]);
+
   // Stop Lenis on desktop only
   useEffect(() => {
     if (!lenis) return;
@@ -115,7 +123,6 @@ export const PresentationDeck = ({ children, labels }: PresentationDeckProps) =>
         return;
       }
 
-      // Full slide transition
       if (newDirection > 0 && index < childCount - 1) {
         isAnimating.current = true;
         setDirection(1);
@@ -195,7 +202,6 @@ export const PresentationDeck = ({ children, labels }: PresentationDeckProps) =>
         targetIndex < childCount
       ) {
         if (isMobile) {
-          // On mobile, scroll to the section
           const sections = document.querySelectorAll("[data-slide]");
           sections[targetIndex]?.scrollIntoView({ behavior: "smooth" });
         } else {
