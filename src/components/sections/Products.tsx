@@ -18,7 +18,7 @@ const CATEGORIES = [
   {
     title: "Nightwear",
     slug: "nightwear",
-    image: "/products/nightwear/1.PNG",
+    image: "/products/nightwear/1.png",
   },
   {
     title: "Sports & Active",
@@ -137,6 +137,19 @@ export const Products = () => {
 
           {/* ── Right — Product Image (3/5 width) ── */}
           <div className="relative flex h-full items-center justify-center lg:col-span-3">
+            {/* Preload all category images for instant crossfade */}
+            {CATEGORIES.map((cat) => (
+              <Image
+                key={`preload-${cat.slug}`}
+                src={cat.image}
+                alt=""
+                fill
+                sizes="1px"
+                className="pointer-events-none invisible absolute"
+                aria-hidden="true"
+                priority
+              />
+            ))}
             <div className="relative aspect-[3/4] w-full max-w-lg overflow-hidden rounded-3xl bg-[#023020] lg:max-w-xl">
               <AnimatePresence mode="wait">
                 <motion.div
@@ -153,6 +166,7 @@ export const Products = () => {
                     fill
                     sizes="(max-width: 1024px) 100vw, 60vw"
                     className="object-cover object-center"
+                    priority
                   />
                 </motion.div>
               </AnimatePresence>

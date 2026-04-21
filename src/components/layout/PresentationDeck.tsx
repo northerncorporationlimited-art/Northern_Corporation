@@ -13,13 +13,14 @@ import { useLenis } from "lenis/react";
 
 /* ═══════════════════════════════════════════════
    PRESENTATION DECK — Fullpage Slide Architecture
-   Supports nested sub-sliders via context.
+   Desktop: snapping slides. Mobile: normal scroll.
    ═══════════════════════════════════════════════ */
 
 const LOCK_DURATION = 1200;
 const SUB_LOCK_DURATION = 800;
 const WHEEL_THRESHOLD = 40;
 const SWIPE_THRESHOLD = 50;
+const MOBILE_BREAKPOINT = 1024;
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -63,6 +64,7 @@ interface PresentationDeckProps {
 export const PresentationDeck = ({ children, labels }: PresentationDeckProps) => {
   const [index, setIndex] = useState(0);
   const [direction, setDirection] = useState(1);
+  const [isMobile, setIsMobile] = useState(false);
   const isAnimating = useRef(false);
   const touchStartY = useRef(0);
   const subSliderRef = useRef<{
@@ -72,21 +74,30 @@ export const PresentationDeck = ({ children, labels }: PresentationDeckProps) =>
   const lenis = useLenis();
   const childCount = Children.count(children);
 
-  // Stop Lenis from intercepting scroll while deck is active
+  // Detect mobile
   useEffect(() => {
-    if (lenis) {
+    const check = () => setIsMobile(window.innerWidth < MOBILE_BREAKPOINT);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
+  // Stop Lenis on desktop only
+  useEffect(() => {
+    if (!lenis) return;
+    if (isMobile) {
+      lenis.start();
+    } else {
       lenis.stop();
     }
     return () => {
-      if (lenis) {
-        lenis.start();
-      }
+      if (lenis) lenis.start();
     };
-  }, [lenis]);
+  }, [lenis, isMobile]);
 
   const goTo = useCallback(
     (newDirection: number) => {
-      if (isAnimating.current) return;
+      if (isAnimating.current || isMobile) return;
 
       // Check sub-slider first
       if (newDirection > 0 && subSliderRef.current?.onNext()) {
@@ -121,53 +132,45 @@ export const PresentationDeck = ({ children, labels }: PresentationDeckProps) =>
         }, LOCK_DURATION);
       }
     },
-    [index, childCount]
+    [index, childCount, isMobile]
   );
 
-  // Wheel listener — non-passive to preventDefault
+  // Wheel listener — desktop only
   useEffect(() => {
+    if (isMobile) return;
     const handleWheel = (e: WheelEvent) => {
       e.preventDefault();
       if (isAnimating.current) return;
-
-      if (e.deltaY > WHEEL_THRESHOLD) {
-        goTo(1);
-      } else if (e.deltaY < -WHEEL_THRESHOLD) {
-        goTo(-1);
-      }
+      if (e.deltaY > WHEEL_THRESHOLD) goTo(1);
+      else if (e.deltaY < -WHEEL_THRESHOLD) goTo(-1);
     };
-
     window.addEventListener("wheel", handleWheel, { passive: false });
     return () => window.removeEventListener("wheel", handleWheel);
-  }, [goTo]);
+  }, [goTo, isMobile]);
 
-  // Touch listeners for mobile swipe
+  // Touch listeners — desktop only
   useEffect(() => {
+    if (isMobile) return;
     const handleTouchStart = (e: TouchEvent) => {
       touchStartY.current = e.touches[0].clientY;
     };
-
     const handleTouchEnd = (e: TouchEvent) => {
       if (isAnimating.current) return;
       const deltaY = touchStartY.current - e.changedTouches[0].clientY;
-
-      if (deltaY > SWIPE_THRESHOLD) {
-        goTo(1);
-      } else if (deltaY < -SWIPE_THRESHOLD) {
-        goTo(-1);
-      }
+      if (deltaY > SWIPE_THRESHOLD) goTo(1);
+      else if (deltaY < -SWIPE_THRESHOLD) goTo(-1);
     };
-
     window.addEventListener("touchstart", handleTouchStart, { passive: true });
     window.addEventListener("touchend", handleTouchEnd, { passive: true });
     return () => {
       window.removeEventListener("touchstart", handleTouchStart);
       window.removeEventListener("touchend", handleTouchEnd);
     };
-  }, [goTo]);
+  }, [goTo, isMobile]);
 
-  // Keyboard navigation
+  // Keyboard navigation — desktop only
   useEffect(() => {
+    if (isMobile) return;
     const handleKey = (e: KeyboardEvent) => {
       if (e.key === "ArrowDown" || e.key === "PageDown") {
         e.preventDefault();
@@ -177,10 +180,9 @@ export const PresentationDeck = ({ children, labels }: PresentationDeckProps) =>
         goTo(-1);
       }
     };
-
     window.addEventListener("keydown", handleKey);
     return () => window.removeEventListener("keydown", handleKey);
-  }, [goTo]);
+  }, [goTo, isMobile]);
 
   // Global navigation listener (for Navbar integration)
   useEffect(() => {
@@ -192,16 +194,43 @@ export const PresentationDeck = ({ children, labels }: PresentationDeckProps) =>
         targetIndex >= 0 &&
         targetIndex < childCount
       ) {
-        setDirection(targetIndex > index ? 1 : -1);
-        setIndex(targetIndex);
+        if (isMobile) {
+          // On mobile, scroll to the section
+          const sections = document.querySelectorAll("[data-slide]");
+          sections[targetIndex]?.scrollIntoView({ behavior: "smooth" });
+        } else {
+          setDirection(targetIndex > index ? 1 : -1);
+          setIndex(targetIndex);
+        }
       }
     };
     window.addEventListener("NAVIGATE_SLIDE", handleNav);
     return () => window.removeEventListener("NAVIGATE_SLIDE", handleNav);
-  }, [index, childCount]);
+  }, [index, childCount, isMobile]);
 
   const childArray = Children.toArray(children);
 
+  // ── MOBILE: Normal scrollable stack ──
+  if (isMobile) {
+    return (
+      <PresentationContext.Provider
+        value={{
+          registerSubSlider: () => {},
+          unregisterSubSlider: () => {},
+        }}
+      >
+        <div className="flex flex-col">
+          {childArray.map((child, i) => (
+            <div key={i} data-slide={labels?.[i] || i}>
+              {child}
+            </div>
+          ))}
+        </div>
+      </PresentationContext.Provider>
+    );
+  }
+
+  // ── DESKTOP: Snapping presentation deck ──
   return (
     <PresentationContext.Provider
       value={{
@@ -228,58 +257,20 @@ export const PresentationDeck = ({ children, labels }: PresentationDeckProps) =>
           </motion.div>
         </AnimatePresence>
 
-        {/* ── Frosted Glass Chapter Tracker ── */}
-        <div className="pointer-events-auto absolute right-0 top-1/2 z-[100] -translate-y-1/2">
-          <div className="flex flex-col gap-1 rounded-l-2xl border border-r-0 border-[#F5F5EB]/10 bg-[#023020]/80 px-4 py-5 backdrop-blur-xl lg:px-5 lg:py-6">
-            {childArray.map((_, i) => {
-              const isActive = index === i;
-              return (
-                <button
-                  key={i}
-                  onClick={() => {
-                    if (isAnimating.current || i === index) return;
-                    isAnimating.current = true;
-                    setDirection(i > index ? 1 : -1);
-                    setIndex(i);
-                    setTimeout(() => {
-                      isAnimating.current = false;
-                    }, LOCK_DURATION);
-                  }}
-                  className={`flex items-center gap-3 rounded-lg px-3 py-2 text-right transition-all duration-300 ${
-                    isActive
-                      ? "bg-[#FDD017]/10"
-                      : "hover:bg-[#F5F5EB]/5"
-                  }`}
-                >
-                  <span
-                    className={`font-mono text-[10px] transition-colors duration-300 ${
-                      isActive ? "text-[#FDD017]" : "text-[#F5F5EB]/30"
-                    }`}
-                  >
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <div className="flex flex-col items-start">
-                    <span
-                      className={`font-mono text-[10px] uppercase tracking-[0.15em] transition-all duration-300 lg:text-[11px] ${
-                        isActive
-                          ? "font-bold text-[#FDD017]"
-                          : "text-[#F5F5EB]/50 hover:text-[#F5F5EB]/80"
-                      }`}
-                    >
-                      {labels?.[i] || ""}
-                    </span>
-                  </div>
-                  <div
-                    className={`ml-auto rounded-full transition-all duration-500 ${
-                      isActive
-                        ? "h-[2px] w-4 bg-[#FDD017]"
-                        : "h-[1px] w-2 bg-[#F5F5EB]/20"
-                    }`}
-                  />
-                </button>
-              );
-            })}
-          </div>
+        {/* ── Minimal Slide Counter — bottom right ── */}
+        <div className="pointer-events-none absolute bottom-8 right-8 z-[100] flex items-baseline gap-1 lg:right-12">
+          <motion.span
+            key={index}
+            className="font-mono text-2xl font-bold text-[#FDD017]"
+            initial={{ y: 10, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.4, ease: EASE }}
+          >
+            {String(index + 1).padStart(2, "0")}
+          </motion.span>
+          <span className="font-mono text-sm text-[#F5F5EB]/30">
+            /{String(childCount).padStart(2, "0")}
+          </span>
         </div>
       </div>
     </PresentationContext.Provider>
