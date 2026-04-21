@@ -175,19 +175,19 @@ body {
   position: relative;
   /* Must set font-size so em units resolve against letter size, not inherited 16px */
   font-size: clamp(28px, 11vw, 160px);
-  min-width: 1.1em;
-  margin-right: -0.05em;
+  min-width: 0.7em;
+  margin-right: -0.25em;
 }
 @media (min-width: 768px) {
   .preloader-n-slot {
-    min-width: 1.2em;
-    margin-right: -0.05em;
+    min-width: 0.8em;
+    margin-right: -0.25em;
   }
 }
 @media (min-width: 1024px) {
   .preloader-n-slot {
-    min-width: 1.3em;
-    margin-right: -0.05em;
+    min-width: 0.9em;
+    margin-right: -0.25em;
   }
 }
 
