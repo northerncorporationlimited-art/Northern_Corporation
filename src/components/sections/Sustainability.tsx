@@ -4,96 +4,100 @@ import React from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 
-const certifications = [
-  { name: "GOTS", fullName: "Global Organic Textile Standard", image: "/certifications/gots.png" },
-  { name: "OEKO-TEX® 100", fullName: "Confidence in Textiles", image: "/certifications/oeko-tex-100.png" },
-  { name: "OEKO-TEX® STeP", fullName: "Sustainable Textile Production", image: "/certifications/oeko-tex-step.png" },
-  { name: "BSCI", fullName: "Business Social Compliance Initiative", image: "/certifications/bsci.jpg" },
-  { name: "WRAP", fullName: "Worldwide Responsible Accredited Production", image: "/certifications/wrap.png" },
-  { name: "SMETA", fullName: "Sedex Members Ethical Trade Audit", image: "/certifications/smeta.png" },
-  { name: "Better Cotton", fullName: "Better Cotton Initiative", image: "/certifications/better-cotton.png" },
-  { name: "RWS", fullName: "Responsible Wool Standard", image: "/certifications/rws.png" },
-  { name: "CmiA", fullName: "Cotton Made in Africa", image: "/certifications/cmia.png" },
-  { name: "OCS", fullName: "Organic Content Standard", image: "/certifications/organic-content.png" },
-  { name: "RCS", fullName: "Recycled Claim Standard", image: "/certifications/recycled-claim.png" },
-  { name: "LEED Gold", fullName: "Leadership in Energy & Environmental Design", image: "/certifications/leed-gold.png" },
-  { name: "RSC", fullName: "RMG Sustainability Council", image: "/certifications/rsc.png" },
+/* ═══════════════════════════════════════════════
+   CERTIFICATIONS — h-screen responsive grid
+   Compact layout that fits within a single slide
+   ═══════════════════════════════════════════════ */
+
+const CERTS = [
+  { name: "GOTS", full: "Global Organic Textile Standard", image: "/certifications/gots.png" },
+  { name: "OEKO-TEX® 100", full: "Confidence in Textiles", image: "/certifications/oeko-tex-100.png" },
+  { name: "OEKO-TEX® STeP", full: "Sustainable Textile Production", image: "/certifications/oeko-tex-step.png" },
+  { name: "BSCI", full: "Business Social Compliance Initiative", image: "/certifications/bsci.jpg" },
+  { name: "WRAP", full: "Worldwide Responsible Accredited Production", image: "/certifications/wrap.png" },
+  { name: "SMETA", full: "Sedex Members Ethical Trade Audit", image: "/certifications/smeta.png" },
+  { name: "Better Cotton", full: "Better Cotton Initiative", image: "/certifications/better-cotton.png" },
+  { name: "RWS", full: "Responsible Wool Standard", image: "/certifications/rws.png" },
+  { name: "CmiA", full: "Cotton Made in Africa", image: "/certifications/cmia.png" },
+  { name: "OCS", full: "Organic Content Standard", image: "/certifications/organic-content.png" },
+  { name: "RCS", full: "Recycled Claim Standard", image: "/certifications/recycled-claim.png" },
+  { name: "LEED Gold", full: "Leadership in Energy & Environmental Design", image: "/certifications/leed-gold.png" },
+  { name: "RSC", full: "RMG Sustainability Council", image: "/certifications/rsc.png" },
 ];
 
-const fadeUp = {
-  hidden: { opacity: 0, y: 40 },
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    transition: { delay: i * 0.06, duration: 0.6, ease: [0.25, 0.1, 0.25, 1] as [number, number, number, number] },
-  }),
-};
+const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
 export const Sustainability = () => {
   return (
-    <section className="w-full bg-brand-cream min-h-screen flex flex-col justify-center py-32 px-8 md:px-20">
-      {/* Header */}
+    <section
+      id="certifications"
+      className="relative flex h-screen w-full flex-col items-center justify-center overflow-hidden bg-[#F5F5EB] px-6 py-12 md:py-16"
+    >
+      {/* ── Header ── */}
       <motion.div
-        className="text-center mb-20"
-        initial={{ opacity: 0, y: 30 }}
+        className="mb-8 shrink-0 text-center md:mb-12"
+        initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.3 }}
-        transition={{ duration: 0.7 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.7, ease: EASE }}
       >
-        <span className="inline-block mb-4 rounded-full border border-brand-green/30 bg-brand-green/8 px-5 py-1.5 text-xs font-semibold uppercase tracking-widest text-brand-green">
+        <p className="mb-3 font-sans text-xs uppercase tracking-widest text-[#023020]/50 md:text-sm">
           Quality Assured
-        </span>
-        <h2 className="text-5xl md:text-7xl font-bold uppercase tracking-tighter text-brand-green mt-4">
+        </p>
+        <h2 className="font-playfair text-4xl text-[#023020] md:text-5xl lg:text-6xl">
           Certifications
         </h2>
-        <p className="mx-auto mt-6 max-w-2xl text-brand-green/70 text-lg leading-relaxed">
-          Our commitment to sustainability, ethical practices, and uncompromising quality is validated
-          by the world&apos;s most respected certification bodies.
+        <p className="mx-auto mt-4 max-w-2xl font-sans text-sm leading-relaxed text-[#023020]/60 md:text-base">
+          Our commitment to sustainability and ethical practices is validated by
+          the world&apos;s most respected certification bodies.
         </p>
       </motion.div>
 
-      {/* Cert Grid */}
-      <div className="max-w-6xl mx-auto flex flex-wrap justify-center gap-4 lg:gap-5">
-        {certifications.map((cert, i) => (
+      {/* ── Certification Grid ── */}
+      <div className="mx-auto grid w-full max-w-5xl shrink-0 grid-cols-3 gap-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-7 md:gap-4">
+        {CERTS.map((cert, i) => (
           <motion.div
             key={cert.name}
-            custom={i}
-            variants={fadeUp}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.1 }}
-            className="group flex flex-col items-center justify-center rounded-2xl border border-brand-green/10 bg-white p-4 sm:p-5 shadow-sm hover:shadow-md transition-all w-[calc(50%-8px)] sm:w-[calc(33.333%-11px)] md:w-[calc(25%-15px)] lg:w-[calc(20%-16px)]"
+            className="group flex flex-col items-center justify-center rounded-2xl border border-[#023020]/8 bg-white p-3 shadow-sm transition-all duration-300 hover:shadow-md md:p-4"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: i * 0.04, ease: EASE }}
           >
-            <div className="relative mb-3 h-16 w-full sm:h-20">
+            <div className="relative mb-2 h-10 w-full sm:h-12 md:h-14">
               <Image
                 src={cert.image}
-                alt={cert.fullName}
+                alt={cert.full}
                 fill
-                sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 20vw"
-                className="object-contain transition-transform duration-300 group-hover:scale-105"
+                sizes="120px"
+                className="object-contain transition-transform duration-300 group-hover:scale-110"
               />
             </div>
-            <p className="text-center text-xs font-semibold text-brand-green">{cert.name}</p>
+            <p className="text-center text-[9px] font-semibold leading-tight text-[#023020] md:text-[10px]">
+              {cert.name}
+            </p>
           </motion.div>
         ))}
       </div>
 
-      {/* Recognition Banner */}
+      {/* ── Recognition Banner ── */}
       <motion.div
-        className="mx-auto mt-16 max-w-2xl rounded-2xl bg-brand-green p-8 text-center shadow-xl"
-        initial={{ opacity: 0, y: 30 }}
+        className="mx-auto mt-8 max-w-3xl shrink-0 rounded-2xl bg-[#023020] px-6 py-5 text-center md:mt-12 md:px-8 md:py-6"
+        initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.5 }}
-        transition={{ duration: 0.7, delay: 0.2 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.7, delay: 0.3, ease: EASE }}
       >
-        <p className="text-sm font-medium leading-relaxed text-brand-cream/80">
+        <p className="font-sans text-xs leading-relaxed text-[#F5F5EB]/80 md:text-sm">
           Northern Corporation is a{" "}
-          <span className="font-bold text-brand-gold">BGMEA Best Environment Compliant Factory</span>
-          {" "}and a proud signatory of the{" "}
-          <span className="font-bold text-brand-gold">UN Global Compact</span>.
-          {" "}The group also partners with{" "}
-          <span className="font-bold text-brand-gold">SNV Netherlands</span>
-          {" "}to advance sustainable development across the textile supply chain.
+          <span className="font-bold text-[#FDD017]">
+            BGMEA Best Environment Compliant Factory
+          </span>{" "}
+          and a proud signatory of the{" "}
+          <span className="font-bold text-[#FDD017]">UN Global Compact</span>.
+          The group also partners with{" "}
+          <span className="font-bold text-[#FDD017]">SNV Netherlands</span> to
+          advance sustainable development across the textile supply chain.
         </p>
       </motion.div>
     </section>

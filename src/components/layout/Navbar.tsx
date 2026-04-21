@@ -19,6 +19,7 @@ const NAV_LINKS = [
   { label: "Global Reach", slideIndex: 4 },
   { label: "Life at Northern", slideIndex: 5 },
   { label: "Certifications", slideIndex: 6 },
+  { label: "Contact", slideIndex: 7 },
 ];
 
 export const Navbar = () => {
@@ -120,7 +121,7 @@ export const Navbar = () => {
 
             {/* ── Contact CTA (Desktop) ── */}
             <button
-              onClick={() => navigateToSlide(6)}
+              onClick={() => navigateToSlide(7)}
               className="hidden rounded-full border border-[#FDD017]/30 bg-[#FDD017]/10 px-5 py-2 text-[11px] font-semibold uppercase tracking-widest text-[#FDD017] backdrop-blur-sm transition-all duration-300 hover:border-[#FDD017]/60 hover:bg-[#FDD017]/20 lg:block"
             >
               Contact Us
