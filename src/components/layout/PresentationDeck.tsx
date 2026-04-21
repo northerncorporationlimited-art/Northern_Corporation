@@ -57,9 +57,10 @@ const slideVariants = {
 
 interface PresentationDeckProps {
   children: React.ReactNode[];
+  labels?: string[];
 }
 
-export const PresentationDeck = ({ children }: PresentationDeckProps) => {
+export const PresentationDeck = ({ children, labels }: PresentationDeckProps) => {
   const [index, setIndex] = useState(0);
   const [direction, setDirection] = useState(1);
   const isAnimating = useRef(false);
@@ -209,14 +210,12 @@ export const PresentationDeck = ({ children }: PresentationDeckProps) => {
           </motion.div>
         </AnimatePresence>
 
-        {/* ── Slide indicators — right edge ── */}
-        <div
-          aria-hidden="true"
-          className="absolute right-6 top-1/2 z-50 flex -translate-y-1/2 flex-col gap-2 md:right-8"
-        >
+        {/* ── Chapter Menu — right edge ── */}
+        <div className="group absolute right-6 top-1/2 z-50 flex -translate-y-1/2 flex-col gap-4 md:right-8">
           {childArray.map((_, i) => (
-            <button
+            <div
               key={i}
+              className="flex cursor-pointer items-center justify-end gap-3"
               onClick={() => {
                 if (isAnimating.current || i === index) return;
                 isAnimating.current = true;
@@ -226,12 +225,24 @@ export const PresentationDeck = ({ children }: PresentationDeckProps) => {
                   isAnimating.current = false;
                 }, LOCK_DURATION);
               }}
-              className={`h-2 w-2 rounded-full transition-all duration-500 ${
-                i === index
-                  ? "h-6 bg-[#FDD017]"
-                  : "bg-[#F5F5EB]/30 hover:bg-[#F5F5EB]/60"
-              }`}
-            />
+            >
+              <span
+                className={`font-mono text-[10px] uppercase tracking-[0.2em] transition-all duration-300 ${
+                  index === i
+                    ? "translate-x-0 text-[#FDD017] opacity-100"
+                    : "translate-x-4 text-[#F5F5EB] opacity-0 hover:!opacity-100 group-hover:translate-x-0 group-hover:opacity-60"
+                }`}
+              >
+                {labels?.[i] || `Slide ${i + 1}`}
+              </span>
+              <div
+                className={`rounded-full transition-all duration-500 ease-out ${
+                  index === i
+                    ? "h-6 w-1 bg-[#FDD017]"
+                    : "h-2 w-1 bg-[#F5F5EB]/30"
+                }`}
+              />
+            </div>
           ))}
         </div>
       </div>
