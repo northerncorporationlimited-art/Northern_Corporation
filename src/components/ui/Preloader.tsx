@@ -286,8 +286,8 @@ export const Preloader = () => {
       const oCenterY = oRect.top + oRect.height / 2;
       const dx = nCenterX - logoCX;
       const dy = oCenterY - logoCY;
-      const targetSize = oRect.height * 1.5;
-      const scaleFactor = targetSize / logoRect.width;
+      const targetSize = oRect.height * 1.15;
+      const scaleFactor = targetSize / logoRect.height;
 
       logo.animate(
         [
