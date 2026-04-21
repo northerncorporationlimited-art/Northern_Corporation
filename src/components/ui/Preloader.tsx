@@ -199,7 +199,7 @@ export const Preloader = () => {
   useEffect(() => {
     let frame: number;
     let start: number | null = null;
-    const duration = 3800;
+    const duration = 1600;
     const tick = (ts: number) => {
       if (!start) start = ts;
       const t = Math.min((ts - start) / duration, 1);
@@ -324,7 +324,7 @@ export const Preloader = () => {
       }, 950);
 
       setTimeout(() => playSettle(), 1200);
-    }, 1500);
+    }, 800);
 
     return () => {
       clearTimeout(t0);

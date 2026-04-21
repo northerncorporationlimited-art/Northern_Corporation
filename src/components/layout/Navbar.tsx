@@ -130,10 +130,10 @@ export const Navbar = () => {
                 e.preventDefault();
                 handleLogoClick();
               }}
-              className="relative z-[101] flex items-center gap-3 group"
+              className="relative z-[101] flex items-center group"
             >
               <Logo className="w-14 h-14 text-brand-cream transition-transform duration-300 group-hover:scale-110" />
-              <span className="hidden sm:block text-sm font-semibold uppercase tracking-[0.2em] text-brand-cream/80">
+              <span className="hidden sm:block -ml-3 text-sm font-semibold uppercase tracking-[0.2em] text-brand-cream/80">
                 Northern Corp.
               </span>
             </a>
