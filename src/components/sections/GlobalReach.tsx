@@ -187,7 +187,7 @@ export const GlobalReach = () => {
       {/* ── Middle — Map ── */}
       <div className="relative z-20 mb-4 mt-4 flex min-h-0 flex-1 w-full items-center justify-center">
         <motion.div
-          className="relative aspect-[2754/1398] w-[95%] max-w-6xl scale-[1.15] md:scale-125 lg:scale-110"
+          className="relative aspect-[2754/1398] w-[95%] max-w-6xl md:scale-125 lg:scale-110"
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}

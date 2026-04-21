@@ -111,14 +111,12 @@ export const Contact = () => {
               <div className="relative w-full overflow-hidden rounded-3xl border border-[#F5F5EB]/10">
                 <iframe
                   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3653.2175!2d90.4895!3d23.6948!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjPCsDQxJzQxLjMiTiA5MMKwMjknMjIuMiJF!5e0!3m2!1sen!2sbd!4v1"
-                  width="100%"
-                  height="400"
                   style={{ border: 0, filter: "invert(0.9) hue-rotate(180deg) saturate(0.3)" }}
                   allowFullScreen
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
                   title="Northern Corporation Location"
-                  className="aspect-square w-full lg:aspect-[4/3]"
+                  className="aspect-video w-full lg:aspect-[4/3]"
                 />
               </div>
             </motion.div>

@@ -124,7 +124,9 @@ export const Navbar = () => {
             {/* ── Logo ── */}
             <button
               onClick={() => navigateToSlide(0)}
-              className="group relative z-[201] flex items-center"
+              className={`group flex items-center transition-all duration-300 ${
+                mobileOpen ? "relative z-[197]" : "relative z-[201]"
+              }`}
             >
               <Logo className="h-14 w-14 text-brand-cream transition-transform duration-300 group-hover:scale-110" />
               <span className="-ml-3 hidden text-sm font-semibold uppercase tracking-[0.2em] text-brand-cream/80 sm:block">

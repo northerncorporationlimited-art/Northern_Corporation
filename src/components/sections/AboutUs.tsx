@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import Image from "next/image";
 import { motion } from "framer-motion";
 
 /* ═══════════════════════════════════════════════
@@ -23,18 +22,14 @@ export const AboutUs = () => {
       id="about"
       className="relative flex h-screen w-full items-center overflow-hidden bg-[#F5F5EB] text-[#023020]"
     >
-      {/* ── Photographic texture background ── */}
-      <Image
-        src="/images/hero-bg.jpg"
-        alt=""
-        fill
-        sizes="100vw"
-        className="object-cover object-center"
-        aria-hidden="true"
-      />
+      {/* ── Subtle dot pattern background (zero-weight, replaces 8.5MB image) ── */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 z-0 bg-[#F5F5EB]/95 backdrop-blur-md"
+        className="absolute inset-0 z-0 opacity-[0.03]"
+        style={{
+          backgroundImage: "radial-gradient(#023020 1px, transparent 1px)",
+          backgroundSize: "20px 20px",
+        }}
       />
 
       {/* ── Content ── */}
