@@ -210,12 +210,16 @@ export const PresentationDeck = ({ children, labels }: PresentationDeckProps) =>
           </motion.div>
         </AnimatePresence>
 
-        {/* ── Chapter Menu — right edge ── */}
-        <div className="group absolute right-6 top-1/2 z-50 flex -translate-y-1/2 flex-col gap-4 md:right-8">
+        {/* ── Chapter Menu — always visible timeline ── */}
+        <div className="pointer-events-auto absolute right-6 top-1/2 z-[100] flex -translate-y-1/2 flex-col gap-4 lg:right-10">
           {childArray.map((_, i) => (
             <div
               key={i}
-              className="flex cursor-pointer items-center justify-end gap-3"
+              className={`flex cursor-pointer items-center justify-end gap-3 transition-all duration-300 ${
+                index === i
+                  ? "origin-right scale-110"
+                  : "hover:scale-105"
+              }`}
               onClick={() => {
                 if (isAnimating.current || i === index) return;
                 isAnimating.current = true;
@@ -227,19 +231,19 @@ export const PresentationDeck = ({ children, labels }: PresentationDeckProps) =>
               }}
             >
               <span
-                className={`font-mono text-[10px] uppercase tracking-[0.2em] transition-all duration-300 ${
+                className={`font-mono uppercase tracking-[0.2em] transition-colors duration-300 ${
                   index === i
-                    ? "translate-x-0 text-[#FDD017] opacity-100"
-                    : "translate-x-4 text-[#F5F5EB] opacity-0 hover:!opacity-100 group-hover:translate-x-0 group-hover:opacity-60"
+                    ? "text-[11px] font-bold text-[#FDD017] drop-shadow-md lg:text-[12px]"
+                    : "text-[10px] text-[#F5F5EB]/40 hover:text-[#F5F5EB]/80 lg:text-[11px]"
                 }`}
               >
-                {labels?.[i] || `Slide ${i + 1}`}
+                {`0${i + 1}. ${labels?.[i] || ""}`}
               </span>
               <div
                 className={`rounded-full transition-all duration-500 ease-out ${
                   index === i
-                    ? "h-6 w-1 bg-[#FDD017]"
-                    : "h-2 w-1 bg-[#F5F5EB]/30"
+                    ? "h-[2px] w-6 bg-[#FDD017]"
+                    : "h-[1px] w-3 bg-[#F5F5EB]/30"
                 }`}
               />
             </div>

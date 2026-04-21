@@ -5,8 +5,8 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 
 /* ═══════════════════════════════════════════════
-   FACILITIES — Life at Northern
-   Full-screen image crossfade + frosted accordion
+   FACILITIES — Expanding Image Gallery
+   Hover/click to expand cards, full-screen imagery
    ═══════════════════════════════════════════════ */
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
@@ -45,111 +45,91 @@ const FACILITIES = [
 ];
 
 export const Facilities = () => {
-  const [active, setActive] = useState(0);
+  const [hoveredIndex, setHoveredIndex] = useState(0);
 
   return (
     <section
       id="facilities"
-      className="relative flex h-screen w-full items-center overflow-hidden bg-[#023020]"
+      className="relative flex h-screen w-full flex-col overflow-hidden bg-[#023020] px-4 py-16 md:px-12 md:py-20"
     >
-      {/* ── Background image crossfade layer ── */}
-      {FACILITIES.map((item, i) => (
-        <Image
-          key={item.title}
-          src={item.image}
-          alt={item.title}
-          fill
-          sizes="100vw"
-          className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-1000 ${
-            active === i ? "opacity-100" : "opacity-0"
-          }`}
-          priority={i === 0}
-        />
-      ))}
+      {/* ── Top Header ── */}
+      <div className="shrink-0">
+        <p className="mb-2 font-sans text-xs uppercase tracking-widest text-[#FDD017] md:text-sm">
+          Life at Northern
+        </p>
+        <h2 className="font-playfair text-4xl text-[#F5F5EB] md:text-5xl lg:text-6xl">
+          An Environment of Excellence
+        </h2>
+      </div>
 
-      {/* Gradient overlay */}
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 bg-gradient-to-r from-[#023020]/95 via-[#023020]/70 to-[#023020]/20"
-      />
+      {/* ── Expanding Gallery ── */}
+      <div className="mt-6 flex min-h-0 w-full flex-1 flex-col gap-2 md:mt-10 md:gap-4 lg:flex-row">
+        {FACILITIES.map((fac, i) => {
+          const isActive = hoveredIndex === i;
 
-      {/* ── Content ── */}
-      <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-col items-start justify-between gap-12 px-6 lg:flex-row lg:items-center">
-        {/* Left — Header */}
-        <motion.div
-          className="shrink-0"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, ease: EASE }}
-        >
-          <p className="mb-4 font-sans text-sm uppercase tracking-[0.3em] text-[#FDD017]">
-            Life at Northern
-          </p>
-          <h2 className="max-w-sm font-playfair text-5xl leading-tight text-[#F5F5EB] md:text-6xl">
-            Empowering Our People
-          </h2>
-        </motion.div>
-
-        {/* Right — Frosted glass accordion */}
-        <motion.div
-          className="flex w-full flex-col gap-2 rounded-3xl border border-[#F5F5EB]/10 bg-[#F5F5EB]/5 p-6 backdrop-blur-xl md:p-8 lg:w-[480px]"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.2, ease: EASE }}
-        >
-          {FACILITIES.map((item, i) => {
-            const isActive = active === i;
-            return (
-              <div
-                key={item.title}
-                className={`cursor-pointer rounded-xl px-4 py-3 transition-colors duration-300 ${
-                  isActive ? "bg-[#F5F5EB]/5" : "hover:bg-[#F5F5EB]/[0.02]"
+          return (
+            <motion.div
+              key={fac.title}
+              className="group relative h-full cursor-pointer overflow-hidden rounded-xl bg-[#023020] md:rounded-3xl"
+              animate={{ flex: isActive ? 5 : 1 }}
+              transition={{ duration: 0.6, ease: EASE }}
+              onMouseEnter={() => setHoveredIndex(i)}
+              onClick={() => setHoveredIndex(i)}
+            >
+              {/* Background image */}
+              <Image
+                src={fac.image}
+                alt={fac.title}
+                fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                className={`object-cover transition-all duration-700 ${
+                  isActive
+                    ? "scale-105 opacity-100"
+                    : "opacity-60 grayscale-[30%] group-hover:opacity-80"
                 }`}
-                onClick={() => setActive(i)}
-              >
-                {/* Title row */}
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <span className="font-mono text-[10px] text-[#FDD017]/50">
-                      {String(i + 1).padStart(2, "0")}
-                    </span>
-                    <span
-                      className={`font-playfair text-xl transition-colors duration-300 md:text-2xl ${
-                        isActive ? "text-[#FDD017]" : "text-[#F5F5EB]"
-                      }`}
-                    >
-                      {item.title}
+              />
+
+              {/* Gradient overlay */}
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#023020]/90 via-[#023020]/20 to-transparent"
+              />
+
+              {/* ── Collapsed state — vertical title (desktop) / horizontal (mobile) ── */}
+              {!isActive && (
+                <>
+                  <div className="pointer-events-none absolute inset-0 hidden items-center justify-center lg:flex">
+                    <span className="whitespace-nowrap font-playfair text-xl uppercase tracking-wider text-[#F5F5EB]/70 drop-shadow-md -rotate-90 lg:text-2xl">
+                      {fac.title}
                     </span>
                   </div>
-                  <motion.span
-                    className="text-sm text-[#F5F5EB]/40"
-                    animate={{ rotate: isActive ? 180 : 0 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    ▾
-                  </motion.span>
-                </div>
+                  <div className="pointer-events-none absolute inset-0 flex items-center justify-center lg:hidden">
+                    <span className="whitespace-nowrap font-playfair text-xs uppercase tracking-wider text-[#F5F5EB]/70 drop-shadow-md">
+                      {fac.title}
+                    </span>
+                  </div>
+                </>
+              )}
 
-                {/* Expandable body */}
+              {/* ── Expanded state — title + description ── */}
+              {isActive && (
                 <motion.div
-                  className="overflow-hidden"
-                  initial={false}
-                  animate={{
-                    height: isActive ? "auto" : 0,
-                    opacity: isActive ? 1 : 0,
-                  }}
-                  transition={{ duration: 0.4, ease: EASE }}
+                  className="pointer-events-none absolute bottom-0 left-0 flex w-full flex-col justify-end p-4 lg:p-8"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.2, duration: 0.4 }}
                 >
-                  <p className="pt-3 font-sans text-sm leading-relaxed text-[#F5F5EB]/80">
-                    {item.text}
+                  <p className="mb-1 font-playfair text-xl text-[#FDD017] lg:mb-3 lg:text-4xl">
+                    {fac.title}
+                  </p>
+                  <p className="hidden max-w-lg font-sans text-base leading-relaxed text-[#F5F5EB]/90 lg:block">
+                    {fac.text}
                   </p>
                 </motion.div>
-              </div>
-            );
-          })}
-        </motion.div>
+              )}
+            </motion.div>
+          );
+        })}
       </div>
     </section>
   );
