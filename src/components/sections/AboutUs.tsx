@@ -1,11 +1,12 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 import { motion } from "framer-motion";
 
 /* ═══════════════════════════════════════════════
    ABOUT US — Six Decades of Excellence
-   h-screen 50/50 grid with history + scale stats
+   h-screen 50/50 grid with photographic texture
    ═══════════════════════════════════════════════ */
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
@@ -20,9 +21,24 @@ export const AboutUs = () => {
   return (
     <section
       id="about"
-      className="flex h-screen w-full items-center bg-[#F5F5EB] text-[#023020] relative overflow-hidden"
+      className="relative flex h-screen w-full items-center overflow-hidden bg-[#F5F5EB] text-[#023020]"
     >
-      <div className="mx-auto grid w-full max-w-7xl grid-cols-1 gap-16 px-6 lg:grid-cols-2">
+      {/* ── Photographic texture background ── */}
+      <Image
+        src="/images/hero-bg.jpg"
+        alt=""
+        fill
+        sizes="100vw"
+        className="object-cover object-center"
+        aria-hidden="true"
+      />
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 z-0 bg-[#F5F5EB]/95 backdrop-blur-md"
+      />
+
+      {/* ── Content ── */}
+      <div className="relative z-10 mx-auto grid w-full max-w-7xl grid-cols-1 gap-16 px-6 lg:grid-cols-2">
         {/* ── Left Column — History ── */}
         <motion.div
           className="flex flex-col justify-center"

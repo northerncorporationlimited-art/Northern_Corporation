@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
+import Image from "next/image";
 import {
   motion,
   useInView,
@@ -64,16 +65,31 @@ const AnimatedCounter = ({ from, to }: AnimatedCounterProps) => {
 };
 
 /* ─────────────────────────────────────────────
-   Component — h-screen with frosted stat cards
+   Component — h-screen with photographic depth
 ───────────────────────────────────────────── */
 
 export const EcoImpact = () => {
   return (
     <section
       id="eco-impact"
-      className="flex h-screen w-full items-center bg-[#023020] text-[#F5F5EB] overflow-hidden"
+      className="relative flex h-screen w-full items-center overflow-hidden bg-[#023020] text-[#F5F5EB]"
     >
-      <div className="mx-auto w-full max-w-7xl px-6">
+      {/* ── Photographic texture background ── */}
+      <Image
+        src="/images/hero-bg.jpg"
+        alt=""
+        fill
+        sizes="100vw"
+        className="object-cover object-center"
+        aria-hidden="true"
+      />
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 z-0 bg-[#023020]/90 backdrop-blur-md"
+      />
+
+      {/* ── Content ── */}
+      <div className="relative z-10 mx-auto w-full max-w-7xl px-6">
         <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-20">
           {/* ── Left column ── */}
           <motion.div

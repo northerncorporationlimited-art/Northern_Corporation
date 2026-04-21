@@ -10,7 +10,7 @@ import { motion } from "framer-motion";
    ═══════════════════════════════════════════════ */
 
 const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
-const TEXT_DELAY = 2.2; // synced to 2s preloader
+const TEXT_DELAY = 0.2; // starts immediately after preloader exit
 
 export const Hero = () => {
   return (
