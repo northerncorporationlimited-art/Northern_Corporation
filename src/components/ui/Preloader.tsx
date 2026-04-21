@@ -287,7 +287,10 @@ export const Preloader = () => {
       const oCenterY = oRect.top + oRect.height / 2;
       const dx = nAnchorX - logoCX;
       const dy = oCenterY - logoCY;
-      const targetSize = oRect.height * 1.5;
+      // Responsive scale: smaller on mobile, larger on desktop
+      const isMobile = window.innerWidth < 768;
+      const sizeMultiplier = isMobile ? 1.25 : 1.5;
+      const targetSize = oRect.height * sizeMultiplier;
       const scaleFactor = targetSize / logoRect.height;
 
       logo.animate(
