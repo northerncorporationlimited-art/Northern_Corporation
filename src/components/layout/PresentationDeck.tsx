@@ -182,6 +182,24 @@ export const PresentationDeck = ({ children, labels }: PresentationDeckProps) =>
     return () => window.removeEventListener("keydown", handleKey);
   }, [goTo]);
 
+  // Global navigation listener (for Navbar integration)
+  useEffect(() => {
+    const handleNav = (e: Event) => {
+      const targetIndex = (e as CustomEvent).detail;
+      if (
+        typeof targetIndex === "number" &&
+        targetIndex !== index &&
+        targetIndex >= 0 &&
+        targetIndex < childCount
+      ) {
+        setDirection(targetIndex > index ? 1 : -1);
+        setIndex(targetIndex);
+      }
+    };
+    window.addEventListener("NAVIGATE_SLIDE", handleNav);
+    return () => window.removeEventListener("NAVIGATE_SLIDE", handleNav);
+  }, [index, childCount]);
+
   const childArray = Children.toArray(children);
 
   return (
@@ -210,44 +228,58 @@ export const PresentationDeck = ({ children, labels }: PresentationDeckProps) =>
           </motion.div>
         </AnimatePresence>
 
-        {/* ── Chapter Menu — always visible timeline ── */}
-        <div className="pointer-events-auto absolute right-6 top-1/2 z-[100] flex -translate-y-1/2 flex-col gap-4 lg:right-10">
-          {childArray.map((_, i) => (
-            <div
-              key={i}
-              className={`flex cursor-pointer items-center justify-end gap-3 transition-all duration-300 ${
-                index === i
-                  ? "origin-right scale-110"
-                  : "hover:scale-105"
-              }`}
-              onClick={() => {
-                if (isAnimating.current || i === index) return;
-                isAnimating.current = true;
-                setDirection(i > index ? 1 : -1);
-                setIndex(i);
-                setTimeout(() => {
-                  isAnimating.current = false;
-                }, LOCK_DURATION);
-              }}
-            >
-              <span
-                className={`font-mono uppercase tracking-[0.2em] transition-colors duration-300 ${
-                  index === i
-                    ? "text-[11px] font-bold text-[#FDD017] drop-shadow-md lg:text-[12px]"
-                    : "text-[10px] text-[#F5F5EB]/40 hover:text-[#F5F5EB]/80 lg:text-[11px]"
-                }`}
-              >
-                {`0${i + 1}. ${labels?.[i] || ""}`}
-              </span>
-              <div
-                className={`rounded-full transition-all duration-500 ease-out ${
-                  index === i
-                    ? "h-[2px] w-6 bg-[#FDD017]"
-                    : "h-[1px] w-3 bg-[#F5F5EB]/30"
-                }`}
-              />
-            </div>
-          ))}
+        {/* ── Frosted Glass Chapter Tracker ── */}
+        <div className="pointer-events-auto absolute right-0 top-1/2 z-[100] -translate-y-1/2">
+          <div className="flex flex-col gap-1 rounded-l-2xl border border-r-0 border-[#F5F5EB]/10 bg-[#023020]/80 px-4 py-5 backdrop-blur-xl lg:px-5 lg:py-6">
+            {childArray.map((_, i) => {
+              const isActive = index === i;
+              return (
+                <button
+                  key={i}
+                  onClick={() => {
+                    if (isAnimating.current || i === index) return;
+                    isAnimating.current = true;
+                    setDirection(i > index ? 1 : -1);
+                    setIndex(i);
+                    setTimeout(() => {
+                      isAnimating.current = false;
+                    }, LOCK_DURATION);
+                  }}
+                  className={`flex items-center gap-3 rounded-lg px-3 py-2 text-right transition-all duration-300 ${
+                    isActive
+                      ? "bg-[#FDD017]/10"
+                      : "hover:bg-[#F5F5EB]/5"
+                  }`}
+                >
+                  <span
+                    className={`font-mono text-[10px] transition-colors duration-300 ${
+                      isActive ? "text-[#FDD017]" : "text-[#F5F5EB]/30"
+                    }`}
+                  >
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <div className="flex flex-col items-start">
+                    <span
+                      className={`font-mono text-[10px] uppercase tracking-[0.15em] transition-all duration-300 lg:text-[11px] ${
+                        isActive
+                          ? "font-bold text-[#FDD017]"
+                          : "text-[#F5F5EB]/50 hover:text-[#F5F5EB]/80"
+                      }`}
+                    >
+                      {labels?.[i] || ""}
+                    </span>
+                  </div>
+                  <div
+                    className={`ml-auto rounded-full transition-all duration-500 ${
+                      isActive
+                        ? "h-[2px] w-4 bg-[#FDD017]"
+                        : "h-[1px] w-2 bg-[#F5F5EB]/20"
+                    }`}
+                  />
+                </button>
+              );
+            })}
+          </div>
         </div>
       </div>
     </PresentationContext.Provider>
