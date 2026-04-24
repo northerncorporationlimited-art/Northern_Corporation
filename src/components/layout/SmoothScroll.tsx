@@ -17,7 +17,7 @@ export const SmoothScroll = ({ children }: SmoothScrollProps) => {
   // window.scrollY naturally, which Lenis updates at the interpolated position.
   // No scrollerProxy needed — that was double-proxying and causing conflicts.
 
-  useLenis((lenis) => {
+  useLenis(() => {
     // This callback fires on every Lenis scroll event.
     // We manually call ScrollTrigger.update() to keep GSAP in sync
     // with the interpolated scroll position.

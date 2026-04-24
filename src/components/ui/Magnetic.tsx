@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useRef, useState } from "react";
-import { motion, useSpring, useTransform, MotionValue } from "framer-motion";
+import React, { useRef } from "react";
+import { motion, useSpring } from "framer-motion";
 
 interface MagneticProps {
   children: React.ReactNode;
@@ -11,7 +11,6 @@ interface MagneticProps {
 
 export const Magnetic = ({ children, strength = 15, className = "" }: MagneticProps) => {
   const ref = useRef<HTMLDivElement>(null);
-  const [isHovered, setIsHovered] = useState(false);
 
   const springConfig = { damping: 20, stiffness: 300, mass: 0.5 };
   const x = useSpring(0, springConfig);
@@ -31,13 +30,12 @@ export const Magnetic = ({ children, strength = 15, className = "" }: MagneticPr
   };
 
   const handleMouseLeave = () => {
-    setIsHovered(false);
     x.set(0);
     y.set(0);
   };
 
   const handleMouseEnter = () => {
-    setIsHovered(true);
+    // Trigger spring animation on enter
   };
 
   return (

@@ -1,8 +1,7 @@
 "use client";
 
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
-import Image from "next/image";
 
 /* ═══════════════════════════════════════════════════
    WEB AUDIO SYNTH ENGINE — zero downloads, pure code
@@ -12,7 +11,7 @@ let audioCtx: AudioContext | null = null;
 
 function initAudio() {
   if (!audioCtx) {
-    const Ctx = window.AudioContext || (window as any).webkitAudioContext;
+    const Ctx = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
     audioCtx = new Ctx();
   }
   return audioCtx;

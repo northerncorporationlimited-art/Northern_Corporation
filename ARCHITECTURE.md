@@ -61,5 +61,5 @@ RootLayout (layout.tsx)
 - **Loading:** 4.2s preloader with cinematic logo animation, then Navbar appears
 
 ## Archived / Marked for Deletion
-- `_TO_DELETE/` — contains legacy_v1, experimental hero variants (A-D), old config files
-- Hero variant CSS still exists in globals.css (lines ~302-936) — can be cleaned up later
+- `_TO_DELETE/` — **removed** (legacy_v1, experimental hero variants, old config files)
+- `Product_image/` — **removed** (raw source images, duplicated in `public/products/`)
