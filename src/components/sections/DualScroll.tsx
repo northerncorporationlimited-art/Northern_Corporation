@@ -16,7 +16,7 @@ const portfolioSections = [
     type: "standard",
     title: "Knit to Fit Your World", 
     desc: "Northern Corporation Limited pioneers the intersection of bespoke craftsmanship and industrial scale.",
-    image: "/images/hero_bg.jpg" 
+    image: "/images/hero-bg.jpg" 
   },
   { 
     id: 2, 
@@ -35,7 +35,7 @@ const portfolioSections = [
       { label: "Employees", value: "3,000+" },
       { label: "Yearly Turnover", value: "$30M USD" }
     ],
-    image: "/images/macro.png" 
+    image: "/images/factory.png" 
   },
   { 
     id: 4, 
@@ -51,8 +51,8 @@ const AboutAccordion = () => {
   
   const items = [
     { title: "Decades of Expertise", text: "With extensive experience in global garment manufacturing, we bring a wealth of operational knowledge to every stitch.", img: "/images/factory.png" },
-    { title: "Uncompromising Quality", text: "Every thread is tested. Every seam is verified. Quality is our default setting.", img: "/images/macro.png" },
-    { title: "Future-Focused Innovation", text: "We invest heavily in automated machinery and sustainable practices.", img: "/images/hero_bg.jpg" }
+    { title: "Uncompromising Quality", text: "Every thread is tested. Every seam is verified. Quality is our default setting.", img: "/images/leed.png" },
+    { title: "Future-Focused Innovation", text: "We invest heavily in automated machinery and sustainable practices.", img: "/images/hero-bg.jpg" }
   ];
 
   useEffect(() => {

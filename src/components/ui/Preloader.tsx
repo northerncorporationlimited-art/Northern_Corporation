@@ -349,6 +349,7 @@ export const Preloader = () => {
       <div className="preloader-corner preloader-corner-br" />
 
       {/* Logo — morphs to N position */}
+      {/* eslint-disable-next-line @next/next/no-img-element -- imperative .animate() requires native img */}
       <img
         ref={logoRef}
         src="/logo-symbol.svg"
@@ -357,6 +358,7 @@ export const Preloader = () => {
       />
 
       {/* Ghost watermark — stays center, scales up */}
+      {/* eslint-disable-next-line @next/next/no-img-element -- imperative .animate() requires native img */}
       <img
         ref={ghostRef}
         src="/logo-symbol.svg"
