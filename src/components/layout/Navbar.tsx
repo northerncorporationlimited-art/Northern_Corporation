@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useCallback } from "react";
+import { useRouter, usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Logo } from "@/components/ui/Logo";
 
@@ -35,6 +36,9 @@ export const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [activeSlide, setActiveSlide] = useState(0);
+  const router = useRouter();
+  const pathname = usePathname();
+  const isHomePage = pathname === "/" || pathname === "";
 
   // Listen for SLIDE_CHANGED from PresentationDeck
   useEffect(() => {
@@ -88,6 +92,14 @@ export const Navbar = () => {
   const navigateToSlide = useCallback(
     (slideIndex: number) => {
       setMobileOpen(false);
+
+      if (!isHomePage) {
+        // On a sub-page — navigate home with slide param
+        router.push(`/?slide=${slideIndex}`);
+        return;
+      }
+
+      // On homepage — dispatch event directly
       const dispatch = () => {
         window.dispatchEvent(
           new CustomEvent("NAVIGATE_SLIDE", { detail: slideIndex })
@@ -99,7 +111,7 @@ export const Navbar = () => {
         dispatch();
       }
     },
-    [mobileOpen]
+    [mobileOpen, isHomePage, router]
   );
 
   const isLightSlide = !DARK_SLIDES.has(activeSlide);

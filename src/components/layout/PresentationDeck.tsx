@@ -83,6 +83,33 @@ export const PresentationDeck = ({ children, labels }: PresentationDeckProps) =>
     return () => window.removeEventListener("resize", check);
   }, []);
 
+  // Read ?slide=N from URL (when navigating back from sub-pages)
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const slideParam = params.get("slide");
+    if (slideParam !== null) {
+      const target = parseInt(slideParam, 10);
+      if (!isNaN(target) && target >= 0 && target < childCount) {
+        // Small delay to let the page render first
+        setTimeout(() => {
+          if (window.innerWidth < MOBILE_BREAKPOINT) {
+            const sections = document.querySelectorAll("[data-slide]");
+            if (target === 0) {
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            } else {
+              sections[target]?.scrollIntoView({ behavior: "smooth" });
+            }
+          } else {
+            setDirection(target > 0 ? 1 : -1);
+            setIndex(target);
+          }
+        }, 300);
+      }
+      // Clean the URL
+      window.history.replaceState({}, "", "/");
+    }
+  }, [childCount]);
+
   // Broadcast SLIDE_CHANGED for Navbar integration
   useEffect(() => {
     window.dispatchEvent(
