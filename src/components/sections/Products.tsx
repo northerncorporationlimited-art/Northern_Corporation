@@ -150,7 +150,7 @@ export const Products = () => {
                 priority
               />
             ))}
-            <div className="relative aspect-[4/5] w-full max-w-xs overflow-hidden rounded-3xl bg-[#023020] sm:max-w-sm lg:max-w-xl lg:max-h-[calc(100vh-120px)]">
+            <div className="relative aspect-[4/5] w-full max-w-xs overflow-hidden rounded-3xl bg-[#023020] sm:max-w-sm lg:max-w-xl lg:max-h-[calc(100vh-200px)]">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={active.slug}
