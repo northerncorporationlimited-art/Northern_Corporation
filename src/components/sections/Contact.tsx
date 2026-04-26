@@ -12,12 +12,25 @@ const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
 const CONTACT_INFO = [
   {
-    label: "Factory & Head Office",
-    lines: ["Kayempur, Fatullah,", "Narayanganj-1420, Bangladesh"],
+    label: "Head Office",
+    lines: [
+      "House # 91, Flat # S4, Block - K,",
+      "Suhrawardy Avenue,",
+      "Baridhara Diplomatic Zone,",
+      "Baridhara, Dhaka – 1212",
+    ],
+  },
+  {
+    label: "Factory",
+    lines: [
+      "Plot # B43-45, BSCIC I/E,",
+      "Tongi, Gazipur, Bangladesh",
+      "& Tapirbari, Tangra, Sreepur, Gazipur",
+    ],
   },
   {
     label: "Phone",
-    lines: ["+880 9613 444 555"],
+    lines: ["+88-02-48814594"],
   },
   {
     label: "Email",
@@ -110,7 +123,7 @@ export const Contact = () => {
             >
               <div className="relative w-full overflow-hidden rounded-3xl border border-[#F5F5EB]/10">
                 <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3653.2175!2d90.4895!3d23.6948!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjPCsDQxJzQxLjMiTiA5MMKwMjknMjIuMiJF!5e0!3m2!1sen!2sbd!4v1"
+                  src="https://www.google.com/maps?q=RC5C%2B8F+Dhaka&output=embed"
                   style={{ border: 0, filter: "invert(0.9) hue-rotate(180deg) saturate(0.3)" }}
                   allowFullScreen
                   loading="lazy"
