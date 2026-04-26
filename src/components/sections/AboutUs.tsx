@@ -20,7 +20,7 @@ export const AboutUs = () => {
   return (
     <section
       id="about"
-      className="relative flex h-screen w-full items-center overflow-hidden bg-[#F5F5EB] text-[#023020]"
+      className="relative flex min-h-screen w-full items-center overflow-hidden bg-[#F5F5EB] py-20 text-[#023020] lg:h-screen lg:py-0"
     >
       {/* ── Subtle dot pattern background (zero-weight, replaces 8.5MB image) ── */}
       <div
@@ -67,7 +67,7 @@ export const AboutUs = () => {
 
         {/* ── Right Column — Scale ── */}
         <motion.div
-          className="flex flex-col justify-center gap-10 border-l-2 border-[#023020]/10 pl-8 lg:pl-16"
+          className="flex flex-col justify-center gap-10 border-t-2 border-[#023020]/10 pt-8 lg:border-l-2 lg:border-t-0 lg:pl-16 lg:pt-0"
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}

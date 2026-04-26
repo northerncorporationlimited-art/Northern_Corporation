@@ -263,6 +263,56 @@ export const PresentationDeck = ({ children, labels }: PresentationDeckProps) =>
           </motion.div>
         </AnimatePresence>
 
+        {/* ── Vertical Progress Rail — left edge ── */}
+        <div className="pointer-events-none absolute left-6 top-1/2 z-[100] hidden -translate-y-1/2 flex-col items-center gap-0 lg:left-10 lg:flex">
+          {/* Track line */}
+          <div className="relative h-48 w-[1px] bg-[#F5F5EB]/10">
+            {/* Animated gold fill — grows based on slide progress */}
+            <motion.div
+              className="absolute left-0 top-0 w-full bg-gradient-to-b from-[#FDD017] to-[#FDD017]/30"
+              animate={{ height: `${((index + 1) / childCount) * 100}%` }}
+              transition={{ duration: 0.8, ease: EASE }}
+            />
+            {/* Glowing marker dot */}
+            <motion.div
+              className="absolute left-1/2 h-2.5 w-2.5 -translate-x-1/2 rounded-full bg-[#FDD017]"
+              animate={{ top: `${(index / Math.max(childCount - 1, 1)) * 100}%` }}
+              transition={{ duration: 0.8, ease: EASE }}
+              style={{ boxShadow: "0 0 8px #FDD017, 0 0 20px rgba(253,208,23,0.3)" }}
+            />
+          </div>
+          {/* Section label — slides up on change */}
+          <div className="mt-4 overflow-hidden">
+            <AnimatePresence mode="wait">
+              <motion.p
+                key={labels?.[index] || index}
+                className="whitespace-nowrap font-mono text-[9px] uppercase tracking-[0.2em] text-[#F5F5EB]/25 -rotate-90 origin-center"
+                initial={{ y: 12, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                exit={{ y: -12, opacity: 0 }}
+                transition={{ duration: 0.4, ease: EASE }}
+              >
+                {labels?.[index] || `Slide ${index + 1}`}
+              </motion.p>
+            </AnimatePresence>
+          </div>
+        </div>
+
+        {/* ── Horizontal Shimmer Wipe — cinematic transition line ── */}
+        <AnimatePresence>
+          <motion.div
+            key={`shimmer-${index}`}
+            className="pointer-events-none absolute left-0 z-[99] h-[1px] w-full"
+            style={{
+              top: direction > 0 ? "100%" : "0%",
+              background: "linear-gradient(90deg, transparent 0%, #FDD017 30%, #FDD017 70%, transparent 100%)",
+            }}
+            initial={{ top: direction > 0 ? "100%" : "0%", opacity: 0.8, scaleX: 0 }}
+            animate={{ top: "50%", opacity: 0, scaleX: 1 }}
+            transition={{ duration: 1.0, ease: EASE }}
+          />
+        </AnimatePresence>
+
         {/* ── Minimal Slide Counter — bottom right ── */}
         <div className="pointer-events-none absolute bottom-8 right-8 z-[100] flex items-baseline gap-1 lg:right-12">
           <motion.span

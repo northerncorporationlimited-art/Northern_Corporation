@@ -72,7 +72,7 @@ export const EcoImpact = () => {
   return (
     <section
       id="eco-impact"
-      className="relative flex h-screen w-full items-center overflow-hidden bg-[#023020] text-[#F5F5EB]"
+      className="relative flex min-h-screen w-full items-center overflow-hidden bg-[#023020] py-20 text-[#F5F5EB] lg:h-screen lg:py-0"
     >
       {/* ── Photographic texture background ── */}
       <Image

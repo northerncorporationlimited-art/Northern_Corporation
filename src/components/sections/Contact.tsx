@@ -34,7 +34,7 @@ export const Contact = () => {
   return (
     <section
       id="contact"
-      className="relative flex h-screen w-full flex-col overflow-hidden bg-[#023020] text-[#F5F5EB]"
+      className="relative flex min-h-screen w-full flex-col overflow-hidden bg-[#023020] py-20 text-[#F5F5EB] lg:h-screen lg:py-0"
     >
       {/* Main content area */}
       <div className="flex flex-1 flex-col justify-center">

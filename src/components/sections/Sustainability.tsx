@@ -31,7 +31,7 @@ export const Sustainability = () => {
   return (
     <section
       id="certifications"
-      className="relative flex h-screen w-full flex-col items-center justify-center overflow-hidden bg-[#F5F5EB] px-6 py-12 md:py-16"
+      className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden bg-[#F5F5EB] px-6 py-20 lg:h-screen"
     >
       {/* ── Header ── */}
       <motion.div

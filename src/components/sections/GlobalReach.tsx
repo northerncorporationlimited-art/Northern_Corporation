@@ -160,7 +160,7 @@ export const GlobalReach = () => {
   return (
     <section
       id="global-reach"
-      className="relative flex h-screen w-full flex-col justify-between overflow-hidden bg-[#023020] pt-12 md:pt-20"
+      className="relative flex min-h-screen w-full flex-col justify-between overflow-hidden bg-[#023020] pt-20 lg:h-screen"
     >
       {/* Radial glow behind map */}
       <div
@@ -187,7 +187,7 @@ export const GlobalReach = () => {
       {/* ── Middle — Map ── */}
       <div className="relative z-20 mb-4 mt-4 flex min-h-0 flex-1 w-full items-center justify-center">
         <motion.div
-          className="relative aspect-[2754/1398] w-[95%] max-w-6xl md:scale-125 lg:scale-110"
+          className="relative aspect-[2754/1398] w-[95%] max-w-6xl lg:scale-110"
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}

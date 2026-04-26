@@ -1,159 +1,329 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useCallback, useRef, useEffect } from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import Link from "next/link";
+import { motion, AnimatePresence } from "framer-motion";
+import { FACILITIES } from "@/data/facilities";
 
 /* ═══════════════════════════════════════════════
-   FACILITIES — Expanding Image Gallery
-   Desktop: hover to expand. Mobile: scrollable list.
+   FACILITIES — Premium Interactive Gallery
+   Desktop: hover-to-expand strips with content.
+   Mobile: tappable cards with slide-up details.
+   Both link to dedicated /facilities/[slug] pages.
    ═══════════════════════════════════════════════ */
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
-const FACILITIES = [
-  {
-    title: "Prayer Rooms",
-    image: "/images/facilities/prayer.jpg",
-    text: "Separate, thoughtfully equipped prayer rooms for male and female employees. An Imam is available to lead prayers, fostering a supportive community.",
-  },
-  {
-    title: "Medical Service",
-    image: "/images/facilities/medical.jpg",
-    text: "Comprehensive on-site medical services staffed by skilled doctors and nurses, offering free treatment and a dedicated psychology center for wellness.",
-  },
-  {
-    title: "Dining",
-    image: "/images/facilities/dining.jpg",
-    text: "Spacious dining areas with large TVs, offering free, healthy meals and snacks from separate kitchens, maintained to the highest standards.",
-  },
-  {
-    title: "Daycare Center",
-    image: "/images/facilities/daycare.jpg",
-    text: "A fully equipped, safe, and engaging environment stocked with toys, ensuring complete peace of mind for working parents.",
-  },
-  {
-    title: "Equality",
-    image: "/images/facilities/equality.jpg",
-    text: "Embracing diversity, equity, and inclusion for all genders. Proactive HR policies ensure fair treatment and opportunities for every individual.",
-  },
-  {
-    title: "Professional Dev.",
-    image: "/images/facilities/development.jpg",
-    text: "Fostering career growth through a robust framework of training programs, mentorship opportunities, and skill development initiatives.",
-  },
-];
-
 export const Facilities = () => {
-  const [hoveredIndex, setHoveredIndex] = useState(0);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [mobileExpanded, setMobileExpanded] = useState<number | null>(null);
+  const autoPlayRef = useRef<NodeJS.Timeout | null>(null);
+  const userInteractedRef = useRef(false);
+
+  /* Auto-rotate on desktop when user hasn't interacted */
+  const startAutoPlay = useCallback(() => {
+    if (autoPlayRef.current) clearInterval(autoPlayRef.current);
+    autoPlayRef.current = setInterval(() => {
+      if (!userInteractedRef.current) {
+        setActiveIndex((i) => (i + 1) % FACILITIES.length);
+      }
+    }, 4000);
+  }, []);
+
+  useEffect(() => {
+    startAutoPlay();
+    return () => {
+      if (autoPlayRef.current) clearInterval(autoPlayRef.current);
+    };
+  }, [startAutoPlay]);
+
+  const handleHover = (i: number) => {
+    userInteractedRef.current = true;
+    setActiveIndex(i);
+    // Reset auto-play after 8 seconds of no interaction
+    if (autoPlayRef.current) clearInterval(autoPlayRef.current);
+    autoPlayRef.current = setTimeout(() => {
+      userInteractedRef.current = false;
+      startAutoPlay();
+    }, 8000) as unknown as NodeJS.Timeout;
+  };
+
+  const toggleMobileCard = (i: number) => {
+    setMobileExpanded((prev) => (prev === i ? null : i));
+  };
+
+  const active = FACILITIES[activeIndex];
 
   return (
     <section
       id="facilities"
-      className="relative flex h-screen w-full flex-col overflow-hidden bg-[#023020] px-4 py-12 md:px-12 md:py-20"
+      className="relative flex min-h-screen w-full flex-col overflow-hidden bg-[#023020] lg:h-screen"
     >
-      {/* ── Top Header ── */}
-      <div className="shrink-0">
-        <p className="mb-2 font-sans text-xs uppercase tracking-widest text-[#FDD017] md:text-sm">
+      {/* ── Background glow effect ── */}
+      <div
+        className="pointer-events-none absolute inset-0 opacity-30"
+        style={{
+          background:
+            "radial-gradient(ellipse 80% 50% at 70% 60%, rgba(253,208,23,0.08) 0%, transparent 70%)",
+        }}
+      />
+
+      {/* ── Header ── */}
+      <div className="relative z-10 shrink-0 px-6 pt-16 md:px-12 md:pt-20 lg:px-16">
+        <motion.p
+          className="mb-2 font-sans text-[10px] uppercase tracking-[0.3em] text-[#FDD017] md:text-xs"
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+        >
           Life at Northern
-        </p>
-        <h2 className="font-playfair text-3xl text-[#F5F5EB] md:text-5xl lg:text-6xl">
+        </motion.p>
+        <motion.h2
+          className="font-playfair text-3xl text-[#F5F5EB] md:text-5xl lg:text-6xl"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+        >
           An Environment of Excellence
-        </h2>
+        </motion.h2>
       </div>
 
-      {/* ── Desktop: Expanding Gallery ── */}
-      <div className="mt-6 hidden min-h-0 w-full flex-1 gap-4 lg:flex">
+      {/* ═══════════════════════════════════════
+           DESKTOP: Interactive Expanding Gallery
+         ═══════════════════════════════════════ */}
+      <div className="relative z-10 mt-6 hidden min-h-0 flex-1 gap-3 px-6 pb-6 lg:flex lg:px-12 lg:pb-12">
         {FACILITIES.map((fac, i) => {
-          const isActive = hoveredIndex === i;
+          const isActive = activeIndex === i;
           return (
             <motion.div
-              key={fac.title}
-              className="group relative h-full cursor-pointer overflow-hidden rounded-3xl bg-[#023020]"
+              key={fac.slug}
+              className="group relative h-full cursor-pointer overflow-hidden rounded-2xl"
               animate={{ flex: isActive ? 5 : 1 }}
-              transition={{ duration: 0.6, ease: EASE }}
-              onMouseEnter={() => setHoveredIndex(i)}
-              onClick={() => setHoveredIndex(i)}
+              transition={{ duration: 0.7, ease: EASE }}
+              onMouseEnter={() => handleHover(i)}
+              onClick={() => handleHover(i)}
             >
+              {/* Background image */}
               <Image
                 src={fac.image}
                 alt={fac.title}
                 fill
-                sizes="50vw"
-                priority={i === 0}
+                sizes={isActive ? "60vw" : "10vw"}
+                priority={i < 3}
                 className={`object-cover transition-all duration-700 ${
                   isActive
-                    ? "scale-105 opacity-100"
-                    : "opacity-60 grayscale-[30%] group-hover:opacity-80"
+                    ? "scale-[1.02] brightness-100"
+                    : "brightness-[0.4] grayscale-[40%] group-hover:brightness-[0.55]"
                 }`}
               />
+
+              {/* Gradient overlay */}
               <div
-                aria-hidden="true"
-                className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#023020]/90 via-[#023020]/20 to-transparent"
+                className={`pointer-events-none absolute inset-0 transition-opacity duration-500 ${
+                  isActive ? "opacity-100" : "opacity-60"
+                }`}
+                style={{
+                  background: isActive
+                    ? "linear-gradient(to top, rgba(2,48,32,0.95) 0%, rgba(2,48,32,0.4) 40%, transparent 70%)"
+                    : "linear-gradient(to top, rgba(2,48,32,0.8) 0%, rgba(2,48,32,0.3) 100%)",
+                }}
               />
 
-              {/* Collapsed: vertical title */}
-              {!isActive && (
-                <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-                  <span className="whitespace-nowrap font-playfair text-2xl uppercase tracking-wider text-[#F5F5EB]/70 drop-shadow-md -rotate-90">
-                    {fac.title}
-                  </span>
-                </div>
-              )}
+              {/* Collapsed: vertical title + index number */}
+              <AnimatePresence>
+                {!isActive && (
+                  <motion.div
+                    className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center gap-4"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <span className="flex h-8 w-8 items-center justify-center rounded-full border border-[#FDD017]/30 font-mono text-xs text-[#FDD017]/70">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <span className="whitespace-nowrap font-playfair text-lg uppercase tracking-wider text-[#F5F5EB]/60 -rotate-90">
+                      {fac.shortTitle}
+                    </span>
+                  </motion.div>
+                )}
+              </AnimatePresence>
 
-              {/* Expanded: title + description */}
-              {isActive && (
-                <motion.div
-                  className="pointer-events-none absolute bottom-0 left-0 flex w-full flex-col justify-end p-8"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.2, duration: 0.4 }}
-                >
-                  <p className="mb-3 font-playfair text-4xl text-[#FDD017]">
-                    {fac.title}
-                  </p>
-                  <p className="max-w-lg font-sans text-base leading-relaxed text-[#F5F5EB]/90">
-                    {fac.text}
-                  </p>
-                </motion.div>
-              )}
+              {/* Expanded: full content + CTA */}
+              <AnimatePresence>
+                {isActive && (
+                  <motion.div
+                    className="absolute bottom-0 left-0 right-0 flex flex-col justify-end p-8 lg:p-10"
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 20 }}
+                    transition={{ duration: 0.5, delay: 0.15, ease: EASE }}
+                  >
+                    {/* Tagline */}
+                    <p className="mb-4 font-sans text-[10px] uppercase tracking-[0.25em] text-[#FDD017]">
+                      {fac.tagline}
+                    </p>
+
+                    <h3 className="mb-3 font-playfair text-3xl text-[#F5F5EB] lg:text-4xl">
+                      {fac.title}
+                    </h3>
+
+                    <p className="mb-6 max-w-lg font-sans text-sm leading-relaxed text-[#F5F5EB]/75 lg:text-base">
+                      {fac.description}
+                    </p>
+
+                    {/* Quick stats row */}
+                    <div className="mb-6 flex gap-6">
+                      {fac.highlights.slice(0, 3).map((h) => (
+                        <div key={h.label} className="flex flex-col">
+                          <span className="font-playfair text-xl text-[#FDD017]">
+                            {h.value}
+                          </span>
+                          <span className="font-sans text-[10px] uppercase tracking-wider text-[#F5F5EB]/40">
+                            {h.label}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Learn More CTA */}
+                    <Link
+                      href={`/facilities/${fac.slug}`}
+                      className="group/link inline-flex w-fit items-center gap-2 rounded-full border border-[#FDD017]/30 px-6 py-2.5 font-sans text-xs uppercase tracking-widest text-[#FDD017] transition-all hover:border-[#FDD017] hover:bg-[#FDD017]/10 hover:shadow-lg hover:shadow-[#FDD017]/10"
+                    >
+                      Learn More
+                      <span className="transition-transform group-hover/link:translate-x-1">
+                        →
+                      </span>
+                    </Link>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              {/* Active indicator bar at bottom */}
+              <motion.div
+                className="absolute bottom-0 left-0 right-0 h-1 bg-[#FDD017]"
+                initial={{ scaleX: 0 }}
+                animate={{ scaleX: isActive ? 1 : 0 }}
+                transition={{ duration: 0.5, ease: EASE }}
+                style={{ transformOrigin: "left" }}
+              />
             </motion.div>
           );
         })}
       </div>
 
-      {/* ── Mobile: Scrollable Card List ── */}
-      <div className="mt-6 flex flex-1 flex-col gap-3 overflow-y-auto lg:hidden">
-        {FACILITIES.map((fac, i) => (
+      {/* ── Desktop progress dots ── */}
+      <div className="pointer-events-none absolute bottom-4 left-1/2 z-20 hidden -translate-x-1/2 gap-2 lg:flex">
+        {FACILITIES.map((_, i) => (
           <div
-            key={fac.title}
-            className="relative flex-shrink-0 overflow-hidden rounded-2xl"
-            style={{ minHeight: "120px" }}
-          >
-            <Image
-              src={fac.image}
-              alt={fac.title}
-              fill
-              sizes="100vw"
-              priority={i === 0}
-              className="object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-r from-[#023020]/90 via-[#023020]/50 to-transparent" />
-            <div className="relative z-10 flex h-full items-center p-5">
-              <div>
-                <span className="mr-3 font-mono text-[10px] text-[#FDD017]/50">
+            key={i}
+            className={`h-1 rounded-full transition-all duration-500 ${
+              i === activeIndex
+                ? "w-8 bg-[#FDD017]"
+                : "w-2 bg-[#F5F5EB]/20"
+            }`}
+          />
+        ))}
+      </div>
+
+      {/* ═══════════════════════════════════════
+           MOBILE: Tappable Cards with Expand
+         ═══════════════════════════════════════ */}
+      <div className="relative z-10 mt-4 flex flex-1 flex-col gap-2.5 overflow-y-auto px-4 pb-4 lg:hidden">
+        {FACILITIES.map((fac, i) => {
+          const isExpanded = mobileExpanded === i;
+          return (
+            <motion.div
+              key={fac.slug}
+              className="relative shrink-0 overflow-hidden rounded-xl"
+              animate={{ height: isExpanded ? "auto" : 100 }}
+              transition={{ duration: 0.4, ease: EASE }}
+              layout
+            >
+              {/* Background */}
+              <div className="absolute inset-0">
+                <Image
+                  src={fac.image}
+                  alt={fac.title}
+                  fill
+                  sizes="100vw"
+                  priority={i === 0}
+                  className={`object-cover transition-all duration-500 ${
+                    isExpanded ? "brightness-[0.3]" : "brightness-[0.5]"
+                  }`}
+                />
+                <div className="absolute inset-0 bg-gradient-to-r from-[#023020]/90 via-[#023020]/60 to-transparent" />
+              </div>
+
+              {/* Tappable header */}
+              <button
+                onClick={() => toggleMobileCard(i)}
+                className="relative z-10 flex w-full items-center gap-4 p-4"
+              >
+                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-[#FDD017]/30 font-mono text-[10px] text-[#FDD017]/70">
                   {String(i + 1).padStart(2, "0")}
                 </span>
-                <span className="font-playfair text-lg text-[#FDD017]">
-                  {fac.title}
-                </span>
-                <p className="mt-1 text-xs leading-relaxed text-[#F5F5EB]/70">
-                  {fac.text}
-                </p>
-              </div>
-            </div>
-          </div>
-        ))}
+                <div className="flex-1 text-left">
+                  <span className="font-playfair text-lg text-[#FDD017]">
+                    {fac.title}
+                  </span>
+                </div>
+                <motion.span
+                  className="text-[#F5F5EB]/40 text-xl"
+                  animate={{ rotate: isExpanded ? 180 : 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  ↓
+                </motion.span>
+              </button>
+
+              {/* Expandable content */}
+              <AnimatePresence>
+                {isExpanded && (
+                  <motion.div
+                    className="relative z-10 px-4 pb-4"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <p className="mb-4 text-sm leading-relaxed text-[#F5F5EB]/70">
+                      {fac.description}
+                    </p>
+
+                    {/* Mini stats */}
+                    <div className="mb-4 grid grid-cols-2 gap-2">
+                      {fac.highlights.slice(0, 4).map((h) => (
+                        <div
+                          key={h.label}
+                          className="rounded-lg bg-[#F5F5EB]/5 px-3 py-2"
+                        >
+                          <span className="block font-playfair text-lg text-[#FDD017]">
+                            {h.value}
+                          </span>
+                          <span className="font-sans text-[9px] uppercase tracking-wider text-[#F5F5EB]/40">
+                            {h.label}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+
+                    <Link
+                      href={`/facilities/${fac.slug}`}
+                      className="inline-flex items-center gap-2 rounded-full border border-[#FDD017]/30 px-5 py-2 text-xs uppercase tracking-widest text-[#FDD017] transition-all active:bg-[#FDD017]/10"
+                    >
+                      Learn More →
+                    </Link>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.div>
+          );
+        })}
       </div>
     </section>
   );

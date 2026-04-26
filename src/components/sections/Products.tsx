@@ -73,7 +73,7 @@ export const Products = () => {
   return (
     <section
       id="products"
-      className="relative flex h-screen w-full overflow-hidden bg-[#F5F5EB] text-[#023020]"
+      className="relative flex min-h-screen w-full overflow-hidden bg-[#F5F5EB] py-20 text-[#023020] lg:h-screen lg:py-0"
     >
       <div className="mx-auto flex h-full w-full max-w-7xl items-center px-6">
         <div className="grid h-full w-full grid-cols-1 items-center gap-8 lg:grid-cols-5 lg:gap-16">
@@ -150,7 +150,7 @@ export const Products = () => {
                 priority
               />
             ))}
-            <div className="relative aspect-[3/4] w-full max-w-lg overflow-hidden rounded-3xl bg-[#023020] lg:max-w-xl">
+            <div className="relative aspect-[4/5] w-full max-w-xs overflow-hidden rounded-3xl bg-[#023020] sm:max-w-sm lg:max-w-xl lg:max-h-[calc(100vh-120px)]">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={active.slug}
@@ -165,7 +165,7 @@ export const Products = () => {
                     alt={active.title}
                     fill
                     sizes="(max-width: 1024px) 100vw, 60vw"
-                    className="object-cover object-center"
+                    className="object-cover object-top"
                     priority
                   />
                 </motion.div>
