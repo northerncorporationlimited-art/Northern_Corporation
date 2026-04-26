@@ -132,20 +132,22 @@ export const Facilities = () => {
                 }}
               />
 
-              {/* Collapsed: vertical title + index number */}
+              {/* Collapsed: number at top, vertical title centered */}
               <AnimatePresence>
                 {!isActive && (
                   <motion.div
-                    className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center gap-4"
+                    className="pointer-events-none absolute inset-0 flex flex-col items-center"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.3 }}
                   >
-                    <span className="flex h-8 w-8 items-center justify-center rounded-full border border-[#FDD017]/30 font-mono text-xs text-[#FDD017]/70">
+                    {/* Number badge — pinned near top */}
+                    <span className="mt-6 flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-[#FDD017]/25 font-mono text-[10px] text-[#FDD017]/60">
                       {String(i + 1).padStart(2, "0")}
                     </span>
-                    <span className="whitespace-nowrap font-playfair text-lg uppercase tracking-wider text-[#F5F5EB]/60 -rotate-90">
+                    {/* Vertical label — centered in remaining space */}
+                    <span className="mt-auto mb-auto whitespace-nowrap font-playfair text-sm uppercase tracking-[0.2em] text-[#F5F5EB]/50 -rotate-90">
                       {fac.shortTitle}
                     </span>
                   </motion.div>
