@@ -123,7 +123,7 @@ export const Contact = () => {
             >
               <div className="relative w-full overflow-hidden rounded-3xl border border-[#F5F5EB]/10">
                 <iframe
-                  src="https://www.google.com/maps?q=RC5C%2B8F+Dhaka&output=embed"
+                  src="https://www.google.com/maps?q=Northern+Corporation+Limited+Baridhara+Dhaka&output=embed"
                   style={{ border: 0, filter: "invert(0.9) hue-rotate(180deg) saturate(0.3)" }}
                   allowFullScreen
                   loading="lazy"
