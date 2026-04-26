@@ -196,18 +196,24 @@ export const PresentationDeck = ({ children, labels }: PresentationDeckProps) =>
     const handleNav = (e: Event) => {
       const targetIndex = (e as CustomEvent).detail;
       if (
-        typeof targetIndex === "number" &&
-        targetIndex !== index &&
-        targetIndex >= 0 &&
-        targetIndex < childCount
-      ) {
-        if (isMobile) {
-          const sections = document.querySelectorAll("[data-slide]");
-          sections[targetIndex]?.scrollIntoView({ behavior: "smooth" });
+        typeof targetIndex !== "number" ||
+        targetIndex < 0 ||
+        targetIndex >= childCount
+      )
+        return;
+
+      if (isMobile) {
+        // Mobile: always scroll to the target section
+        const sections = document.querySelectorAll("[data-slide]");
+        if (targetIndex === 0) {
+          window.scrollTo({ top: 0, behavior: "smooth" });
         } else {
-          setDirection(targetIndex > index ? 1 : -1);
-          setIndex(targetIndex);
+          sections[targetIndex]?.scrollIntoView({ behavior: "smooth" });
         }
+      } else if (targetIndex !== index) {
+        // Desktop: animate slide transition
+        setDirection(targetIndex > index ? 1 : -1);
+        setIndex(targetIndex);
       }
     };
     window.addEventListener("NAVIGATE_SLIDE", handleNav);

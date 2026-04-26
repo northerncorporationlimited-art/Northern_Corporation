@@ -10,7 +10,6 @@ import { Logo } from "@/components/ui/Logo";
    ═══════════════════════════════════════════════ */
 
 const EASE: [number, number, number, number] = [0.76, 0, 0.24, 1];
-const PRELOADER_DELAY = 2.2;
 
 /* Condensed link set — Home removed (logo does it), Contact removed (CTA does it) */
 const NAV_LINKS = [
@@ -111,7 +110,7 @@ export const Navbar = () => {
         className="fixed left-0 top-0 z-[200] w-full"
         initial={{ y: -100 }}
         animate={{ y: 0 }}
-        transition={{ duration: 0.8, delay: PRELOADER_DELAY, ease: EASE }}
+        transition={{ duration: 0.5, ease: EASE }}
       >
         <div
           className={`w-full transition-all duration-500 ${
