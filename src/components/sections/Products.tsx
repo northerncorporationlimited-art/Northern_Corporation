@@ -136,7 +136,7 @@ export const Products = () => {
           </div>
 
           {/* ── Right — Product Image (3/5 width) ── */}
-          <div className="relative flex h-full items-center justify-center lg:col-span-3">
+          <div className="relative flex h-full items-center justify-center pt-20 lg:col-span-3">
             {/* Preload all category images for instant crossfade */}
             {CATEGORIES.map((cat) => (
               <Image
