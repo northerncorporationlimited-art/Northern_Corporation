@@ -111,7 +111,7 @@ export const EcoImpact = () => {
               {INITIATIVES.map((item, i) => (
                 <li
                   key={item}
-                  className={`group flex cursor-pointer items-center border-b border-[#F5F5EB]/15 py-4 ${
+                  className={`group flex items-center border-b border-[#F5F5EB]/15 py-4 ${
                     i === 0 ? "border-t" : ""
                   }`}
                 >

@@ -64,7 +64,7 @@ export const Sustainability = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: i * 0.04, ease: EASE }}
           >
-            <div className="relative mb-2 h-10 w-full sm:h-12 md:h-14">
+            <div className="relative mb-2 h-14 w-full sm:h-16 md:h-20">
               <Image
                 src={cert.image}
                 alt={cert.full}
@@ -73,7 +73,7 @@ export const Sustainability = () => {
                 className="object-contain transition-transform duration-300 group-hover:scale-110"
               />
             </div>
-            <p className="text-center text-[9px] font-semibold leading-tight text-[#023020] md:text-[10px]">
+            <p className="text-center text-[10px] font-semibold leading-tight text-[#023020] md:text-[11px]">
               {cert.name}
             </p>
           </motion.div>

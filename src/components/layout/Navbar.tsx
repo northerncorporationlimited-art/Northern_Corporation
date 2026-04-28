@@ -122,8 +122,8 @@ export const Navbar = () => {
                 mobileOpen ? "relative z-[197]" : "relative z-[201]"
               }`}
             >
-              <Logo className="h-14 w-14 text-brand-cream transition-transform duration-300 group-hover:scale-110" />
-              <span className="-ml-3 hidden text-sm font-semibold uppercase tracking-[0.2em] text-brand-cream/80 sm:block">
+              <Logo className="h-16 w-16 text-brand-cream transition-transform duration-300 group-hover:scale-110" />
+              <span className="-ml-3 hidden text-xs font-semibold uppercase tracking-[0.2em] text-brand-cream/80 sm:block">
                 Northern Corp.
               </span>
             </button>
@@ -188,7 +188,7 @@ export const Navbar = () => {
               id="nav-contact-cta"
               onClick={() => navigateToSlide(ALL_LINKS.length - 1)}
               aria-label="Navigate to contact section"
-              className="hidden rounded-full border border-[#FDD017]/30 bg-[#FDD017]/10 px-5 py-2 text-[11px] font-semibold uppercase tracking-widest text-[#FDD017] backdrop-blur-sm transition-all duration-300 hover:border-[#FDD017]/60 hover:bg-[#FDD017]/20 lg:block"
+              className="hidden rounded-full border border-[#FDD017]/30 bg-[#FDD017]/10 px-6 py-2.5 text-xs font-semibold uppercase tracking-widest text-[#FDD017] backdrop-blur-sm transition-all duration-300 hover:border-[#FDD017]/60 hover:bg-[#FDD017]/20 lg:block"
             >
               Contact Us
             </button>

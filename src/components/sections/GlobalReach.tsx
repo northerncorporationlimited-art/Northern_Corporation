@@ -193,7 +193,7 @@ export const GlobalReach = () => {
             src="/images/world-map.svg"
             fill
             alt="World Map"
-            className="pointer-events-none invert opacity-20"
+            className="pointer-events-none invert opacity-30"
             aria-hidden="true"
           />
 
@@ -223,9 +223,8 @@ export const GlobalReach = () => {
                     initial={{ strokeDashoffset: 10 }}
                     animate={{ strokeDashoffset: 0 }}
                     transition={{
-                      duration: 3,
-                      ease: "linear",
-                      repeat: Infinity,
+                      duration: 2.5,
+                      ease: "easeOut",
                     }}
                   />
                 </g>
@@ -273,7 +272,7 @@ export const GlobalReach = () => {
           {[...PLACEHOLDER_BUYERS, ...PLACEHOLDER_BUYERS].map((buyer, i) => (
             <span
               key={`${buyer}-${i}`}
-              className="mx-8 font-playfair text-lg uppercase tracking-widest text-[#FDD017]/70 md:mx-12 md:text-xl"
+              className="mx-8 font-playfair text-lg uppercase tracking-widest text-[#F5F5EB]/50 md:mx-12 md:text-xl"
             >
               {buyer}
             </span>

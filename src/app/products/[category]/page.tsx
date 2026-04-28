@@ -76,10 +76,10 @@ export default async function ProductGalleryPage({ params }: PageProps) {
       <div className="mx-auto max-w-7xl">
         {/* Back link */}
         <Link
-          href="/"
+          href="/?slide=3"
           className="mb-12 inline-flex items-center gap-2 font-sans text-sm uppercase tracking-widest text-[#023020]/50 transition-colors hover:text-[#023020]"
         >
-          ← Back to Home
+          ← Back to Products
         </Link>
 
         {/* Header */}

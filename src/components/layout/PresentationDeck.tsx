@@ -46,14 +46,14 @@ const slideVariants = {
     scale: 1,
     opacity: 1,
     zIndex: 5,
-    transition: { duration: 1.0, ease: EASE },
+    transition: { duration: 0.6, ease: EASE },
   },
   exit: (direction: number) => ({
     y: direction > 0 ? 0 : "100%",
     scale: direction > 0 ? 0.85 : 1,
     opacity: direction > 0 ? 0.4 : 1,
     zIndex: direction > 0 ? 0 : 10,
-    transition: { duration: 1.0, ease: EASE },
+    transition: { duration: 0.6, ease: EASE },
   }),
 };
 
@@ -304,9 +304,9 @@ export const PresentationDeck = ({ children, labels }: PresentationDeckProps) =>
           </motion.div>
         </AnimatePresence>
 
-        {/* ── Vertical Progress Rail — left edge ── */}
-        <div className="pointer-events-none absolute left-6 top-1/2 z-[100] hidden -translate-y-1/2 flex-col items-center gap-0 lg:left-10 lg:flex">
-          {/* Track line */}
+        {/* ── Vertical Progress Rail — left edge (clickable) ── */}
+        <div className="absolute left-6 top-1/2 z-[100] hidden -translate-y-1/2 flex-col items-center gap-0 lg:left-10 lg:flex">
+          {/* Track line with clickable segments */}
           <div className="relative h-48 w-[1px] bg-[#F5F5EB]/10">
             {/* Animated gold fill — grows based on slide progress */}
             <motion.div
@@ -316,11 +316,26 @@ export const PresentationDeck = ({ children, labels }: PresentationDeckProps) =>
             />
             {/* Glowing marker dot */}
             <motion.div
-              className="absolute left-1/2 h-2.5 w-2.5 -translate-x-1/2 rounded-full bg-[#FDD017]"
+              className="pointer-events-none absolute left-1/2 h-2.5 w-2.5 -translate-x-1/2 rounded-full bg-[#FDD017]"
               animate={{ top: `${(index / Math.max(childCount - 1, 1)) * 100}%` }}
               transition={{ duration: 0.8, ease: EASE }}
               style={{ boxShadow: "0 0 8px #FDD017, 0 0 20px rgba(253,208,23,0.3)" }}
             />
+            {/* Clickable hit areas for each slide */}
+            {Array.from({ length: childCount }).map((_, i) => (
+              <button
+                key={i}
+                aria-label={`Go to ${labels?.[i] || `slide ${i + 1}`}`}
+                className="absolute left-1/2 h-3 w-8 -translate-x-1/2 cursor-pointer opacity-0"
+                style={{ top: `${(i / Math.max(childCount - 1, 1)) * 100}%`, transform: "translate(-50%, -50%)" }}
+                onClick={() => {
+                  if (i !== index) {
+                    setDirection(i > index ? 1 : -1);
+                    setIndex(i);
+                  }
+                }}
+              />
+            ))}
           </div>
           {/* Section label — slides up on change */}
           <div className="mt-4 overflow-hidden">
@@ -354,21 +369,7 @@ export const PresentationDeck = ({ children, labels }: PresentationDeckProps) =>
           />
         </AnimatePresence>
 
-        {/* ── Minimal Slide Counter — bottom right ── */}
-        <div className="pointer-events-none absolute bottom-8 right-8 z-[100] flex items-baseline gap-1 lg:right-12">
-          <motion.span
-            key={index}
-            className="font-mono text-2xl font-bold text-[#FDD017]"
-            initial={{ y: 10, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.4, ease: EASE }}
-          >
-            {String(index + 1).padStart(2, "0")}
-          </motion.span>
-          <span className="font-mono text-sm text-[#F5F5EB]/30">
-            /{String(childCount).padStart(2, "0")}
-          </span>
-        </div>
+
       </div>
     </PresentationContext.Provider>
   );

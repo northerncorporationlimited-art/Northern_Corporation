@@ -21,11 +21,17 @@ const CONTACT_INFO = [
     ],
   },
   {
-    label: "Factory",
+    label: "Factory 1 — BSCIC",
     lines: [
       "Plot # B43-45, BSCIC I/E,",
       "Tongi, Gazipur, Bangladesh",
-      "& Tapirbari, Tangra, Sreepur, Gazipur",
+    ],
+  },
+  {
+    label: "Factory 2 — Tapirbari",
+    lines: [
+      "Tapirbari, Tangra,",
+      "Sreepur, Gazipur, Bangladesh",
     ],
   },
   {
@@ -39,8 +45,8 @@ const CONTACT_INFO = [
 ];
 
 const SOCIAL_LINKS = [
-  { name: "LinkedIn", url: "#" },
-  { name: "Facebook", url: "#" },
+  { name: "LinkedIn", url: "https://www.linkedin.com/in/northern-corporation-ltd" },
+  { name: "Instagram", url: "https://www.instagram.com/northern.corporation/" },
 ];
 
 export const Contact = () => {
@@ -129,7 +135,7 @@ export const Contact = () => {
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
                   title="Northern Corporation Location"
-                  className="aspect-video w-full lg:aspect-[4/3]"
+                  className="aspect-[4/3] w-full lg:aspect-square"
                 />
               </div>
             </motion.div>

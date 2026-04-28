@@ -1,10 +1,9 @@
 "use client";
 
-import React, { useState, useRef, useEffect, useContext } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { PresentationContext } from "@/components/layout/PresentationDeck";
 
 /* ═══════════════════════════════════════════════
    PRODUCTS — Nested Sub-Slider Lookbook
@@ -32,41 +31,9 @@ const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
 export const Products = () => {
   const [activeIndex, setActiveIndex] = useState(0);
-  const activeIndexRef = useRef(activeIndex);
-  const ctx = useContext(PresentationContext);
 
-  // Keep ref in sync
-  useEffect(() => {
-    activeIndexRef.current = activeIndex;
-  }, [activeIndex]);
-
-  // Register as sub-slider
-  useEffect(() => {
-    if (!ctx) return;
-
-    ctx.registerSubSlider(
-      // onNext: returns true if we consumed the scroll
-      () => {
-        if (activeIndexRef.current < CATEGORIES.length - 1) {
-          setActiveIndex((i) => i + 1);
-          return true;
-        }
-        return false; // let PresentationDeck advance to next slide
-      },
-      // onPrev: returns true if we consumed the scroll
-      () => {
-        if (activeIndexRef.current > 0) {
-          setActiveIndex((i) => i - 1);
-          return true;
-        }
-        return false; // let PresentationDeck go back
-      }
-    );
-
-    return () => {
-      ctx.unregisterSubSlider();
-    };
-  }, [ctx]);
+  // Sub-slider wheel hijacking removed per client feedback:
+  // categories change on click only, scroll passes through to next section.
 
   const active = CATEGORIES[activeIndex];
 
