@@ -2,12 +2,12 @@
 # Project Rules — Northern Corporation Limited
 
 ## Tech Stack
-- Next.js 15 (App Router)
-- TypeScript
-- Tailwind CSS (via `@theme inline` in globals.css)
-- Framer Motion for animations
-- Lenis for smooth scrolling
-- GSAP + ScrollTrigger for scroll-based animations
+- Next.js 16.2.3 (App Router)
+- TypeScript 5.9.3
+- Tailwind CSS 4.2.2 (via `@theme inline` in globals.css)
+- Framer Motion 12.38.0 for animations
+- Lenis 1.3.23 for smooth scrolling
+- GSAP 3.15.0 + ScrollTrigger for scroll-based animations
 - Deployed on Vercel (auto-deploy from `main` branch)
 
 ## Design System
@@ -20,18 +20,23 @@
 ## Conventions
 - Components: `src/components/` → `layout/`, `sections/`, `ui/`
 - Pages: Next.js App Router in `src/app/`
+- Data: Static content in `src/data/` (slides, facilities)
 - Use `"use client"` only when needed (framer-motion, hooks, interactivity)
 - All interactive elements must have unique, descriptive IDs
 - Mobile-first responsive design
 - Read the relevant guide in `node_modules/next/dist/docs/` before writing any code. Heed deprecation notices.
 
 ## Current Site Structure
-- **Home page** (`/`): Navbar + Certifications section
+- **Home page** (`/`): 8-section PresentationDeck → Hero, AboutUs, EcoImpact, Products, GlobalReach, Facilities, Sustainability (Certifications), Contact
+- **Product Gallery** (`/products/[category]`): Dynamic SSG pages for 5 categories (tee-polo, bottoms, nightwear, sports-active, winter)
+- **Facility Detail** (`/facilities/[slug]`): Dynamic SSG pages for 6 facilities (prayer-rooms, medical-service, dining, daycare, equality, professional-development)
+- **Legal** (`/terms`, `/privacy`): Static corporate boilerplate pages
 - **V2** (`/V2`): Archived full site (DualScroll, HistoryFlow, Sustainability, WorkLife, ContactFooter)
-- **`_TO_DELETE/`**: Archived files marked for future removal
 
 ## Active Assets
-- `public/certifications/` — certification badge images (used on home page)
+- `public/certifications/` — 13 certification badge images (PNG/JPG)
+- `public/products/` — 5 category subdirectories with product photography
+- `public/images/` — Hero bg, factory images, world map SVG, facility photos
 - `public/logo-symbol.svg` — site logo
 
 ## Do NOT

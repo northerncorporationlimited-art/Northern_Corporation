@@ -11,7 +11,7 @@ _Last updated: 2026-04-28 — PM sprint re-plan per CEO override_
 
 > Memory Bank items 6 & 7 flag stale docs. Fix before any feature branches.
 
-- [ ] **Ticket 1:** Update `AGENTS.md` and create `docs/ARCHITECTURE.md`
+- [x] **Ticket 1:** Update `AGENTS.md` and create `ARCHITECTURE.md`
   - `AGENTS.md`: Fix Next.js version (15 → 16), replace "Navbar + Certifications section" with full 8-section PresentationDeck layout, remove `_TO_DELETE/` reference, add dynamic routes and `src/data/` to structure
   - `docs/ARCHITECTURE.md`: Document the PresentationDeck pattern, slide config (`src/data/slides.ts`), dynamic routes (`/products/[category]`, `/facilities/[slug]`), animation layering strategy, and Lenis scroll architecture
   - **Acceptance:** Both files accurately describe the codebase as of `main` HEAD. No stale references remain.
@@ -27,10 +27,11 @@ _Last updated: 2026-04-28 — PM sprint re-plan per CEO override_
   - Categories change on click only; wheel scroll passes through to PresentationDeck
   - _Shipped: `fba708d`_
 
-- [ ] **Ticket 3:** (CF-02, CF-10, CF-11) Fix native scrolling on dynamic sub-pages
-  - Ensure `overflow: hidden` from PresentationDeck's `h-screen` wrapper doesn't propagate to `/products/[category]` and `/facilities/[slug]` routes
-  - Verify Lenis doesn't suppress native wheel events on sub-pages
-  - **Acceptance:** Mouse wheel scrolls product gallery and facility detail pages smoothly on desktop.
+- [x] **Ticket 3:** (CF-02, CF-10, CF-11) Fix native scrolling on dynamic sub-pages
+  - `AppWrapper.tsx` now detects sub-routes via `usePathname` and passes `enableSmooth={false}` to `SmoothScroll`
+  - `SmoothScroll.tsx` accepts `enableSmooth` prop — when false, `lerp: 1` (no interpolation) and `smoothWheel: false`
+  - Home + V2 retain smooth scroll; `/products/*`, `/facilities/*`, `/terms`, `/privacy` get native browser scrolling
+  - _Shipped: `feat/final-client-fixes`_
 
 - [x] **Ticket 4:** (CF-07, CF-08, CF-13) Update `PresentationDeck.tsx`
   - Removed `05/08` slide counter element (bottom-right)
@@ -82,11 +83,11 @@ _Last updated: 2026-04-28 — PM sprint re-plan per CEO override_
 
 ## Sprint 3: Legal Pages
 
-- [ ] **Ticket 11:** (CF-17) Create `/terms` and `/privacy` pages
-  - Scaffold `src/app/terms/page.tsx` and `src/app/privacy/page.tsx` with standard corporate boilerplate
-  - Update footer links in `Contact.tsx`: `href="#"` → `/terms` and `/privacy`
-  - Style consistently with existing pages (cream bg, brand green text, Playfair headings)
-  - **Acceptance:** Footer links navigate to rendered legal pages. Content is professional boilerplate until client provides final text.
+- [x] **Ticket 11:** (CF-17) Create `/terms` and `/privacy` pages
+  - Created `src/app/terms/page.tsx` and `src/app/privacy/page.tsx` with standard corporate boilerplate
+  - Each page has Playfair Display H1, 4 boilerplate sections, and prominent `[CLIENT LEGAL TEXT TO REPLACE]` banner
+  - Updated footer links in `Contact.tsx`: `href="#"` → `/terms` and `/privacy`
+  - _Shipped: `feat/final-client-fixes`_
 
 ---
 
@@ -100,11 +101,11 @@ _Last updated: 2026-04-28 — PM sprint re-plan per CEO override_
 
 | Sprint | Total | Done | Remaining |
 |--------|-------|------|-----------|
-| 0      | 1     | 0    | 1         |
-| 1      | 4     | 3    | 1         |
+| 0      | 1     | 1    | 0         |
+| 1      | 4     | 4    | 0         |
 | 2      | 5     | 5    | 0         |
-| 3      | 1     | 0    | 1         |
-| **Total** | **11** | **8** | **3**  |
+| 3      | 1     | 1    | 0         |
+| **Total** | **11** | **11** | **0**  |
 
 > 🤝 **Handoff Contract:**
 > ✅ Roadmap ready. Sprint 2 complete. Sprint 0, Ticket 3, and Ticket 11 remain.

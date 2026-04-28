@@ -9,9 +9,11 @@ gsap.registerPlugin(ScrollTrigger);
 
 interface SmoothScrollProps {
   children: React.ReactNode;
+  /** When false, Lenis smooth interpolation is disabled — native scroll takes over. */
+  enableSmooth?: boolean;
 }
 
-export const SmoothScroll = ({ children }: SmoothScrollProps) => {
+export const SmoothScroll = ({ children, enableSmooth = true }: SmoothScrollProps) => {
   // Synchronise Lenis RAF with GSAP ticker for frame-perfect alignment.
   // Lenis in `root` mode already intercepts document scroll — GSAP reads
   // window.scrollY naturally, which Lenis updates at the interpolated position.
@@ -41,8 +43,8 @@ export const SmoothScroll = ({ children }: SmoothScrollProps) => {
     <ReactLenis
       root
       options={{
-        lerp: 0.08,
-        smoothWheel: true,
+        lerp: enableSmooth ? 0.08 : 1,
+        smoothWheel: enableSmooth,
         syncTouch: false,
         autoResize: true,
       }}
