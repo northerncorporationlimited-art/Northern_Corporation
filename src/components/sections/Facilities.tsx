@@ -246,9 +246,10 @@ export const Facilities = () => {
             <motion.div
               key={fac.slug}
               className="relative shrink-0 overflow-hidden rounded-xl"
-              animate={{ height: isExpanded ? "auto" : 100 }}
+              animate={{ height: isExpanded ? "auto" : "auto" }}
               transition={{ duration: 0.4, ease: EASE }}
               layout
+              style={{ minHeight: isExpanded ? undefined : 80 }}
             >
               {/* Background */}
               <div className="absolute inset-0">

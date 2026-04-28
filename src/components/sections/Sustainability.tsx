@@ -54,7 +54,7 @@ export const Sustainability = () => {
       </motion.div>
 
       {/* ── Certification Grid ── */}
-      <div className="mx-auto grid w-full max-w-5xl shrink-0 grid-cols-3 gap-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-7 md:gap-4">
+      <div className="mx-auto grid w-full max-w-5xl shrink-0 grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 md:gap-4 lg:grid-cols-7">
         {CERTS.map((cert, i) => (
           <motion.div
             key={cert.name}

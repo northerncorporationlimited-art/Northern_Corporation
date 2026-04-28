@@ -108,7 +108,8 @@ export const Hero = () => {
       <motion.div
         id="hero-scroll-cue"
         aria-hidden="true"
-        className="absolute bottom-6 left-1/2 z-10 flex -translate-x-1/2 flex-col items-center gap-2"
+        className="absolute bottom-10 left-1/2 z-10 flex -translate-x-1/2 flex-col items-center gap-2"
+        style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.9, delay: TEXT_DELAY + 1.2, ease: "easeOut" }}

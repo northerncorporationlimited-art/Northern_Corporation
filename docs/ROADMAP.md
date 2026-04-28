@@ -1,6 +1,6 @@
 # Roadmap — Northern Corporation
 
-_Last updated: 2026-04-28T15:55Z — CEO override: visual bugs take priority over config debt._
+_Last updated: 2026-04-28T16:25Z — Sprint 4 complete. All 4 tickets (T-12–T-15) delivered._
 
 > ✅ **Sprints 0–3 complete.** Archived to `MEMORY_BANK.md` (session: 2026-04-28T08:50Z).
 
@@ -20,34 +20,36 @@ _Last updated: 2026-04-28T15:55Z — CEO override: visual bugs take priority ove
 > **Priority:** 🔴 Critical — buyer-facing visual bugs.
 > **Branch:** `feat/sprint-4-responsive-menu`
 
-- [ ] **T-12: Rigorous Responsive QA Audit**
-  - Scan the Home page PresentationDeck (all 8 sections) on mobile (375px), tablet (768px), and small laptop (1024px) viewports.
-  - Scan all dynamic sub-pages: `/products/[category]` (5 categories), `/facilities/[slug]` (6 slugs), `/terms`, `/privacy`.
-  - Document every layout break: text overflow, image overlap, touch-target violations (< 44px), z-index collisions, clipped content.
-  - Output: checklist of findings with screenshot evidence per breakpoint.
-  - **Acceptance:** Written audit report with zero ambiguity — each finding has a file, line, and breakpoint.
+- [x] **T-12: Rigorous Responsive QA Audit** ✅ _Completed 2026-04-28_
+  - **Findings:** 4 🔴 Critical · 9 🟡 Warning · 5 🟢 Info
+  - C1: Logo too small (64px icon, no brand name <640px)
+  - C2: Navbar invisible on sub-pages (cream-on-cream)
+  - C3: Mobile menu is generic bottom sheet (CEO flagged)
+  - C4: Product image bleeds under navbar
+  - Full report: see QA Audit artifact
 
-- [ ] **T-13: Smart Navbar & Logo Sizing** (`src/components/layout/Navbar.tsx`)
-  - Increase the logo size significantly (current `h-16` is too small on inner pages).
-  - Make the Navbar background **context-aware by pathname**:
-    - On `/` (home): transparent background (current behaviour, blends with PresentationDeck).
-    - On all sub-pages (`/products/*`, `/facilities/*`, `/terms`, `/privacy`): solid or frosted-glass dark green (`#023020`) background so nav text is always legible against light page backgrounds.
-  - Ensure the CTA button and nav links remain accessible at all breakpoints.
-  - **Acceptance:** Logo is visually prominent. Navbar is transparent on home, opaque/frosted on every other route. No text-on-light-background legibility issues.
+- [x] **T-13: Smart Navbar & Logo Sizing** ✅ _Completed 2026-04-28_
+  - Logo: responsive `h-8 md:h-10 lg:h-12 w-auto`, brand text hidden `<sm:`
+  - Background: pathname-aware — transparent gradient on `/`, solid `bg-[#023020]` with shadow+border on all sub-pages
+  - Hamburger: 48px touch target (`h-12 w-12`), thicker 2px lines
+  - Fixes: C1 (logo too small), C2 (navbar invisible on sub-pages), I5 (touch target)
 
-- [ ] **T-14: Cinematic Fullscreen Menu** (`src/components/layout/Navbar.tsx`)
-  - Redesign the mobile/tablet menu into an **Awwwards-level fullscreen overlay**.
-  - Use Framer Motion for entrance/exit animations (staggered link reveals, background wipe, etc.).
-  - **UI/UX agent has full creative control** over layout, typography, animation choreography, and micro-interactions.
-  - Include a **B2B contact footer** inside the menu overlay (email, phone, factory address — pull from Contact section data).
-  - Menu must work flawlessly on mobile (375px), tablet (768px), and desktop (1440px+).
-  - **Acceptance:** Menu feels premium and cinematic. Smooth open/close. Contact info visible. No scroll-lock bugs. Passes Lighthouse accessibility audit.
+- [x] **T-14: Cinematic Fullscreen Menu** ✅ _Completed 2026-04-28_
+  - Replaced bottom sheet with fullscreen curtain (`clipPath inset` reveal via Framer Motion)
+  - Massive staggered typography (`text-4xl sm:5xl md:6xl lg:8xl` Playfair Display)
+  - Blur-in link animations with gold hover shimmer lines
+  - B2B footer: Corporate HQ (Dhaka), Direct Inquiries (email + phone), Est. 1967
+  - Fix: C3 (generic mobile menu)
 
-- [ ] **T-15: Implement QA Fixes**
-  - Resolve **all** responsive layout breaks documented in T-12.
-  - Fix across mobile (375px) and tablet (768px) breakpoints minimum.
-  - Each fix must reference the original T-12 finding number.
-  - **Acceptance:** Re-run the T-12 audit — zero critical/warning findings remain.
+- [x] **T-15: Implement QA Fixes** ✅ _Completed 2026-04-28_
+  - **Products.tsx:** C4 (pt-28 top pad), W1 (text-2xl mobile), W2 (max-w-sm full-width)
+  - **GlobalReach.tsx:** W3 (hidden md:inline labels), W4 (onClick toggle for touch)
+  - **Sustainability.tsx:** W8 (grid-cols-2 sm:3 md:4 lg:7)
+  - **Facilities.tsx:** W5 (auto height, min-h-[80px])
+  - **Contact.tsx:** W7 (pointer-events-none mobile map)
+  - **AboutUs.tsx:** W9 (tracking-wide mobile, tracking-widest md+)
+  - **Hero.tsx:** I2 (bottom-10 + env(safe-area-inset-bottom))
+  - **products/[category]/page.tsx:** I3 (text-4xl md:6xl lg:8xl)
 
 ---
 

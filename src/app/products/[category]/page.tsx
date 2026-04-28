@@ -83,7 +83,7 @@ export default async function ProductGalleryPage({ params }: PageProps) {
         </Link>
 
         {/* Header */}
-        <h1 className="font-playfair text-6xl leading-tight md:text-7xl lg:text-8xl">
+        <h1 className="font-playfair text-4xl leading-tight md:text-6xl lg:text-8xl">
           {title}
         </h1>
         <p className="mt-4 font-sans text-lg text-[#023020]/60">
