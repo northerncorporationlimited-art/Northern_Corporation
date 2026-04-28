@@ -4,6 +4,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Logo } from "@/components/ui/Logo";
+import { NAV_LINKS, ALL_LINKS, DARK_SLIDES } from "@/data/slides";
 
 /* ═══════════════════════════════════════════════
    NAVBAR — Condensed Smart Navigation
@@ -11,26 +12,6 @@ import { Logo } from "@/components/ui/Logo";
    ═══════════════════════════════════════════════ */
 
 const EASE: [number, number, number, number] = [0.76, 0, 0.24, 1];
-
-/* Condensed link set — Home removed (logo does it), Contact removed (CTA does it) */
-const NAV_LINKS = [
-  { label: "About", slideIndex: 1 },
-  { label: "Sustainability", slideIndex: 2 },
-  { label: "Products", slideIndex: 3 },
-  { label: "Global Reach", slideIndex: 4 },
-  { label: "Our People", slideIndex: 5 },
-  { label: "Certifications", slideIndex: 6 },
-];
-
-/* All links for mobile — includes contact */
-const ALL_LINKS = [
-  { label: "Home", slideIndex: 0 },
-  ...NAV_LINKS,
-  { label: "Contact", slideIndex: 7 },
-];
-
-/* Slides with dark backgrounds — navbar can be transparent */
-const DARK_SLIDES = new Set([0, 2, 4, 5, 7]);
 
 export const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -134,7 +115,9 @@ export const Navbar = () => {
           <div className="mx-auto flex h-[72px] max-w-[1440px] items-center justify-between px-6 md:px-12">
             {/* ── Logo ── */}
             <button
+              id="nav-logo"
               onClick={() => navigateToSlide(0)}
+              aria-label="Navigate to home"
               className={`group flex items-center transition-all duration-300 ${
                 mobileOpen ? "relative z-[197]" : "relative z-[201]"
               }`}
@@ -155,6 +138,7 @@ export const Navbar = () => {
                 return (
                   <button
                     key={link.label}
+                    id={`nav-${link.label.toLowerCase().replace(/\s+/g, "-")}`}
                     onClick={() => navigateToSlide(link.slideIndex)}
                     onMouseEnter={() => setHoveredIndex(i)}
                     className="relative px-4 py-2 xl:px-5"
@@ -201,7 +185,9 @@ export const Navbar = () => {
 
             {/* ── Contact CTA (Desktop) ── */}
             <button
-              onClick={() => navigateToSlide(7)}
+              id="nav-contact-cta"
+              onClick={() => navigateToSlide(ALL_LINKS.length - 1)}
+              aria-label="Navigate to contact section"
               className="hidden rounded-full border border-[#FDD017]/30 bg-[#FDD017]/10 px-5 py-2 text-[11px] font-semibold uppercase tracking-widest text-[#FDD017] backdrop-blur-sm transition-all duration-300 hover:border-[#FDD017]/60 hover:bg-[#FDD017]/20 lg:block"
             >
               Contact Us
@@ -209,6 +195,7 @@ export const Navbar = () => {
 
             {/* ── Mobile Hamburger ── */}
             <button
+              id="nav-mobile-toggle"
               onClick={() => setMobileOpen(!mobileOpen)}
               className="relative z-[201] flex h-10 w-10 flex-col items-center justify-center gap-1.5 lg:hidden"
               aria-label="Toggle menu"

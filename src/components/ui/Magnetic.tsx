@@ -34,17 +34,12 @@ export const Magnetic = ({ children, strength = 15, className = "" }: MagneticPr
     y.set(0);
   };
 
-  const handleMouseEnter = () => {
-    // Trigger spring animation on enter
-  };
-
   return (
     <motion.div
       ref={ref}
       className={className}
       style={{ x, y }}
       onMouseMove={handleMouseMove}
-      onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
       {children}

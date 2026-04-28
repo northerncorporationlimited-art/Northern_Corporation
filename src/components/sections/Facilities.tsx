@@ -18,23 +18,27 @@ const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 export const Facilities = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [mobileExpanded, setMobileExpanded] = useState<number | null>(null);
-  const autoPlayRef = useRef<NodeJS.Timeout | null>(null);
+  const autoPlayRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const userInteractedRef = useRef(false);
 
   /* Auto-rotate on desktop when user hasn't interacted */
   const startAutoPlay = useCallback(() => {
-    if (autoPlayRef.current) clearInterval(autoPlayRef.current);
-    autoPlayRef.current = setInterval(() => {
-      if (!userInteractedRef.current) {
-        setActiveIndex((i) => (i + 1) % FACILITIES.length);
-      }
-    }, 4000);
+    if (autoPlayRef.current) clearTimeout(autoPlayRef.current);
+    const tick = () => {
+      autoPlayRef.current = setTimeout(() => {
+        if (!userInteractedRef.current) {
+          setActiveIndex((i) => (i + 1) % FACILITIES.length);
+        }
+        tick();
+      }, 4000);
+    };
+    tick();
   }, []);
 
   useEffect(() => {
     startAutoPlay();
     return () => {
-      if (autoPlayRef.current) clearInterval(autoPlayRef.current);
+      if (autoPlayRef.current) clearTimeout(autoPlayRef.current);
     };
   }, [startAutoPlay]);
 
@@ -42,18 +46,18 @@ export const Facilities = () => {
     userInteractedRef.current = true;
     setActiveIndex(i);
     // Reset auto-play after 8 seconds of no interaction
-    if (autoPlayRef.current) clearInterval(autoPlayRef.current);
+    if (autoPlayRef.current) clearTimeout(autoPlayRef.current);
     autoPlayRef.current = setTimeout(() => {
       userInteractedRef.current = false;
       startAutoPlay();
-    }, 8000) as unknown as NodeJS.Timeout;
+    }, 8000);
   };
 
   const toggleMobileCard = (i: number) => {
     setMobileExpanded((prev) => (prev === i ? null : i));
   };
 
-  const active = FACILITIES[activeIndex];
+
 
   return (
     <section

@@ -99,7 +99,9 @@ const HoloPin = ({
 
       {/* Region label */}
       <span
-        className={`absolute left-full ml-3 top-0 whitespace-nowrap font-sans text-[10px] uppercase tracking-widest ${
+        className={`absolute top-0 whitespace-nowrap font-sans text-[10px] uppercase tracking-widest ${
+          loc.x > 65 ? "right-full mr-3" : "left-full ml-3"
+        } ${
           isHub ? "text-[#FDD017]/80" : "text-[#F5F5EB]/40"
         } ${isActive ? "text-[#FDD017]" : ""}`}
       >
@@ -133,16 +135,9 @@ const HoloPin = ({
             <p className="mb-4 border-b border-[#F5F5EB]/20 pb-2 font-playfair text-2xl text-[#FDD017]">
               {loc.name}
             </p>
-            <div className="mt-4 grid grid-cols-2 gap-2">
-              {[1, 2, 3, 4].map((n) => (
-                <div
-                  key={n}
-                  className="flex h-12 items-center justify-center rounded border border-[#F5F5EB]/5 bg-[#F5F5EB]/10 text-[10px] uppercase tracking-wider text-[#F5F5EB]/50"
-                >
-                  Logo
-                </div>
-              ))}
-            </div>
+            <p className="text-xs leading-relaxed text-[#F5F5EB]/60">
+              Active export partnerships with leading retailers and fashion brands in the {loc.name} market.
+            </p>
           </motion.div>
         )}
       </AnimatePresence>

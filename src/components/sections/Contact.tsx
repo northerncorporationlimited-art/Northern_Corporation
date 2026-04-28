@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 import { motion } from "framer-motion";
 
 /* ═══════════════════════════════════════════════
@@ -122,15 +123,27 @@ export const Contact = () => {
               transition={{ duration: 0.8, delay: 0.2, ease: EASE }}
             >
               <div className="relative w-full overflow-hidden rounded-3xl border border-[#F5F5EB]/10">
-                <iframe
-                  src="https://www.google.com/maps?q=Northern+Corporation+Limited+Baridhara+Dhaka&output=embed"
-                  style={{ border: 0, filter: "invert(0.9) hue-rotate(180deg) saturate(0.3)" }}
-                  allowFullScreen
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                  title="Northern Corporation Location"
-                  className="aspect-video w-full lg:aspect-[4/3]"
-                />
+                <a
+                  href="https://www.google.com/maps/search/Northern+Corporation+Limited+Baridhara+Dhaka"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group relative block aspect-video w-full lg:aspect-[4/3]"
+                  aria-label="View Northern Corporation location on Google Maps"
+                >
+                  <Image
+                    src="/images/map-baridhara.png"
+                    alt="Northern Corporation head office location — Baridhara Diplomatic Zone, Dhaka"
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 50vw"
+                    className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                  />
+                  {/* Hover overlay with CTA */}
+                  <div className="absolute inset-0 flex items-center justify-center bg-[#023020]/0 transition-colors duration-300 group-hover:bg-[#023020]/40">
+                    <span className="rounded-full border border-[#FDD017]/40 bg-[#023020]/80 px-6 py-2.5 font-mono text-[10px] uppercase tracking-widest text-[#FDD017] opacity-0 backdrop-blur-sm transition-opacity duration-300 group-hover:opacity-100">
+                      View on Google Maps ↗
+                    </span>
+                  </div>
+                </a>
               </div>
             </motion.div>
           </div>

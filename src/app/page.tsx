@@ -10,21 +10,11 @@ import { Facilities } from "@/components/sections/Facilities";
 import { Sustainability } from "@/components/sections/Sustainability";
 import { Contact } from "@/components/sections/Contact";
 import { PresentationDeck } from "@/components/layout/PresentationDeck";
-
-const LABELS = [
-  "Hero",
-  "About Us",
-  "Eco Impact",
-  "Products",
-  "Global Reach",
-  "Facilities",
-  "Certifications",
-  "Contact",
-];
+import { SLIDE_LABELS } from "@/data/slides";
 
 export default function Home() {
   return (
-    <PresentationDeck labels={LABELS}>
+    <PresentationDeck labels={SLIDE_LABELS}>
       <Hero />
       <AboutUs />
       <EcoImpact />

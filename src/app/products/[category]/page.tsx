@@ -3,6 +3,8 @@ import Image from "next/image";
 import Link from "next/link";
 import fs from "fs";
 import path from "path";
+import { notFound } from "next/navigation";
+import type { Metadata } from "next";
 
 /* ═══════════════════════════════════════════════
    DYNAMIC PRODUCT GALLERY — Server Component
@@ -29,6 +31,20 @@ interface PageProps {
   params: Promise<{ category: string }>;
 }
 
+export function generateStaticParams() {
+  return Object.keys(SLUG_TO_FOLDER).map((category) => ({ category }));
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { category } = await params;
+  const title = SLUG_TO_TITLE[category];
+  if (!title) return { title: "Not Found" };
+  return {
+    title: `${title} Collection`,
+    description: `Browse Northern Corporation's ${title.toLowerCase()} collection — premium knitwear manufactured in Bangladesh.`,
+  };
+}
+
 export default async function ProductGalleryPage({ params }: PageProps) {
   const { category } = await params;
 
@@ -36,11 +52,7 @@ export default async function ProductGalleryPage({ params }: PageProps) {
   const title = SLUG_TO_TITLE[category] || category;
 
   if (!folder) {
-    return (
-      <div className="flex min-h-screen items-center justify-center bg-[#F5F5EB] text-[#023020]">
-        <p className="font-playfair text-3xl">Category not found</p>
-      </div>
-    );
+    notFound();
   }
 
   const dirPath = path.join(process.cwd(), "public", "products", folder);

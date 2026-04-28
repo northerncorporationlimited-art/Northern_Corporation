@@ -173,10 +173,18 @@ export const PresentationDeck = ({ children, labels }: PresentationDeckProps) =>
   useEffect(() => {
     if (isMobile) return;
     const handleWheel = (e: WheelEvent) => {
-      e.preventDefault();
-      if (isAnimating.current) return;
-      if (e.deltaY > WHEEL_THRESHOLD) goTo(1);
-      else if (e.deltaY < -WHEEL_THRESHOLD) goTo(-1);
+      if (isAnimating.current) {
+        e.preventDefault();
+        return;
+      }
+      if (e.deltaY > WHEEL_THRESHOLD) {
+        e.preventDefault();
+        goTo(1);
+      } else if (e.deltaY < -WHEEL_THRESHOLD) {
+        e.preventDefault();
+        goTo(-1);
+      }
+      // Sub-threshold wheel events pass through for overflow scrolling
     };
     window.addEventListener("wheel", handleWheel, { passive: false });
     return () => window.removeEventListener("wheel", handleWheel);

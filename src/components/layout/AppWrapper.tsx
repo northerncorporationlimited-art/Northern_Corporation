@@ -22,7 +22,7 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
         {isLoading && <Preloader />}
       </AnimatePresence>
       {!isLoading && <Navbar />}
-      <div className="relative">{children}</div>
+      <main className="relative">{children}</main>
     </SmoothScroll>
   );
 };

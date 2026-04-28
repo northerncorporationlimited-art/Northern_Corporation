@@ -9,16 +9,17 @@ import { motion } from "framer-motion";
 
 let audioCtx: AudioContext | null = null;
 
-function initAudio() {
+function initAudio(): AudioContext | null {
   if (!audioCtx) {
     const Ctx = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
     audioCtx = new Ctx();
   }
+  // Only produce sound if the context is already unlocked from a prior user gesture
+  if (audioCtx.state !== "running") return null;
   return audioCtx;
 }
 
-function createReverb(duration = 1.5, decay = 2) {
-  const ctx = initAudio();
+function createReverb(ctx: AudioContext, duration = 1.5, decay = 2) {
   const rate = ctx.sampleRate;
   const len = rate * duration;
   const impulse = ctx.createBuffer(2, len, rate);
@@ -36,8 +37,9 @@ function createReverb(duration = 1.5, decay = 2) {
 function playImpact() {
   try {
     const ctx = initAudio();
+    if (!ctx) return;
     const now = ctx.currentTime;
-    const reverb = createReverb(2.0, 2.5);
+    const reverb = createReverb(ctx, 2.0, 2.5);
     const masterGain = ctx.createGain();
     masterGain.gain.value = 0.7;
     reverb.connect(masterGain);
@@ -90,6 +92,7 @@ function playImpact() {
 function playWhoosh() {
   try {
     const ctx = initAudio();
+    if (!ctx) return;
     const now = ctx.currentTime;
     const bufLen = ctx.sampleRate * 0.8;
     const noiseBuf = ctx.createBuffer(1, bufLen, ctx.sampleRate);
@@ -108,7 +111,7 @@ function playWhoosh() {
     gain.gain.linearRampToValueAtTime(0.15, now + 0.06);
     gain.gain.setValueAtTime(0.15, now + 0.1);
     gain.gain.exponentialRampToValueAtTime(0.001, now + 0.7);
-    const reverb = createReverb(1.0, 3);
+    const reverb = createReverb(ctx, 1.0, 3);
     noise.connect(filter);
     filter.connect(gain);
     gain.connect(reverb);
@@ -121,8 +124,9 @@ function playWhoosh() {
 function playChime() {
   try {
     const ctx = initAudio();
+    if (!ctx) return;
     const now = ctx.currentTime;
-    const reverb = createReverb(2.5, 1.8);
+    const reverb = createReverb(ctx, 2.5, 1.8);
     const masterGain = ctx.createGain();
     masterGain.gain.value = 0.5;
     reverb.connect(masterGain);
@@ -164,6 +168,7 @@ function playChime() {
 function playSettle() {
   try {
     const ctx = initAudio();
+    if (!ctx) return;
     const now = ctx.currentTime;
     const osc = ctx.createOscillator();
     const gain = ctx.createGain();
