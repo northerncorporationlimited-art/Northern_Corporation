@@ -152,13 +152,13 @@ export const Contact = () => {
           </p>
           <div className="flex gap-6">
             <a
-              href="#"
+              href="/terms"
               className="font-mono text-[10px] uppercase tracking-widest text-[#F5F5EB]/30 transition-colors hover:text-[#F5F5EB]/60"
             >
               Terms & Conditions
             </a>
             <a
-              href="#"
+              href="/privacy"
               className="font-mono text-[10px] uppercase tracking-widest text-[#F5F5EB]/30 transition-colors hover:text-[#F5F5EB]/60"
             >
               Privacy Policy
