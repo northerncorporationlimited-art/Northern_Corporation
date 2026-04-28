@@ -2,8 +2,8 @@
 
 import React, { useState, useEffect, useCallback } from "react";
 import { useRouter, usePathname } from "next/navigation";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { Logo } from "@/components/ui/Logo";
 import { NAV_LINKS, ALL_LINKS, DARK_SLIDES } from "@/data/slides";
 
 /* ═══════════════════════════════════════════════
@@ -124,7 +124,14 @@ export const Navbar = () => {
               aria-label="Navigate to home"
               className="group relative z-[201] flex items-center gap-2 transition-all duration-300"
             >
-              <Logo className="h-8 w-auto text-brand-cream transition-transform duration-300 group-hover:scale-110 md:h-10 lg:h-12" />
+              <Image
+                src="/logo-symbol.svg"
+                alt="Northern Corporation"
+                width={48}
+                height={48}
+                className="h-8 w-auto brightness-0 invert transition-transform duration-300 group-hover:scale-110 md:h-10 lg:h-12"
+                priority
+              />
               <span className="hidden text-xs font-semibold uppercase tracking-[0.2em] text-brand-cream/80 sm:block">
                 Northern Corp.
               </span>
