@@ -7,14 +7,16 @@ import { Logo } from "@/components/ui/Logo";
 import { NAV_LINKS, ALL_LINKS, DARK_SLIDES } from "@/data/slides";
 
 /* ═══════════════════════════════════════════════
-   NAVBAR — Condensed Smart Navigation
-   Adaptive background, active tracking, bottom sheet mobile
+   NAVBAR — Cinematic Navigation System
+   Pathname-aware background, responsive logo,
+   fullscreen Awwwards-level overlay menu.
    ═══════════════════════════════════════════════ */
 
 const EASE: [number, number, number, number] = [0.76, 0, 0.24, 1];
+const MENU_EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
 export const Navbar = () => {
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [activeSlide, setActiveSlide] = useState(0);
   const router = useRouter();
@@ -52,27 +54,27 @@ export const Navbar = () => {
     return () => observer.disconnect();
   }, []);
 
-  // Auto-close mobile menu on resize to desktop
+  // Auto-close menu on resize to desktop
   useEffect(() => {
     const mql = window.matchMedia("(min-width: 1024px)");
     const handler = (e: MediaQueryListEvent) => {
-      if (e.matches) setMobileOpen(false);
+      if (e.matches) setMenuOpen(false);
     };
     mql.addEventListener("change", handler);
     return () => mql.removeEventListener("change", handler);
   }, []);
 
-  // Lock body scroll when mobile menu is open
+  // Lock body scroll when menu is open
   useEffect(() => {
-    document.body.style.overflow = mobileOpen ? "hidden" : "";
+    document.body.style.overflow = menuOpen ? "hidden" : "";
     return () => {
       document.body.style.overflow = "";
     };
-  }, [mobileOpen]);
+  }, [menuOpen]);
 
   const navigateToSlide = useCallback(
     (slideIndex: number) => {
-      setMobileOpen(false);
+      setMenuOpen(false);
 
       if (!isHomePage) {
         // On a sub-page — navigate home with slide param
@@ -86,16 +88,24 @@ export const Navbar = () => {
           new CustomEvent("NAVIGATE_SLIDE", { detail: slideIndex })
         );
       };
-      if (mobileOpen) {
-        setTimeout(dispatch, 400);
+      if (menuOpen) {
+        setTimeout(dispatch, 500);
       } else {
         dispatch();
       }
     },
-    [mobileOpen, isHomePage, router]
+    [menuOpen, isHomePage, router]
   );
 
-  const isLightSlide = !DARK_SLIDES.has(activeSlide);
+  /* ── Navbar background logic ──
+     On home (/): adapt based on current slide (dark vs light)
+     On sub-pages: always solid dark green for legibility */
+  const isLightSlide = isHomePage && !DARK_SLIDES.has(activeSlide);
+  const navBg = !isHomePage
+    ? "bg-[#023020] shadow-lg shadow-black/10 border-b border-[#F5F5EB]/10 backdrop-blur-md"
+    : isLightSlide
+      ? "bg-[#023020]/90 shadow-lg shadow-black/10 backdrop-blur-md"
+      : "bg-gradient-to-b from-[#023020]/60 via-[#023020]/20 to-transparent";
 
   return (
     <>
@@ -105,25 +115,17 @@ export const Navbar = () => {
         animate={{ y: 0 }}
         transition={{ duration: 0.5, ease: EASE }}
       >
-        <div
-          className={`w-full transition-all duration-500 ${
-            isLightSlide
-              ? "bg-[#023020]/90 shadow-lg shadow-black/10 backdrop-blur-md"
-              : "bg-gradient-to-b from-[#023020]/60 via-[#023020]/20 to-transparent"
-          }`}
-        >
-          <div className="mx-auto flex h-[72px] max-w-[1440px] items-center justify-between px-6 md:px-12">
+        <div className={`w-full transition-all duration-500 ${navBg}`}>
+          <div className="mx-auto flex h-[72px] max-w-[1440px] items-center justify-between px-4 sm:px-6 md:px-12">
             {/* ── Logo ── */}
             <button
               id="nav-logo"
               onClick={() => navigateToSlide(0)}
               aria-label="Navigate to home"
-              className={`group flex items-center transition-all duration-300 ${
-                mobileOpen ? "relative z-[197]" : "relative z-[201]"
-              }`}
+              className="group relative z-[201] flex items-center gap-2 transition-all duration-300"
             >
-              <Logo className="h-16 w-16 text-brand-cream transition-transform duration-300 group-hover:scale-110" />
-              <span className="-ml-3 hidden text-xs font-semibold uppercase tracking-[0.2em] text-brand-cream/80 sm:block">
+              <Logo className="h-8 w-auto text-brand-cream transition-transform duration-300 group-hover:scale-110 md:h-10 lg:h-12" />
+              <span className="hidden text-xs font-semibold uppercase tracking-[0.2em] text-brand-cream/80 sm:block">
                 Northern Corp.
               </span>
             </button>
@@ -193,135 +195,179 @@ export const Navbar = () => {
               Contact Us
             </button>
 
-            {/* ── Mobile Hamburger ── */}
+            {/* ── Hamburger — 48px touch target ── */}
             <button
               id="nav-mobile-toggle"
-              onClick={() => setMobileOpen(!mobileOpen)}
-              className="relative z-[201] flex h-10 w-10 flex-col items-center justify-center gap-1.5 lg:hidden"
+              onClick={() => setMenuOpen(!menuOpen)}
+              className="relative z-[201] flex h-12 w-12 flex-col items-center justify-center gap-1.5 lg:hidden"
               aria-label="Toggle menu"
             >
               <motion.span
-                className="block h-[1.5px] w-6 origin-center bg-brand-cream"
+                className="block h-[2px] w-7 origin-center rounded-full bg-brand-cream"
                 animate={
-                  mobileOpen ? { rotate: 45, y: 4.5 } : { rotate: 0, y: 0 }
+                  menuOpen ? { rotate: 45, y: 5.5 } : { rotate: 0, y: 0 }
                 }
-                transition={{ duration: 0.3, ease: EASE }}
+                transition={{ duration: 0.4, ease: MENU_EASE }}
               />
               <motion.span
-                className="block h-[1.5px] w-6 origin-center bg-brand-cream"
+                className="block h-[2px] w-7 origin-center rounded-full bg-brand-cream"
                 animate={
-                  mobileOpen
+                  menuOpen
                     ? { opacity: 0, scaleX: 0 }
                     : { opacity: 1, scaleX: 1 }
                 }
-                transition={{ duration: 0.2 }}
+                transition={{ duration: 0.25 }}
               />
               <motion.span
-                className="block h-[1.5px] w-6 origin-center bg-brand-cream"
+                className="block h-[2px] w-7 origin-center rounded-full bg-brand-cream"
                 animate={
-                  mobileOpen ? { rotate: -45, y: -4.5 } : { rotate: 0, y: 0 }
+                  menuOpen ? { rotate: -45, y: -5.5 } : { rotate: 0, y: 0 }
                 }
-                transition={{ duration: 0.3, ease: EASE }}
+                transition={{ duration: 0.4, ease: MENU_EASE }}
               />
             </button>
           </div>
         </div>
       </motion.nav>
 
-      {/* ── Mobile Bottom Sheet ── */}
+      {/* ═══════════════════════════════════════════════
+           CINEMATIC FULLSCREEN MENU OVERLAY
+           Awwwards-level curtain with staggered reveals,
+           massive typography, and B2B contact footer.
+         ═══════════════════════════════════════════════ */}
       <AnimatePresence>
-        {mobileOpen && (
-          <>
-            {/* Backdrop */}
+        {menuOpen && (
+          <motion.div
+            className="fixed inset-0 z-[199] flex flex-col overflow-y-auto bg-[#023020]/[0.97] backdrop-blur-2xl"
+            initial={{ clipPath: "inset(0 0 100% 0)" }}
+            animate={{ clipPath: "inset(0 0 0% 0)" }}
+            exit={{ clipPath: "inset(0 0 100% 0)" }}
+            transition={{ duration: 0.7, ease: MENU_EASE }}
+          >
+            {/* ── Gold accent line — sweeps across on open ── */}
             <motion.div
-              className="fixed inset-0 z-[198] bg-black/50 backdrop-blur-sm"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.3 }}
-              onClick={() => setMobileOpen(false)}
+              className="pointer-events-none absolute left-0 top-[72px] h-[1px] w-full bg-gradient-to-r from-transparent via-[#FDD017] to-transparent"
+              initial={{ scaleX: 0, opacity: 0 }}
+              animate={{ scaleX: 1, opacity: 0.4 }}
+              exit={{ scaleX: 0, opacity: 0 }}
+              transition={{ duration: 0.9, delay: 0.2, ease: MENU_EASE }}
             />
 
-            {/* Bottom Sheet */}
-            <motion.div
-              className="fixed bottom-0 left-0 right-0 z-[199] flex max-h-[75vh] flex-col overflow-hidden rounded-t-3xl border-t border-[#F5F5EB]/10 bg-[#023020]"
-              initial={{ y: "100%" }}
-              animate={{ y: 0 }}
-              exit={{ y: "100%" }}
-              transition={{ duration: 0.5, ease: EASE }}
-            >
-              {/* Drag handle */}
-              <div className="flex justify-center pb-2 pt-4">
-                <div className="h-1 w-10 rounded-full bg-[#F5F5EB]/20" />
-              </div>
-
-              {/* Links */}
-              <div className="flex-1 overflow-y-auto px-6 pb-4 sm:px-8">
-                {ALL_LINKS.map((link, i) => {
-                  const isActive = activeSlide === link.slideIndex;
-                  return (
-                    <motion.button
-                      key={link.label}
-                      onClick={() => navigateToSlide(link.slideIndex)}
-                      className={`flex w-full items-center gap-4 border-b border-[#F5F5EB]/5 py-4 text-left transition-colors ${
-                        isActive ? "border-[#FDD017]/20" : ""
+            {/* ── Navigation Links ── */}
+            <nav className="flex flex-1 flex-col justify-center px-6 pt-24 sm:px-10 md:px-16 lg:px-24">
+              {ALL_LINKS.map((link, i) => {
+                const isActive = activeSlide === link.slideIndex;
+                return (
+                  <motion.button
+                    key={link.label}
+                    onClick={() => navigateToSlide(link.slideIndex)}
+                    className="group relative flex items-baseline gap-4 border-b border-[#F5F5EB]/[0.04] py-3 text-left sm:gap-6 sm:py-4 md:py-5"
+                    initial={{ opacity: 0, y: 40, filter: "blur(8px)" }}
+                    animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                    exit={{ opacity: 0, y: -20 }}
+                    transition={{
+                      duration: 0.6,
+                      delay: 0.15 + i * 0.06,
+                      ease: MENU_EASE,
+                    }}
+                  >
+                    {/* Index number */}
+                    <span
+                      className={`font-mono text-xs transition-colors duration-300 sm:text-sm ${
+                        isActive ? "text-[#FDD017]" : "text-[#F5F5EB]/20"
                       }`}
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{
-                        duration: 0.4,
-                        delay: 0.05 + i * 0.04,
-                        ease: EASE,
-                      }}
                     >
-                      <span
-                        className={`font-mono text-[10px] ${
-                          isActive ? "text-[#FDD017]" : "text-[#F5F5EB]/25"
-                        }`}
+                      {String(link.slideIndex + 1).padStart(2, "0")}
+                    </span>
+
+                    {/* Link text */}
+                    <span
+                      className={`font-playfair text-4xl leading-[1.1] transition-all duration-300 sm:text-5xl md:text-6xl lg:text-8xl ${
+                        isActive
+                          ? "text-[#FDD017]"
+                          : "text-[#F5F5EB]/80 group-hover:text-[#FDD017] group-hover:translate-x-3"
+                      }`}
+                    >
+                      {link.label}
+                    </span>
+
+                    {/* Active indicator */}
+                    {isActive && (
+                      <motion.span
+                        className="ml-auto hidden font-mono text-[9px] uppercase tracking-[0.25em] text-[#FDD017]/40 sm:block"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 0.4 }}
                       >
-                        {String(link.slideIndex + 1).padStart(2, "0")}
-                      </span>
+                        Current
+                      </motion.span>
+                    )}
 
-                      {/* Active indicator dot */}
-                      <div
-                        className={`h-1.5 w-1.5 rounded-full transition-all ${
-                          isActive
-                            ? "bg-[#FDD017] shadow-[0_0_6px_#FDD017]"
-                            : "bg-transparent"
-                        }`}
-                      />
+                    {/* Hover shimmer line */}
+                    <motion.div
+                      className="absolute bottom-0 left-0 h-[1px] w-full origin-left bg-gradient-to-r from-[#FDD017]/30 to-transparent"
+                      initial={{ scaleX: 0 }}
+                      whileHover={{ scaleX: 1 }}
+                      transition={{ duration: 0.4, ease: MENU_EASE }}
+                    />
+                  </motion.button>
+                );
+              })}
+            </nav>
 
-                      <span
-                        className={`font-playfair text-xl transition-colors sm:text-2xl ${
-                          isActive
-                            ? "text-[#FDD017]"
-                            : "text-brand-cream/80 hover:text-brand-cream"
-                        }`}
-                      >
-                        {link.label}
-                      </span>
+            {/* ── B2B Contact Footer ── */}
+            <motion.div
+              className="shrink-0 border-t border-[#F5F5EB]/[0.06] px-6 pb-8 pt-6 sm:px-10 md:px-16 lg:px-24"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.5, delay: 0.6, ease: MENU_EASE }}
+            >
+              <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+                {/* HQ Info */}
+                <div className="flex flex-col gap-1">
+                  <span className="mb-2 font-mono text-[9px] uppercase tracking-[0.25em] text-[#FDD017]/50">
+                    Corporate Headquarters
+                  </span>
+                  <span className="font-sans text-sm leading-relaxed text-[#F5F5EB]/50">
+                    Baridhara Diplomatic Zone
+                  </span>
+                  <span className="font-sans text-sm leading-relaxed text-[#F5F5EB]/50">
+                    Dhaka — 1212, Bangladesh
+                  </span>
+                </div>
 
-                      {isActive && (
-                        <span className="ml-auto font-mono text-[9px] uppercase tracking-widest text-[#FDD017]/50">
-                          Current
-                        </span>
-                      )}
-                    </motion.button>
-                  );
-                })}
-              </div>
+                {/* Direct Inquiries */}
+                <div className="flex flex-col gap-1 sm:items-end">
+                  <span className="mb-2 font-mono text-[9px] uppercase tracking-[0.25em] text-[#FDD017]/50">
+                    Direct Inquiries
+                  </span>
+                  <a
+                    href="mailto:info@northerncorp.com"
+                    className="font-sans text-sm text-[#F5F5EB]/50 transition-colors duration-300 hover:text-[#FDD017]"
+                  >
+                    info@northerncorp.com
+                  </a>
+                  <a
+                    href="tel:+880248814594"
+                    className="font-sans text-sm text-[#F5F5EB]/50 transition-colors duration-300 hover:text-[#FDD017]"
+                  >
+                    +88-02-48814594
+                  </a>
+                </div>
 
-              {/* Bottom info */}
-              <div className="flex items-center justify-between border-t border-[#F5F5EB]/10 px-6 py-4 sm:px-8">
-                <span className="font-mono text-[9px] uppercase tracking-widest text-[#F5F5EB]/25">
-                  Northern Corporation Ltd.
-                </span>
-                <span className="font-mono text-[9px] uppercase tracking-widest text-[#F5F5EB]/25">
-                  Est. 1967
-                </span>
+                {/* Branding */}
+                <div className="flex flex-col sm:items-end">
+                  <span className="font-mono text-[9px] uppercase tracking-[0.25em] text-[#F5F5EB]/15">
+                    Northern Corporation Ltd.
+                  </span>
+                  <span className="font-mono text-[9px] uppercase tracking-[0.25em] text-[#F5F5EB]/15">
+                    Est. 1967 • Bangladesh
+                  </span>
+                </div>
               </div>
             </motion.div>
-          </>
+          </motion.div>
         )}
       </AnimatePresence>
     </>

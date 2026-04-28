@@ -40,12 +40,14 @@ const HoloPin = ({
   isActive,
   onEnter,
   onLeave,
+  onTap,
   isHub,
 }: {
   loc: { id: string; name: string; x: number; y: number };
   isActive: boolean;
   onEnter: () => void;
   onLeave: () => void;
+  onTap: () => void;
   isHub?: boolean;
 }) => {
   const isLeft = loc.x < 50;
@@ -55,11 +57,12 @@ const HoloPin = ({
       className="absolute z-20 flex -translate-x-1/2 -translate-y-full flex-col items-center justify-end"
       style={{ left: `${loc.x}%`, top: `${loc.y}%` }}
     >
-      {/* Invisible hover target */}
+      {/* Invisible hover + tap target */}
       <div
         className="absolute -top-1 z-30 h-12 w-12 -translate-y-1/2 cursor-crosshair"
         onMouseEnter={onEnter}
         onMouseLeave={onLeave}
+        onClick={onTap}
       />
 
       {/* Top diamond */}
@@ -97,9 +100,9 @@ const HoloPin = ({
         }}
       />
 
-      {/* Region label */}
+      {/* Region label — hidden on mobile to prevent overlap */}
       <span
-        className={`absolute top-0 whitespace-nowrap font-sans text-[10px] uppercase tracking-widest ${
+        className={`absolute top-0 hidden whitespace-nowrap font-sans text-[10px] uppercase tracking-widest md:inline ${
           loc.x > 65 ? "right-full mr-3" : "left-full ml-3"
         } ${
           isHub ? "text-[#FDD017]/80" : "text-[#F5F5EB]/40"
@@ -112,7 +115,7 @@ const HoloPin = ({
       <AnimatePresence>
         {isActive && !isHub && (
           <motion.div
-            className={`pointer-events-none absolute z-50 w-64 rounded-2xl border border-[#F5F5EB]/20 bg-[#F5F5EB]/10 p-5 text-left shadow-2xl backdrop-blur-xl ${
+            className={`pointer-events-none absolute z-50 w-48 rounded-2xl border border-[#F5F5EB]/20 bg-[#F5F5EB]/10 p-4 text-left shadow-2xl backdrop-blur-xl md:w-64 md:p-5 ${
               isLeft
                 ? "left-full top-1/2 ml-4 origin-left md:ml-6"
                 : "right-full top-1/2 mr-4 origin-right md:mr-6"
@@ -238,6 +241,7 @@ export const GlobalReach = () => {
             isActive={false}
             onEnter={() => {}}
             onLeave={() => {}}
+            onTap={() => {}}
             isHub
           />
 
@@ -249,6 +253,7 @@ export const GlobalReach = () => {
               isActive={activeRegion === loc.id}
               onEnter={() => setActiveRegion(loc.id)}
               onLeave={() => setActiveRegion(null)}
+              onTap={() => setActiveRegion(activeRegion === loc.id ? null : loc.id)}
             />
           ))}
         </motion.div>

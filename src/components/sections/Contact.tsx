@@ -127,7 +127,7 @@ export const Contact = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.2, ease: EASE }}
             >
-              <div className="relative w-full overflow-hidden rounded-3xl border border-[#F5F5EB]/10">
+              <div className="relative w-full overflow-hidden rounded-3xl border border-[#F5F5EB]/10 pointer-events-none md:pointer-events-auto">
                 <iframe
                   src="https://www.google.com/maps?q=Northern+Corporation+Limited+Baridhara+Dhaka&output=embed"
                   style={{ border: 0, filter: "invert(0.9) hue-rotate(180deg) saturate(0.3)" }}

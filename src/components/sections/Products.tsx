@@ -40,7 +40,7 @@ export const Products = () => {
   return (
     <section
       id="products"
-      className="relative flex min-h-screen w-full overflow-hidden bg-[#F5F5EB] py-20 text-[#023020] lg:h-screen lg:py-0"
+      className="relative flex min-h-screen w-full overflow-hidden bg-[#F5F5EB] pt-28 pb-20 text-[#023020] lg:h-screen lg:py-0"
     >
       <div className="mx-auto flex h-full w-full max-w-7xl items-center px-6">
         <div className="grid h-full w-full grid-cols-1 items-center gap-8 lg:grid-cols-5 lg:gap-16">
@@ -65,14 +65,14 @@ export const Products = () => {
                       onClick={() => setActiveIndex(i)}
                       className={`group flex w-full items-baseline gap-4 py-3 text-left outline-none transition-all duration-300 ${
                         isActive
-                          ? "translate-x-4 opacity-100"
+                          ? "md:translate-x-4 opacity-100"
                           : "opacity-30 hover:opacity-60"
                       }`}
                     >
                       <span className="font-mono text-xs text-[#023020]/40">
                         {String(i + 1).padStart(2, "0")}
                       </span>
-                      <span className="font-playfair text-3xl leading-tight lg:text-4xl xl:text-5xl">
+                      <span className="font-playfair text-2xl leading-tight md:text-3xl lg:text-4xl xl:text-5xl">
                         {cat.title}
                       </span>
                     </button>
@@ -103,7 +103,7 @@ export const Products = () => {
           </div>
 
           {/* ── Right — Product Image (3/5 width) ── */}
-          <div className="relative flex h-full items-center justify-center pt-20 lg:col-span-3">
+          <div className="relative flex h-full items-center justify-center pt-8 lg:col-span-3 lg:pt-20">
             {/* Preload all category images for instant crossfade */}
             {CATEGORIES.map((cat) => (
               <Image
@@ -117,7 +117,7 @@ export const Products = () => {
                 priority
               />
             ))}
-            <div className="relative aspect-[4/5] w-full max-w-xs overflow-hidden rounded-3xl bg-[#023020] sm:max-w-sm lg:max-w-xl lg:max-h-[calc(100vh-200px)]">
+            <div className="relative mx-auto aspect-[4/5] w-full max-w-sm overflow-hidden rounded-3xl bg-[#023020] lg:max-w-xl lg:max-h-[calc(100vh-200px)]">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={active.slug}

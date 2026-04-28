@@ -93,7 +93,7 @@ export const AboutUs = () => {
                 <p className="mb-2 font-playfair text-6xl text-[#023020] lg:text-7xl">
                   {stat.value}
                 </p>
-                <p className="font-sans text-sm uppercase tracking-widest text-[#023020]/60">
+                <p className="font-sans text-sm uppercase tracking-wide text-[#023020]/60 md:tracking-widest">
                   {stat.label}
                 </p>
               </motion.div>
