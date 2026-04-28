@@ -20,16 +20,18 @@ Corporate website for **Northern Corporation Limited**, a Bangladeshi knitwear/a
 | `/V2`                   | Archive  | Legacy full-site (DualScroll + HistoryFlow + Sustainability + WorkLife + ContactFooter) |
 | `/facilities/[slug]`    | **ACTIVE** | Dynamic facility detail pages (6 facilities defined in data file) |
 | `/products/[category]`  | **ACTIVE** | Dynamic product category pages (5 categories: bottoms, nightwear, sports-active, tee-polo, winter) |
+| `/terms`                | **ACTIVE** | Static Terms & Conditions boilerplate (awaiting client legal text) |
+| `/privacy`              | **ACTIVE** | Static Privacy Policy boilerplate (awaiting client legal text) |
 
 ### Components
 
 #### Layout (`src/components/layout/`)
 | Component          | File Size | Purpose                                       |
 | ------------------ | --------- | --------------------------------------------- |
-| `AppWrapper.tsx`   | 805B      | Preloader → Navbar → Content orchestration     |
+| `AppWrapper.tsx`   | ~1KB      | Preloader → Navbar → Content; pathname-aware smooth scroll toggle |
 | `Navbar.tsx`       | ~13KB     | Fixed nav with mobile fullscreen overlay        |
 | `PresentationDeck.tsx` | ~12KB | Slide-based layout with nav dot indicators      |
-| `SmoothScroll.tsx` | ~1.5KB   | Lenis + GSAP ScrollTrigger sync                 |
+| `SmoothScroll.tsx` | ~1.5KB   | Lenis + GSAP sync; `enableSmooth` prop disables interpolation on sub-pages |
 
 #### Sections (`src/components/sections/`)
 | Component          | File Size | Status   |
@@ -59,6 +61,7 @@ Corporate website for **Northern Corporation Limited**, a Bangladeshi knitwear/a
 | File            | Contents                                                    |
 | --------------- | ----------------------------------------------------------- |
 | `facilities.ts` | 6 facility definitions (Facility interface): prayer-rooms, medical-service, dining, daycare, equality, professional-development |
+| `slides.ts`     | Slide config: order, labels, dark/light backgrounds, navbar visibility per slide |
 
 ### Assets (`public/`)
 | Directory         | Contents                                    |
@@ -112,13 +115,48 @@ Corporate website for **Northern Corporation Limited**, a Bangladeshi knitwear/a
 3. **`globals.css` is 22KB+** — monolithic stylesheet; could be modularized with CSS Modules.
 4. **Missing `release-please.yml`** — workflow file referenced in WORKFLOW.md but not present in `.github/workflows/`. Only `ci.yml` exists.
 5. **Stale Supabase/R2 references** — WORKFLOW.md mentions environment variables for Supabase and Cloudflare R2, but no code uses them. Should be cleaned from docs.
-6. **AGENTS.md is outdated** — still says "Home page: Navbar + Certifications section" but home now has 8 sections via PresentationDeck.
-7. **ARCHITECTURE.md is outdated** — doesn't reflect new sections (Hero, AboutUs, EcoImpact, Products, GlobalReach, Facilities, Contact) or new routes (`/facilities/[slug]`, `/products/[category]`).
+6. ~~**AGENTS.md is outdated**~~ — ✅ RESOLVED (`4ecca64`): Updated to Next.js 16.2.3, full 8-section layout, dynamic routes, legal pages.
+7. ~~**ARCHITECTURE.md is outdated**~~ — ✅ RESOLVED (`4ecca64`): Rewritten with complete component tree, PresentationDeck architecture, scroll system, dynamic routes.
 8. **Facility gallery images may 404** — `galleryImages` in `facilities.ts` reference paths like `/images/northern/building-1.jpg` that may not exist.
 9. **`_TO_DELETE/` exclusion** — `tsconfig.json` still excludes `_TO_DELETE` which was already removed.
+10. **Legal page content** — `/terms` and `/privacy` have boilerplate text with `[CLIENT LEGAL TEXT TO REPLACE]` banners. Awaiting final legal text from client.
+11. **Product LCP images** — Next.js warns about missing `loading="eager"` on product hero images (performance, not a bug).
 
 ---
 
 ## Current Version
 
 `0.1.0` (per `package.json` and `.release-please-manifest.json`)
+
+---
+
+## Session Log
+
+### 2026-04-28T08:50Z — Client Feedback Sprints Complete
+
+**Branch:** `feat/final-client-fixes` → merged to `main` at `4ecca64`
+
+**Tickets completed (11/11):**
+
+| Ticket | CF# | Files Modified | Summary |
+|--------|-----|----------------|--------|
+| T-1 | — | `AGENTS.md`, `ARCHITECTURE.md` | Updated arch docs to reflect 8-section deck, dynamic routes, legal pages |
+| T-2 | CF-05 | `Products.tsx` | Removed wheel-hijacking (`registerSubSlider`), click-only category change |
+| T-3 | CF-02/10/11 | `AppWrapper.tsx`, `SmoothScroll.tsx` | Pathname-aware Lenis — `enableSmooth=false` on sub-routes restores native scroll |
+| T-4 | CF-07/08/13 | `PresentationDeck.tsx` | Removed slide counter, clickable progress rail, 1.0s→0.6s transitions |
+| T-5 | CF-03 | `products/[category]/page.tsx` | Back link: `/` → `/?slide=3` (returns to Products section) |
+| T-6 | CF-06/09 | `GlobalReach.tsx` | Cream marquee text, +10% map opacity, flight lines play once |
+| T-7 | CF-01/16 | `Navbar.tsx` | Logo h-16, nav text-xs, CTA button enlarged |
+| T-8 | CF-04 | `EcoImpact.tsx` | Removed cursor-pointer from non-interactive items |
+| T-9 | CF-14 | `Sustainability.tsx` | Enlarged cert logos and label text |
+| T-10 | CF-15/18/19 | `Contact.tsx` | Real social URLs, split factory addresses, larger map |
+| T-11 | CF-17 | `terms/page.tsx` (NEW), `privacy/page.tsx` (NEW), `Contact.tsx` | Legal boilerplate pages, footer links updated |
+
+**Key decisions:**
+- Grouped tickets by architectural component (CEO override) to prevent file-thrashing
+- Lenis stays mounted on all routes but `smoothWheel`/`lerp` disabled on sub-pages (keeps GSAP sync working)
+- Legal pages use `[CLIENT LEGAL TEXT TO REPLACE]` banners — content is placeholder
+
+**QA:** 6/6 tests passed (product scroll, facility scroll, deck lock, terms render, privacy render, build). 0 critical/warning findings.
+
+**Blocked:** CF-12 (flat-lay product photography) — awaiting client assets.
