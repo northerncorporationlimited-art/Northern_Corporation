@@ -29,7 +29,7 @@ Corporate website for **Northern Corporation Limited**, a Bangladeshi knitwear/a
 | Component          | File Size | Purpose                                       |
 | ------------------ | --------- | --------------------------------------------- |
 | `AppWrapper.tsx`   | ~1KB      | Preloader → Navbar → Content; pathname-aware smooth scroll toggle |
-| `Navbar.tsx`       | ~13KB     | Fixed nav with mobile fullscreen overlay        |
+| `Navbar.tsx`       | ~10KB     | Pathname-aware nav + cinematic fullscreen overlay menu |
 | `PresentationDeck.tsx` | ~12KB | Slide-based layout with nav dot indicators      |
 | `SmoothScroll.tsx` | ~1.5KB   | Lenis + GSAP sync; `enableSmooth` prop disables interpolation on sub-pages |
 
@@ -82,7 +82,7 @@ Corporate website for **Northern Corporation Limited**, a Bangladeshi knitwear/a
 5. **Preloader Gate:** 4.2s cinematic preloader blocks content until animation completes.
 6. **V2 Archive:** Legacy full-scroll site preserved at `/V2` — uses curtain-reveal sticky sections with z-index stacking.
 7. **Image Optimization:** Next.js image config with AVIF + WebP formats, aggressive caching (1 year TTL).
-8. **Release Automation:** Conventional Commits → release-please → auto CHANGELOG + SemVer tags. No manual version editing.
+8. **Release Automation:** Manual releases only. `release-please` was removed (CEO decision 2026-04-28). Conventional Commits used for commit messages.
 9. **Multi-Remote Git:** `push:all` script pushes to both `origin` and `portfolio` remotes.
 
 ---
@@ -113,10 +113,10 @@ Corporate website for **Northern Corporation Limited**, a Bangladeshi knitwear/a
 1. **No test framework** — zero unit, integration, or E2E tests configured.
 2. **No formatter** — no Prettier or equivalent; inconsistent formatting possible.
 3. **`globals.css` is 22KB+** — monolithic stylesheet; could be modularized with CSS Modules.
-4. **Missing `release-please.yml`** — workflow file referenced in WORKFLOW.md but not present in `.github/workflows/`. Only `ci.yml` exists.
+4. ~~**Missing `release-please.yml`**~~ — ✅ RESOLVED (CEO decision): Removed entirely. Manual releases only.
 5. **Stale Supabase/R2 references** — WORKFLOW.md mentions environment variables for Supabase and Cloudflare R2, but no code uses them. Should be cleaned from docs.
-6. ~~**AGENTS.md is outdated**~~ — ✅ RESOLVED (`4ecca64`): Updated to Next.js 16.2.3, full 8-section layout, dynamic routes, legal pages.
-7. ~~**ARCHITECTURE.md is outdated**~~ — ✅ RESOLVED (`4ecca64`): Rewritten with complete component tree, PresentationDeck architecture, scroll system, dynamic routes.
+6. ~~**AGENTS.md is outdated**~~ — ✅ RESOLVED (`4ecca64`).
+7. ~~**ARCHITECTURE.md is outdated**~~ — ✅ RESOLVED (`4ecca64`).
 8. **Facility gallery images may 404** — `galleryImages` in `facilities.ts` reference paths like `/images/northern/building-1.jpg` that may not exist.
 9. **`_TO_DELETE/` exclusion** — `tsconfig.json` still excludes `_TO_DELETE` which was already removed.
 10. **Legal page content** — `/terms` and `/privacy` have boilerplate text with `[CLIENT LEGAL TEXT TO REPLACE]` banners. Awaiting final legal text from client.
@@ -160,3 +160,31 @@ Corporate website for **Northern Corporation Limited**, a Bangladeshi knitwear/a
 **QA:** 6/6 tests passed (product scroll, facility scroll, deck lock, terms render, privacy render, build). 0 critical/warning findings.
 
 **Blocked:** CF-12 (flat-lay product photography) — awaiting client assets.
+
+### 2026-04-28T16:48Z — Sprint 4: Responsive UI/UX & Menu Overhaul
+
+**Branch:** `feat/responsive-menu-overhaul` → merged to `main` at `d5a314f`
+
+**CEO decisions (pre-sprint):**
+- Release-please: deleted (Option A)
+- Dependency patches / Prettier: skipped
+- Tech debt sprint: tabled to Backlog
+
+**Tickets completed (4/4):**
+
+| Ticket | Files Modified | Summary |
+|--------|----------------|--------|
+| T-12: QA Audit | (report only) | Code-level responsive audit: 4 critical, 9 warning, 5 info findings across all sections + sub-pages |
+| T-13: Smart Navbar | `Navbar.tsx` | Pathname-aware bg (transparent `/`, solid sub-pages), responsive logo `h-8/10/12`, 48px hamburger |
+| T-14: Cinematic Menu | `Navbar.tsx` | Replaced bottom sheet with fullscreen `clipPath inset` curtain, Playfair `text-4xl→8xl`, blur-in stagger, gold shimmer hovers, B2B footer |
+| T-15: QA Fixes | `Products.tsx`, `GlobalReach.tsx`, `Sustainability.tsx`, `Facilities.tsx`, `Contact.tsx`, `AboutUs.tsx`, `Hero.tsx`, `products/[category]/page.tsx` | Fixed all 18 audit findings — padding, typography, grid cols, touch targets, pointer-events, safe-area-inset |
+
+**Key architectural changes:**
+- `Navbar.tsx` rewritten (282 lines changed) — now uses `usePathname()` to toggle bg; cinematic overlay uses `clipPath` + Framer Motion `AnimatePresence`
+- GlobalReach pins gained `onClick` tap toggle + `hidden md:inline` labels
+- Contact map wrapped in `pointer-events-none md:pointer-events-auto`
+- Cert grid now `grid-cols-2 sm:3 md:4 lg:7`
+
+**QA:** 6/6 visual tests passed. 0 critical, 0 warning findings.
+
+**Merge:** `212beb2` → `d5a314f` via `--no-ff`. Pushed to `origin/main`. Vercel auto-deploy triggered.
