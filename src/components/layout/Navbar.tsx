@@ -132,7 +132,7 @@ export const Navbar = () => {
                 className="h-8 w-auto brightness-0 invert transition-transform duration-300 group-hover:scale-110 md:h-10 lg:h-12"
                 priority
               />
-              <span className="hidden text-xs font-semibold uppercase tracking-[0.2em] text-brand-cream/80 sm:block">
+              <span className="hidden text-base font-black uppercase tracking-wider text-brand-cream/90 transition-colors duration-300 group-hover:text-brand-cream sm:block md:text-lg">
                 Northern Corp.
               </span>
             </button>
