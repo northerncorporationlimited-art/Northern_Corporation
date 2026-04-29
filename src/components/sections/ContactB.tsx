@@ -4,8 +4,8 @@ import React from "react";
 import { motion } from "framer-motion";
 
 /* ═══════════════════════════════════════════════
-   CONTACT B — Split Layout: Info Columns + Large Map
-   Two text columns left, massive map right
+   CONTACT B — Split Layout: Info Columns + Contained Map
+   Two text columns left, proportioned map right
    ═══════════════════════════════════════════════ */
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
@@ -48,7 +48,7 @@ export const ContactB = () => {
       className="relative flex min-h-screen w-full flex-col overflow-hidden bg-[#023020] text-[#F5F5EB] lg:h-screen lg:flex-row"
     >
       {/* ── Left: Info Columns ── */}
-      <div className="flex flex-1 flex-col justify-between px-6 py-16 md:px-12 lg:w-[45%] lg:py-20">
+      <div className="flex flex-1 flex-col justify-between px-4 py-16 sm:px-6 md:px-12 lg:w-[45%] lg:py-20 lg:pl-20">
         <div>
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -83,7 +83,7 @@ export const ContactB = () => {
                   {office.lines.map((line) => (
                     <p
                       key={line}
-                      className="font-sans text-sm leading-relaxed text-[#F5F5EB]/70 md:text-base"
+                      className="font-sans text-sm leading-relaxed text-[#F5F5EB]/70 md:text-base break-words"
                     >
                       {line}
                     </p>
@@ -112,13 +112,35 @@ export const ContactB = () => {
                 </motion.div>
               ))}
 
+              {/* Legal links */}
+              <motion.div
+                className="flex flex-col gap-3 pt-2"
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.6, ease: EASE }}
+              >
+                <a
+                  href="/terms"
+                  className="font-mono text-xs uppercase tracking-widest text-[#F5F5EB]/60 underline underline-offset-4 decoration-[#F5F5EB]/20 transition-colors hover:text-[#FDD017] hover:decoration-[#FDD017]/40 focus-visible:text-[#FDD017] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#FDD017]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#023020] rounded-sm"
+                >
+                  › Terms & Conditions
+                </a>
+                <a
+                  href="/privacy"
+                  className="font-mono text-xs uppercase tracking-widest text-[#F5F5EB]/60 underline underline-offset-4 decoration-[#F5F5EB]/20 transition-colors hover:text-[#FDD017] hover:decoration-[#FDD017]/40 focus-visible:text-[#FDD017] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#FDD017]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#023020] rounded-sm"
+                >
+                  › Privacy Policy
+                </a>
+              </motion.div>
+
               {/* Social links */}
               <motion.div
                 className="flex flex-wrap gap-3 pt-2"
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: 0.6, ease: EASE }}
+                transition={{ duration: 0.6, delay: 0.7, ease: EASE }}
               >
                 {[
                   { name: "LinkedIn", url: "https://www.linkedin.com/in/northern-corporation-ltd" },
@@ -127,7 +149,7 @@ export const ContactB = () => {
                   <a
                     key={link.name}
                     href={link.url}
-                    className="rounded-full border border-[#F5F5EB]/15 bg-[#F5F5EB]/5 px-5 py-2 font-mono text-[10px] uppercase tracking-widest text-[#F5F5EB]/60 transition-all duration-300 hover:border-[#FDD017]/40 hover:bg-[#FDD017]/10 hover:text-[#FDD017]"
+                    className="rounded-full border border-[#F5F5EB]/15 bg-[#F5F5EB]/5 px-5 py-2 font-mono text-[10px] uppercase tracking-widest text-[#F5F5EB]/60 transition-all duration-300 hover:border-[#FDD017]/40 hover:bg-[#FDD017]/10 hover:text-[#FDD017] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#FDD017]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#023020]"
                   >
                     {link.name}
                   </a>
@@ -137,7 +159,7 @@ export const ContactB = () => {
           </div>
         </div>
 
-        {/* Legal links at bottom of text area */}
+        {/* Copyright at bottom of text area */}
         <motion.div
           className="mt-12 flex flex-wrap items-center gap-4 border-t border-[#F5F5EB]/10 pt-6"
           initial={{ opacity: 0 }}
@@ -148,25 +170,12 @@ export const ContactB = () => {
           <p className="font-mono text-[10px] uppercase tracking-widest text-[#F5F5EB]/25">
             © {new Date().getFullYear()} Northern Corporation Ltd.
           </p>
-          <span className="hidden text-[#F5F5EB]/15 sm:inline">|</span>
-          <a
-            href="/terms"
-            className="font-mono text-[10px] uppercase tracking-widest text-[#F5F5EB]/25 transition-colors hover:text-[#F5F5EB]/50"
-          >
-            Terms & Conditions
-          </a>
-          <a
-            href="/privacy"
-            className="font-mono text-[10px] uppercase tracking-widest text-[#F5F5EB]/25 transition-colors hover:text-[#F5F5EB]/50"
-          >
-            Privacy Policy
-          </a>
         </motion.div>
       </div>
 
-      {/* ── Right: Massive Map ── */}
+      {/* ── Right: Contained Map ── */}
       <motion.div
-        className="relative w-full lg:w-[55%]"
+        className="relative flex w-full items-center justify-center px-4 py-8 sm:px-6 md:px-12 lg:w-[55%] lg:px-12 lg:py-0"
         initial={{ opacity: 0, x: 40 }}
         whileInView={{ opacity: 1, x: 0 }}
         viewport={{ once: true }}
@@ -175,7 +184,7 @@ export const ContactB = () => {
         {/* Gold accent line between columns */}
         <div className="absolute left-0 top-0 hidden h-full w-px bg-gradient-to-b from-transparent via-[#FDD017]/20 to-transparent lg:block" />
 
-        <div className="pointer-events-none h-[50vh] w-full md:pointer-events-auto lg:h-full">
+        <div className="w-full max-w-2xl max-h-[70vh] overflow-hidden rounded-3xl border border-[#F5F5EB]/10 pointer-events-none md:pointer-events-auto">
           <iframe
             src="https://www.google.com/maps?q=Northern+Corporation+Limited+Baridhara+Dhaka&output=embed"
             style={{
@@ -186,7 +195,7 @@ export const ContactB = () => {
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
             title="Northern Corporation Location — Contact B"
-            className="h-full w-full"
+            className="aspect-[4/3] w-full"
           />
         </div>
       </motion.div>

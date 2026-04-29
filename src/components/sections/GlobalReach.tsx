@@ -23,15 +23,20 @@ const LOCATIONS = [
   { id: "australia", name: "Australia", x: 85, y: 78, cx: 78, cy: 60 },
 ];
 
-const PLACEHOLDER_BUYERS = [
-  "ZARA",
-  "H&M",
-  "UNIQLO",
-  "LEVI'S",
-  "CALVIN KLEIN",
-  "TOMMY HILFIGER",
-  "PUMA",
-  "MARKS & SPENCER",
+const BUYERS = [
+  "HONEY",
+  "MUJI",
+  "UNY",
+  "BONMAX",
+  "LINDEX",
+  "CELIO",
+  "NEW YORKER",
+  "NEXT",
+  "SUZY",
+  "GREG NORMAN",
+  "WALMART",
+  "TARGET",
+  "TJX",
 ];
 
 /* ── 3D Holographic Pin ── */
@@ -69,7 +74,7 @@ const HoloPin = ({
       <div
         className={`z-10 rotate-45 transition-all duration-300 ${
           isHub
-            ? "h-3 w-3 bg-[#FDD017] shadow-[0_0_15px_#FDD017,0_0_30px_#FDD017]"
+            ? "h-4 w-4 bg-[#FDD017] shadow-[0_0_20px_#FDD017,0_0_40px_rgba(253,208,23,0.4)]"
             : "h-2 w-2 bg-[#FDD017] shadow-[0_0_10px_#FDD017]"
         } ${isActive ? "scale-150 shadow-[0_0_20px_#FDD017]" : ""}`}
       />
@@ -81,22 +86,26 @@ const HoloPin = ({
         }`}
       />
 
-      {/* Isometric sonar base */}
+      {/* Isometric sonar base — smooth continuous ripple (no visible reset) */}
       <motion.div
-        className="absolute bottom-0 h-6 w-6 origin-center rounded-full border border-[#FDD017]"
+        className={`absolute bottom-0 origin-center rounded-full border ${
+          isHub ? "h-8 w-8 border-[#FDD017]" : "h-6 w-6 border-[#FDD017]"
+        }`}
         style={{ transform: "rotateX(75deg) translateY(50%)" }}
-        animate={{ scale: [0.5, 2.5], opacity: [0.8, 0] }}
-        transition={{ repeat: Infinity, duration: 2, ease: "easeOut" }}
+        animate={{ scale: [0.4, 2.8], opacity: [0.6, 0] }}
+        transition={{ repeat: Infinity, duration: 4, ease: "linear" }}
       />
       <motion.div
-        className="absolute bottom-0 h-6 w-6 origin-center rounded-full border border-[#FDD017]/60"
+        className={`absolute bottom-0 origin-center rounded-full border ${
+          isHub ? "h-8 w-8 border-[#FDD017]/50" : "h-6 w-6 border-[#FDD017]/50"
+        }`}
         style={{ transform: "rotateX(75deg) translateY(50%)" }}
-        animate={{ scale: [0.5, 2.5], opacity: [0.5, 0] }}
+        animate={{ scale: [0.4, 2.8], opacity: [0.4, 0] }}
         transition={{
           repeat: Infinity,
-          duration: 2,
-          ease: "easeOut",
-          delay: 0.6,
+          duration: 4,
+          ease: "linear",
+          delay: 2,
         }}
       />
 
@@ -162,10 +171,13 @@ const FlightPath = ({
 }) => {
   const d = `M ${HUB.x} ${HUB.y} Q ${loc.cx} ${loc.cy} ${loc.x} ${loc.y}`;
 
-  // Phase 1: Initial draw-in (before launch completes)
-  // Phase 2: After launch, paths disappear
-  // Phase 3: On hover, that specific path re-appears with draw animation
-  const showPath = !hasLaunched || isHovered;
+  // Phase 1: Initial draw-in (before launch completes) — full golden path
+  // Phase 2: After launch — paths vanish completely
+  // Phase 3: On hover — that specific path redraws with animation
+  const isDrawing = !hasLaunched;
+  const showPath = isDrawing || isHovered;
+  const pathOpacity = showPath ? 1 : 0;
+  const glowOpacity = isDrawing ? 0.3 : isHovered ? 0.3 : 0;
 
   return (
     <g>
@@ -178,7 +190,7 @@ const FlightPath = ({
         strokeOpacity="0.15"
       />
 
-      {/* Animated golden path */}
+      {/* Animated golden path — vanishes after launch, redraws on hover */}
       <motion.path
         d={d}
         fill="none"
@@ -188,17 +200,17 @@ const FlightPath = ({
         initial={{ pathLength: 0, opacity: 0 }}
         animate={{
           pathLength: showPath ? 1 : 0,
-          opacity: showPath ? 1 : 0,
+          opacity: pathOpacity,
         }}
         transition={{
           pathLength: {
-            duration: isHovered ? 0.8 : 1.8,
-            delay: isHovered ? 0 : delay,
+            duration: isHovered ? 0.8 : hasLaunched ? 0.6 : 1.8,
+            delay: isDrawing ? delay : 0,
             ease: [0.22, 1, 0.36, 1],
           },
           opacity: {
             duration: hasLaunched && !isHovered ? 0.6 : 0.3,
-            delay: hasLaunched && !isHovered ? 0 : (isHovered ? 0 : delay),
+            delay: isDrawing ? delay : 0,
           },
         }}
       />
@@ -214,20 +226,31 @@ const FlightPath = ({
         initial={{ pathLength: 0, opacity: 0 }}
         animate={{
           pathLength: showPath ? 1 : 0,
-          opacity: showPath ? 0.3 : 0,
+          opacity: glowOpacity,
         }}
         transition={{
           pathLength: {
-            duration: isHovered ? 0.8 : 1.8,
-            delay: isHovered ? 0 : delay,
+            duration: isHovered ? 0.8 : hasLaunched ? 0.6 : 1.8,
+            delay: isDrawing ? delay : 0,
             ease: [0.22, 1, 0.36, 1],
           },
           opacity: {
             duration: hasLaunched && !isHovered ? 0.6 : 0.3,
-            delay: hasLaunched && !isHovered ? 0 : (isHovered ? 0 : delay),
+            delay: isDrawing ? delay : 0,
           },
         }}
       />
+
+      {/* Traveling dot particle — only visible on hovered path */}
+      {isHovered && (
+        <circle r="0.4" fill="#FDD017" opacity={0.9}>
+          <animateMotion
+            dur="3s"
+            repeatCount="indefinite"
+            path={d}
+          />
+        </circle>
+      )}
     </g>
   );
 };
@@ -240,11 +263,11 @@ export const GlobalReach = () => {
   const [activeRegion, setActiveRegion] = useState<string | null>(null);
   const [hasLaunched, setHasLaunched] = useState(false);
 
-  // Phase timer: after initial draw-in completes (2.5s total path animation + buffer), mark as launched
+  // Phase timer: after initial draw-in completes, mark as launched (2s)
   useEffect(() => {
     const timer = setTimeout(() => {
       setHasLaunched(true);
-    }, 3200);
+    }, 2000);
     return () => clearTimeout(timer);
   }, []);
 
@@ -253,10 +276,24 @@ export const GlobalReach = () => {
       id="global-reach"
       className="relative flex min-h-screen w-full flex-col justify-between overflow-hidden bg-[#023020] pt-20 lg:h-screen"
     >
-      {/* Radial glow behind map */}
+      {/* Radial glow behind map — warm ambient center glow */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 z-0 bg-[radial-gradient(circle_at_center,rgba(253,208,23,0.06)_0%,transparent_60%)]"
+        className="pointer-events-none absolute inset-0 z-0 bg-[radial-gradient(ellipse_70%_50%_at_center,rgba(253,208,23,0.08)_0%,rgba(245,245,235,0.02)_40%,transparent_65%)]"
+      />
+
+      {/* Ambient glow pulse — subtle breathing animation */}
+      <motion.div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 z-0 bg-[radial-gradient(ellipse_60%_40%_at_50%_45%,rgba(253,208,23,0.06)_0%,transparent_70%)]"
+        animate={{ opacity: [0.4, 1, 0.4] }}
+        transition={{ duration: 6, ease: "easeInOut", repeat: Infinity }}
+      />
+
+      {/* Edge vignette — darkens edges to frame the map */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 z-10 bg-[radial-gradient(ellipse_80%_70%_at_50%_45%,transparent_40%,rgba(2,48,32,0.6)_75%,rgba(2,48,32,0.95)_100%)]"
       />
 
       {/* ── Top Header ── */}
@@ -284,21 +321,34 @@ export const GlobalReach = () => {
           viewport={{ once: true }}
           transition={{ duration: 1, delay: 0.2, ease: EASE }}
         >
-          {/* World map — boosted visibility */}
+          {/* World map — high-visibility treatment */}
           <Image
             src="/images/world-map.svg"
             fill
             alt="World Map"
-            className="pointer-events-none invert opacity-45"
+            className="pointer-events-none opacity-[0.30]"
             aria-hidden="true"
-            style={{ filter: "invert(1) brightness(1.1) contrast(1.1)" }}
+            style={{ filter: "invert(1) brightness(1.8) contrast(1.3) sepia(0.1) hue-rotate(60deg)" }}
           />
+
+          {/* Dot-grid overlay — geographic depth and texture */}
+          <svg
+            className="pointer-events-none absolute inset-0 z-[1] h-full w-full opacity-[0.12]"
+            aria-hidden="true"
+          >
+            <defs>
+              <pattern id="dot-grid" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+                <circle cx="1" cy="1" r="0.5" fill="#F5F5EB" />
+              </pattern>
+            </defs>
+            <rect width="100%" height="100%" fill="url(#dot-grid)" />
+          </svg>
 
           {/* ── Animated Trade Routes ── */}
           <svg
             viewBox="0 0 100 100"
             preserveAspectRatio="none"
-            className="pointer-events-none absolute inset-0 z-0 h-full w-full"
+            className="pointer-events-none absolute inset-0 z-[2] h-full w-full"
           >
             {/* Gradient definition for golden paths */}
             <defs>
@@ -359,7 +409,7 @@ export const GlobalReach = () => {
           animate={{ x: ["0%", "-50%"] }}
           transition={{ duration: 40, ease: "linear", repeat: Infinity }}
         >
-          {[...PLACEHOLDER_BUYERS, ...PLACEHOLDER_BUYERS].map((buyer, i) => (
+          {[...BUYERS, ...BUYERS].map((buyer, i) => (
             <span
               key={`${buyer}-${i}`}
               className="mx-8 font-playfair text-lg uppercase tracking-widest text-[#F5F5EB]/50 md:mx-12 md:text-xl"
