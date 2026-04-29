@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -148,12 +148,105 @@ const HoloPin = ({
   );
 };
 
+/* ── Animated Flight Path ── */
+const FlightPath = ({
+  loc,
+  hasLaunched,
+  isHovered,
+  delay,
+}: {
+  loc: (typeof LOCATIONS)[number];
+  hasLaunched: boolean;
+  isHovered: boolean;
+  delay: number;
+}) => {
+  const d = `M ${HUB.x} ${HUB.y} Q ${loc.cx} ${loc.cy} ${loc.x} ${loc.y}`;
+
+  // Phase 1: Initial draw-in (before launch completes)
+  // Phase 2: After launch, paths disappear
+  // Phase 3: On hover, that specific path re-appears with draw animation
+  const showPath = !hasLaunched || isHovered;
+
+  return (
+    <g>
+      {/* Static ghost path — always visible at low opacity for map structure */}
+      <path
+        d={d}
+        fill="none"
+        stroke="#F5F5EB"
+        strokeWidth="0.08"
+        strokeOpacity="0.15"
+      />
+
+      {/* Animated golden path */}
+      <motion.path
+        d={d}
+        fill="none"
+        stroke="url(#goldGradient)"
+        strokeWidth="0.25"
+        strokeLinecap="round"
+        initial={{ pathLength: 0, opacity: 0 }}
+        animate={{
+          pathLength: showPath ? 1 : 0,
+          opacity: showPath ? 1 : 0,
+        }}
+        transition={{
+          pathLength: {
+            duration: isHovered ? 0.8 : 1.8,
+            delay: isHovered ? 0 : delay,
+            ease: [0.22, 1, 0.36, 1],
+          },
+          opacity: {
+            duration: hasLaunched && !isHovered ? 0.6 : 0.3,
+            delay: hasLaunched && !isHovered ? 0 : (isHovered ? 0 : delay),
+          },
+        }}
+      />
+
+      {/* Glow trail — follows the path with broader stroke */}
+      <motion.path
+        d={d}
+        fill="none"
+        stroke="#FDD017"
+        strokeWidth="0.6"
+        strokeLinecap="round"
+        style={{ filter: "blur(1px)" }}
+        initial={{ pathLength: 0, opacity: 0 }}
+        animate={{
+          pathLength: showPath ? 1 : 0,
+          opacity: showPath ? 0.3 : 0,
+        }}
+        transition={{
+          pathLength: {
+            duration: isHovered ? 0.8 : 1.8,
+            delay: isHovered ? 0 : delay,
+            ease: [0.22, 1, 0.36, 1],
+          },
+          opacity: {
+            duration: hasLaunched && !isHovered ? 0.6 : 0.3,
+            delay: hasLaunched && !isHovered ? 0 : (isHovered ? 0 : delay),
+          },
+        }}
+      />
+    </g>
+  );
+};
+
 /* ═══════════════════════════════════════════════
    MAIN COMPONENT
    ═══════════════════════════════════════════════ */
 
 export const GlobalReach = () => {
   const [activeRegion, setActiveRegion] = useState<string | null>(null);
+  const [hasLaunched, setHasLaunched] = useState(false);
+
+  // Phase timer: after initial draw-in completes (2.5s total path animation + buffer), mark as launched
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setHasLaunched(true);
+    }, 3200);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <section
@@ -191,13 +284,14 @@ export const GlobalReach = () => {
           viewport={{ once: true }}
           transition={{ duration: 1, delay: 0.2, ease: EASE }}
         >
-          {/* World map — clean creamy tint */}
+          {/* World map — boosted visibility */}
           <Image
             src="/images/world-map.svg"
             fill
             alt="World Map"
-            className="pointer-events-none invert opacity-30"
+            className="pointer-events-none invert opacity-45"
             aria-hidden="true"
+            style={{ filter: "invert(1) brightness(1.1) contrast(1.1)" }}
           />
 
           {/* ── Animated Trade Routes ── */}
@@ -206,33 +300,24 @@ export const GlobalReach = () => {
             preserveAspectRatio="none"
             className="pointer-events-none absolute inset-0 z-0 h-full w-full"
           >
-            {LOCATIONS.map((loc) => {
-              const d = `M ${HUB.x} ${HUB.y} Q ${loc.cx} ${loc.cy} ${loc.x} ${loc.y}`;
-              return (
-                <g key={loc.id}>
-                  <path
-                    d={d}
-                    fill="none"
-                    stroke="#F5F5EB"
-                    strokeWidth="0.1"
-                    strokeOpacity="0.3"
-                  />
-                  <motion.path
-                    d={d}
-                    fill="none"
-                    stroke="#FDD017"
-                    strokeWidth="0.3"
-                    strokeDasharray="1 4"
-                    initial={{ strokeDashoffset: 10 }}
-                    animate={{ strokeDashoffset: 0 }}
-                    transition={{
-                      duration: 2.5,
-                      ease: "easeOut",
-                    }}
-                  />
-                </g>
-              );
-            })}
+            {/* Gradient definition for golden paths */}
+            <defs>
+              <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="#FDD017" stopOpacity="0.9" />
+                <stop offset="50%" stopColor="#D4AF37" stopOpacity="1" />
+                <stop offset="100%" stopColor="#FDD017" stopOpacity="0.7" />
+              </linearGradient>
+            </defs>
+
+            {LOCATIONS.map((loc, i) => (
+              <FlightPath
+                key={loc.id}
+                loc={loc}
+                hasLaunched={hasLaunched}
+                isHovered={hasLaunched && activeRegion === loc.id}
+                delay={i * 0.15}
+              />
+            ))}
           </svg>
 
           {/* Hub pin */}

@@ -19,40 +19,30 @@ _Last updated: 2026-04-29T09:02Z — CEO scope cut. Sprint 5 defined._
 > **Priority:** 🟡 Client-facing — visual polish & layout exploration.
 > **Branch:** `feat/sprint-5-map-contact`
 
-- [ ] **T-16: Navbar Logo Text** (`src/components/layout/Navbar.tsx`)
-  - Increase the font size and visual weight of the "NORTHERN CORP." text next to the logo symbol.
-  - Current: `text-xs font-semibold tracking-[0.2em]` — too thin and small.
-  - Target: larger, bolder text that balances with the logo mark at all breakpoints.
-  - **Acceptance:** "NORTHERN CORP." text is visually prominent alongside the symbol. Readable at `sm:` breakpoint. Does not crowd desktop nav links.
+- [x] **T-16: Navbar Logo Text** ✅ _Completed 2026-04-29_
+  - Changed from `text-xs font-semibold tracking-[0.2em]` → `text-base md:text-lg font-black tracking-wider`
+  - Added hover transition for cream color
+  - Visual weight now balances with the logo symbol at all breakpoints
 
-- [ ] **T-17: GlobalReach Map Pop & Animation** (`src/components/sections/GlobalReach.tsx`)
-  - **Map visibility:** Increase the world map contrast/opacity so it "pops" against the dark background. Currently too faint.
-  - **Flight path animation overhaul:**
-    1. **On load:** Animate SVG path drawing from Bangladesh (HQ) to all destination pins simultaneously — like shipments launching. Use stroke-dasharray/dashoffset or Framer Motion `pathLength`.
-    2. **After draw completes:** Paths fade out gracefully.
-    3. **On hover/tap of a pin:** Re-animate that specific flight path from HQ → destination.
-  - Do NOT touch the pin labels fix from T-15 (already hidden on mobile via `hidden md:inline`).
-  - **Acceptance:** Map is visually striking. Flight paths animate on load. Hover re-triggers individual path animation. Touch tap toggle (from T-15) still works.
+- [x] **T-17: GlobalReach Map Pop & Animation** ✅ _Completed 2026-04-29_
+  - Map opacity boosted from 30% → 45% with `brightness(1.1) contrast(1.1)` filter
+  - Extracted `FlightPath` component with 3-phase animation:
+    1. On mount: `pathLength` 0→1 draw-in with staggered delays (0.15s per path)
+    2. At 3.2s: `hasLaunched=true` → all paths fade to `opacity: 0`
+    3. On hover: specific path re-draws with 0.8s animation
+  - Added gold gradient stroke + glow trail layer with blur
+  - Hover/tap toggle from T-15 preserved
 
-- [ ] **T-18: Contact Options (A/B/C)**
-  - **Option A:** The existing `Contact.tsx` — do NOT modify it.
-  - **Option B:** Create `src/components/sections/ContactB.tsx`
-    - Layout: larger Google Maps embed on the right (~60% width), two stacked text columns on the left (HQ address + factory info).
-    - Include Terms & Privacy footer links inside the section.
-    - Style: same dark green `#023020` palette, Playfair headlines, Geist body text.
-  - **Option C:** Create `src/components/sections/ContactC.tsx`
-    - AI has full creative control. Ultra-premium, Awwwards-level layout.
-    - Must include: HQ address, email, phone, map embed, and legal footer links.
-    - May use split-screen, parallax, editorial grid, or any premium pattern.
-  - **Acceptance:** Three distinct, production-quality contact sections exist. All share the same data (address, email, phone). All render correctly on mobile and desktop.
+- [x] **T-18: Contact Options (A/B/C)** ✅ _Completed 2026-04-29_
+  - **Option A:** `Contact.tsx` — untouched (original layout)
+  - **Option B:** `ContactB.tsx` [NEW] — Split layout: two text columns left (offices + contact), massive map right (55% width), Terms/Privacy in footer
+  - **Option C:** `ContactC.tsx` [NEW] — "The Embassy" — fullscreen map bg with dark overlay + noise grain, 4 frosted-glass floating cards, editorial italic gold headline, social + legal footer
+  - All 3 share identical data (HQ, factories, phone, email, socials)
 
-- [ ] **T-19: Wire Up Presentation Deck** (`src/app/page.tsx`, `src/data/slides.ts`)
-  - Add `ContactB` and `ContactC` as the final slides inside `PresentationDeck`.
-  - Update `slides.ts` to append two new entries:
-    - `{ id: "contact-b", label: "Contact B", navLabel: "Contact B", isDark: true, showInDesktopNav: false }`
-    - `{ id: "contact-c", label: "Contact C", navLabel: "Contact C", isDark: true, showInDesktopNav: false }`
-  - Ensure the cinematic menu and progress rail show all slides including the new ones.
-  - **Acceptance:** Client can scroll/snap through "Contact A" → "Contact B" → "Contact C" at the end of the deck. All three render correctly. Menu labels are accurate.
+- [x] **T-19: Wire Up Presentation Deck** ✅ _Completed 2026-04-29_
+  - `slides.ts`: Renamed "Contact" → "Contact A", added `contact-b` and `contact-c` entries (isDark:true, showInDesktopNav:false)
+  - `page.tsx`: Imported and added `<ContactB />` and `<ContactC />` as final PresentationDeck children
+  - Progress rail now shows 10 slides; cinematic menu includes all 3 contacts
 
 ---
 
