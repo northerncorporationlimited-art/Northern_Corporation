@@ -1,10 +1,8 @@
 # Roadmap — Northern Corporation
 
-_Last updated: 2026-04-29T18:08Z — Sprint 9 assigned._
+_Last updated: 2026-04-29T18:19Z — Sprint 9 complete. No active sprint._
 
-> ✅ **Sprints 0–8 complete.** Archived to `MEMORY_BANK.md`.
->
-> 🔧 **Sprint 9 in progress.**
+> ✅ **Sprints 0–9 complete.** Archived to `MEMORY_BANK.md`.
 
 ---
 
@@ -20,28 +18,6 @@ _Last updated: 2026-04-29T18:08Z — Sprint 9 assigned._
 
 - [ ] **CF-12:** Flat-lay / lifestyle product photography — awaiting new image assets.
 - [ ] **LEGAL:** Replace boilerplate on `/terms` and `/privacy` with client-approved legal text.
-- [x] ~~**CONTACT PICK:** Client chose **Contact B** as the winner (2026-04-29).~~
-
----
-
-## Sprint 9: Contact Pick — B Winner (3 tickets)
-
-_Client decision: Contact B wins. Delete Contact A + C, reduce deck from 10 → 8 slides._
-
-- [x] **T-30: Delete Losers** — Remove `Contact.tsx` (A) and `ContactC.tsx` from `src/components/sections/`. Remove their imports and JSX from `page.tsx`.
-  - **Files:** `src/components/sections/Contact.tsx` [DELETE], `src/components/sections/ContactC.tsx` [DELETE], `src/app/page.tsx` [MODIFY]
-  - **AC:** Build passes with 0 references to `Contact` (A) or `ContactC` in any import statement.
-
-- [x] **T-31: Rewire Slides & Navbar** — Update `slides.ts`: remove Contact A + Contact C entries, rename Contact B → "Contact", set `showInDesktopNav: false`. Update Navbar CTA (`nav-contact-cta`) to point to the correct slide index (now index 7). Rename `ContactB.tsx` export from `ContactB` to `Contact` and rename file to `Contact.tsx`.
-  - **Files:** `src/data/slides.ts` [MODIFY], `src/components/layout/Navbar.tsx` [MODIFY], `src/components/sections/ContactB.tsx` → `src/components/sections/Contact.tsx` [RENAME], `src/app/page.tsx` [MODIFY]
-  - **AC:** `SLIDES` has exactly 8 entries. Navbar CTA navigates to Contact (slide 7). Desktop nav still shows 6 links (Contact hidden). Overlay menu shows 8 links, no "A/B/C" suffixes.
-
-- [x] **T-32: QA & Docs** — `tsc --noEmit && next build`. Verify 16 pages generated (was 18 — minus 2 contact slides). Update `MEMORY_BANK.md` session log and `AGENTS.md` slide count.
-  - **Files:** `docs/MEMORY_BANK.md` [MODIFY], `AGENTS.md` [MODIFY]
-  - **AC:** Build succeeds. Slide count documented as 8. No references to Contact A/B/C remain in docs.
-
-
----
 
 ---
 
@@ -69,4 +45,4 @@ _Pick up when business priorities allow._
 | 6: Map Animation Polish & ContactB | T-20, T-21, T-22, T-23, T-24 | `d73029f` |
 | 7: Scroll Cue & ContactB Polish | T-25, T-26 | `2948425` |
 | 8: Build Hygiene & Config Cleanup | T-27, T-28, T-29 | `35accd3` |
-| 9: Contact Pick — B Winner | T-30, T-31, T-32 | _in progress_ |
+| 9: Contact Pick — B Winner | T-30, T-31, T-32 | `a23cb49` |

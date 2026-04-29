@@ -295,7 +295,7 @@ Replaced inline `<Logo>` React SVG component in `Navbar.tsx` with `next/image` l
 
 ### 2026-04-29T18:10Z — Sprint 9: Contact Pick — B Winner
 
-**Branch:** `feat/sprint9-contact-b-winner` → pending merge
+**Branch:** `feat/sprint9-contact-b-winner` → merged to `main` at `a23cb49`
 
 **Tickets completed (3/3):**
 
