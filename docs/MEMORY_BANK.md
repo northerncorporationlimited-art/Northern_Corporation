@@ -43,7 +43,9 @@ Corporate website for **Northern Corporation Limited**, a Bangladeshi knitwear/a
 | `GlobalReach.tsx`  | ~10KB     | ACTIVE (home) |
 | `Facilities.tsx`   | ~14KB     | ACTIVE (home) |
 | `Sustainability.tsx`| ~5.2KB   | ACTIVE (home + V2) |
-| `Contact.tsx`      | ~6.2KB    | ACTIVE (home) |
+| `Contact.tsx`      | ~6.2KB    | ACTIVE (home — "Contact A") |
+| `ContactB.tsx`     | ~6.5KB    | ACTIVE (home — "Contact B") |
+| `ContactC.tsx`     | ~6.4KB    | ACTIVE (home — "Contact C") |
 | `DualScroll.tsx`   | ~11KB     | V2 only |
 | `HistoryFlow.tsx`  | ~7.8KB    | V2 only |
 | `WorkLife.tsx`     | ~3.2KB    | V2 only |
@@ -52,16 +54,16 @@ Corporate website for **Northern Corporation Limited**, a Bangladeshi knitwear/a
 #### UI Primitives (`src/components/ui/`)
 | Component          | File Size | Purpose                          |
 | ------------------ | --------- | -------------------------------- |
-| `Logo.tsx`         | ~11.6KB   | SVG logo component               |
+| `Logo.tsx`         | ~11.6KB   | SVG logo component (inline paths — used as backup, navbar uses logo-symbol.svg) |
 | `Magnetic.tsx`     | ~1.3KB    | Hover magnetic cursor effect     |
-| `Preloader.tsx`    | ~14.9KB   | Cinematic 4.2s loading animation |
+| `Preloader.tsx`    | ~14.9KB   | Cinematic 4.2s loading animation (uses /logo-symbol.svg) |
 | `ScrollProgress.tsx`| ~1.1KB   | V2 scroll progress indicator     |
 
 ### Data Files (`src/data/`)
 | File            | Contents                                                    |
 | --------------- | ----------------------------------------------------------- |
 | `facilities.ts` | 6 facility definitions (Facility interface): prayer-rooms, medical-service, dining, daycare, equality, professional-development |
-| `slides.ts`     | Slide config: order, labels, dark/light backgrounds, navbar visibility per slide |
+| `slides.ts`     | 10 slide configs: Hero → AboutUs → EcoImpact → Products → GlobalReach → Facilities → Certifications → Contact A → Contact B → Contact C |
 
 ### Assets (`public/`)
 | Directory         | Contents                                    |
@@ -69,14 +71,14 @@ Corporate website for **Northern Corporation Limited**, a Bangladeshi knitwear/a
 | `certifications/` | 13 certification badge images (PNG/JPG)      |
 | `images/`         | Hero bg, factory images, world map SVG, facility photos |
 | `products/`       | 5 category subdirs (bottoms, nightwear, sports-active, tee-polo, winter) |
-| `logo-symbol.svg` | Site logo                                    |
+| `logo-symbol.svg` | Site logo (brand mark — used in both preloader + navbar) |
 
 ---
 
 ## Key Architectural Decisions
 
 1. **Fully Static:** No API routes, no server actions, no database. Content is hardcoded in components and TypeScript data files.
-2. **PresentationDeck Pattern:** Home page uses a slide-based `PresentationDeck` layout — each child is a full-viewport "slide" with dot navigation.
+2. **PresentationDeck Pattern:** Home page uses a slide-based `PresentationDeck` layout — each child is a full-viewport "slide" with dot navigation. Currently 10 slides.
 3. **CSS Strategy:** Complex component styles in `globals.css` (22KB+), simple layout via Tailwind utilities. Uses `@theme inline` for Tailwind v4.
 4. **Animation Layering:** Framer Motion for mount/viewport-triggered animations, GSAP + ScrollTrigger for scroll-pinned sections (DualScroll), Lenis for global smooth scroll.
 5. **Preloader Gate:** 4.2s cinematic preloader blocks content until animation completes.
@@ -84,6 +86,7 @@ Corporate website for **Northern Corporation Limited**, a Bangladeshi knitwear/a
 7. **Image Optimization:** Next.js image config with AVIF + WebP formats, aggressive caching (1 year TTL).
 8. **Release Automation:** Manual releases only. `release-please` was removed (CEO decision 2026-04-28). Conventional Commits used for commit messages.
 9. **Multi-Remote Git:** `push:all` script pushes to both `origin` and `portfolio` remotes.
+10. **Logo Unification:** Both preloader and navbar use `/logo-symbol.svg` (the clean brand mark). `Logo.tsx` (inline SVG with full wordmark paths) is preserved but no longer imported in Navbar.
 
 ---
 
@@ -121,6 +124,7 @@ Corporate website for **Northern Corporation Limited**, a Bangladeshi knitwear/a
 9. **`_TO_DELETE/` exclusion** — `tsconfig.json` still excludes `_TO_DELETE` which was already removed.
 10. **Legal page content** — `/terms` and `/privacy` have boilerplate text with `[CLIENT LEGAL TEXT TO REPLACE]` banners. Awaiting final legal text from client.
 11. **Product LCP images** — Next.js warns about missing `loading="eager"` on product hero images (performance, not a bug).
+12. **Contact A/B/C is temporary** — 3 contact layouts exist for client A/B testing. Once client picks a winner, the other 2 should be deleted and slide count reduced.
 
 ---
 
@@ -188,3 +192,36 @@ Corporate website for **Northern Corporation Limited**, a Bangladeshi knitwear/a
 **QA:** 6/6 visual tests passed. 0 critical, 0 warning findings.
 
 **Merge:** `212beb2` → `d5a314f` via `--no-ff`. Pushed to `origin/main`. Vercel auto-deploy triggered.
+
+### 2026-04-29T07:00Z — Pre-Sprint Fix: Logo Unification
+
+**Commit:** `9fc012b` (direct to `main`)
+
+Replaced inline `<Logo>` React SVG component in `Navbar.tsx` with `next/image` loading `/logo-symbol.svg` — now preloader and navbar use the **same** brand mark. `Logo.tsx` preserved but no longer imported by Navbar.
+
+### 2026-04-29T10:30Z — Sprint 5: Map Overhaul & Contact A/B/C Testing
+
+**Branch:** `feat/sprint-5-map-and-contact` → merged to `main` at `10ad62f`
+
+**CEO decisions (pre-sprint):**
+- Scope freeze: do NOT touch `AboutUs.tsx`, `Products.tsx`, or Hero social links
+- Sprint focus: map animation overhaul + contact layout exploration for client A/B testing
+
+**Tickets completed (4/4):**
+
+| Ticket | Files Modified | Summary |
+|--------|----------------|--------|
+| T-16: Navbar Logo Text | `Navbar.tsx` | `text-xs font-semibold` → `text-base md:text-lg font-black tracking-wider` + hover transition |
+| T-17: Map Pop & Animation | `GlobalReach.tsx` (rewrite) | Map opacity 30%→45% with enhanced filter; extracted `FlightPath` component with 3-phase `pathLength` animation (draw-in → fade at 3.2s → hover re-draw); gold gradient stroke + glow trail |
+| T-18: Contact A/B/C | `ContactB.tsx` [NEW], `ContactC.tsx` [NEW] | B: split 2-col text + 55% map + legal footer. C: "The Embassy" — fullscreen map bg + dark overlay + grain + 4 frosted-glass cards + editorial headline |
+| T-19: Wire Deck | `page.tsx`, `slides.ts` | 8→10 slides; renamed "Contact" → "Contact A"; added Contact B/C entries (isDark:true, showInDesktopNav:false) |
+
+**Key architectural changes:**
+- `GlobalReach.tsx` gained `FlightPath` subcomponent + `hasLaunched` state + `useEffect` timer (3.2s)
+- `slides.ts` now has 10 entries; `SLIDE_LABELS`, `NAV_LINKS`, `ALL_LINKS`, `DARK_SLIDES` all auto-derive
+- Contact A/B/C are temporary — client picks winner, losers get deleted
+- All 3 contacts share identical data (HQ, 2 factories, phone, email, LinkedIn, Instagram)
+
+**QA:** TSC ✅ Lint ✅ Build ✅ (18 pages). Visual: 0 critical, 0 warning, 3 info. All animation phases verified.
+
+**Merge:** `420862b` → `10ad62f` via `--no-ff`. Pushed to `origin/main`. Vercel auto-deploy triggered.
