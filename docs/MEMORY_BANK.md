@@ -225,3 +225,29 @@ Replaced inline `<Logo>` React SVG component in `Navbar.tsx` with `next/image` l
 **QA:** TSC ✅ Lint ✅ Build ✅ (18 pages). Visual: 0 critical, 0 warning, 3 info. All animation phases verified.
 
 **Merge:** `420862b` → `10ad62f` via `--no-ff`. Pushed to `origin/main`. Vercel auto-deploy triggered.
+
+### 2026-04-29T16:32Z — Sprint 6: Map Animation Polish & ContactB Layout
+
+**Branch:** `feat/sprint6-map-contact-polish` → merged to `main` at `d73029f`
+
+**Tickets completed (5/5):**
+
+| Ticket | Files Modified | Summary |
+|--------|----------------|--------|
+| T-20: Map Visibility | `GlobalReach.tsx` | Map opacity `0.18`→`0.30` + tuned filter; added SVG dot-grid overlay (20px pattern, 12% opacity); radial edge vignette (`#023020` at 95%); ambient glow pulse (6s breathing `motion.div`) |
+| T-21: Pin & Path Fix | `GlobalReach.tsx` | Sonar rings: `2s easeOut`→`4s linear` + `2s` stagger (seamless ripple, no snap-back); hub pin `h-3→h-4` + double shadow; launch timer `3200→2000ms`; paths vanish to 0 after launch, redraw on hover; traveling dot (`animateMotion`, 3s loop) on hovered path only |
+| T-22: Real Buyers | `GlobalReach.tsx` | `PLACEHOLDER_BUYERS`→`BUYERS`; 13 real client names: Honey, Muji, Uny, Bonmax, Lindex, Celio, New Yorker, Next, Suzy, Greg Norman, Walmart, Target, TJX |
+| T-23: ContactB Map | `ContactB.tsx` | Full-bleed `lg:h-full`→contained card: `aspect-[4/3]`, `rounded-3xl`, `border border-[#F5F5EB]/10`, `max-h-[70vh]`, vertically centered in flex column |
+| T-24: Legal Links | `ContactB.tsx` | `text-[10px]/40%`→`text-xs/60%`; added underline + `›` chevron prefix; `focus-visible:ring-1` on all interactive elements (legal links + social buttons) |
+
+**Key architectural changes:**
+- `GlobalReach.tsx` FlightPath now uses 3 distinct opacity phases: `isDrawing ? 1 : isHovered ? 1 : 0` (was `0.15` residual — user corrected to full vanish)
+- Trade routes SVG raised to `z-[2]` (was `z-0`, rendered behind dot-grid at `z-[1]`)
+- `ContactB.tsx` map container: inline `style={{maxHeight}}` replaced with Tailwind `max-h-[70vh]`
+- All ContactB interactive elements now keyboard-accessible with gold focus rings
+
+**User preference (important):** Flight paths must **fully vanish** after the 2s timer. They should NOT stay at reduced opacity. On hover → redraw with golden arc + traveling dot. On leave → vanish again.
+
+**QA:** TSC ✅ Build ✅ (18/18 pages, 220ms). 7/7 manual browser tests passed. 0 critical, 0 warning, 1 info (social links could use `target="_blank"`).
+
+**Merge:** `6152774` → `d73029f` via `--no-ff`. Pushed to `origin/main`. Vercel auto-deploy triggered.
