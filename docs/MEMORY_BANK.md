@@ -273,3 +273,25 @@ Replaced inline `<Logo>` React SVG component in `Navbar.tsx` with `next/image` l
 **QA:** TSC ✅ ESLint ✅ Build ✅ (18/18 pages). 7/7 manual browser tests passed. 0 critical, 0 warning, 0 info.
 
 **Merge:** `40508ad` → `2948425` via `--no-ff`. Pushed to `origin/main`. Vercel auto-deploy triggered.
+
+### 2026-04-29T18:05Z — Sprint 8: Build Hygiene & Config Cleanup
+
+**Branch:** `feat/sprint8-build-hygiene` → merged to `main` at `35accd3`
+
+**Tickets completed (3/3):**
+
+| Ticket | Files Modified | Summary |
+|--------|----------------|--------|
+| T-27: Config Cleanup | `tsconfig.json` [MOD], `release-please-config.json` [DEL], `.release-please-manifest.json` [DEL] | Removed stale `_TO_DELETE` from tsconfig exclude array; deleted both orphaned release-please config files |
+| T-28: LCP Priority | `products/[category]/page.tsx` | Added `priority={i < 4}` to `<Image>` — first 4 grid images get eager loading + preload hints for better Core Web Vitals |
+| T-29: WORKFLOW.md Cleanup | `WORKFLOW.md`, `docs/ROADMAP.md`, `docs/MEMORY_BANK.md` | Removed §5 (release-please automation) + Appendix A (release-please config); cleaned Supabase/R2 env var refs from §6 + §9; trimmed troubleshooting table; updated pipeline diagram to Vercel-only |
+
+**Key changes:**
+- `WORKFLOW.md` reduced from 317 → ~200 lines (−37%); now accurately reflects manual-release, static-site reality
+- Known issues #5, #9, #11 in MEMORY_BANK marked ✅ RESOLVED
+- Net diff: +25 / −147 lines across 7 files (2 deleted)
+
+**QA:** TSC ✅ Build ✅ (18/18 pages, exit 0).
+
+**Merge:** `0ab4586` → `35accd3` via `--no-ff`. Pushed to `origin/main`. Vercel auto-deploy triggered.
+
