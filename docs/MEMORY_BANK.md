@@ -117,13 +117,13 @@ Corporate website for **Northern Corporation Limited**, a Bangladeshi knitwear/a
 2. **No formatter** — no Prettier or equivalent; inconsistent formatting possible.
 3. **`globals.css` is 22KB+** — monolithic stylesheet; could be modularized with CSS Modules.
 4. ~~**Missing `release-please.yml`**~~ — ✅ RESOLVED (CEO decision): Removed entirely. Manual releases only.
-5. **Stale Supabase/R2 references** — WORKFLOW.md mentions environment variables for Supabase and Cloudflare R2, but no code uses them. Should be cleaned from docs.
+5. ~~**Stale Supabase/R2 references**~~ — ✅ RESOLVED (T-29): Cleaned from `WORKFLOW.md`.
 6. ~~**AGENTS.md is outdated**~~ — ✅ RESOLVED (`4ecca64`).
 7. ~~**ARCHITECTURE.md is outdated**~~ — ✅ RESOLVED (`4ecca64`).
 8. **Facility gallery images may 404** — `galleryImages` in `facilities.ts` reference paths like `/images/northern/building-1.jpg` that may not exist.
-9. **`_TO_DELETE/` exclusion** — `tsconfig.json` still excludes `_TO_DELETE` which was already removed.
+9. ~~**`_TO_DELETE/` exclusion**~~ — ✅ RESOLVED (T-27): Removed from `tsconfig.json`.
 10. **Legal page content** — `/terms` and `/privacy` have boilerplate text with `[CLIENT LEGAL TEXT TO REPLACE]` banners. Awaiting final legal text from client.
-11. **Product LCP images** — Next.js warns about missing `loading="eager"` on product hero images (performance, not a bug).
+11. ~~**Product LCP images**~~ — ✅ RESOLVED (T-28): Added `priority` prop to first 4 images.
 12. **Contact A/B/C is temporary** — 3 contact layouts exist for client A/B testing. Once client picks a winner, the other 2 should be deleted and slide count reduced.
 
 ---

@@ -5,7 +5,7 @@ same path: **commit → PR → CI → merge → auto-version → auto-deploy**.
 
 - **Repo:** https://github.com/AdilAhmedAhir/Northern_Corporation
 - **Deploy target:** Vercel (production = `main`)
-- **Versioning:** SemVer via [release-please](https://github.com/googleapis/release-please) driven by [Conventional Commits](https://www.conventionalcommits.org/)
+- **Versioning:** Manual SemVer. [Conventional Commits](https://www.conventionalcommits.org/) for commit messages.
 - **CI:** GitHub Actions (lint + typecheck + build)
 
 ---
@@ -24,24 +24,18 @@ same path: **commit → PR → CI → merge → auto-version → auto-deploy**.
                                                    │    main      │
                                                    └──────┬───────┘
                                                           │
-                         ┌────────────────────────────────┼────────────────────────────┐
-                         ▼                                                             ▼
-               ┌──────────────────────┐                                    ┌──────────────────────┐
-               │ release-please.yml   │                                    │   Vercel GitHub App  │
-               │ • bumps version      │                                    │ • builds Next.js     │
-               │ • updates CHANGELOG  │                                    │ • deploys production │
-               │ • opens Release PR   │                                    │ • https://northern-  │
-               │ • tags on merge      │                                    │   corporation-nu     │
-               └──────────────────────┘                                    │   .vercel.app        │
-                                                                           └──────────────────────┘
+                                                          ▼
+                                               ┌──────────────────────┐
+                                               │   Vercel GitHub App  │
+                                               │ • builds Next.js     │
+                                               │ • deploys production │
+                                               │ • https://northern-  │
+                                               │   corporation-nu     │
+                                               │   .vercel.app        │
+                                               └──────────────────────┘
 ```
 
-Two things happen in parallel when `main` moves:
-
-1. **release-please** maintains a rolling "Release PR" that bumps `package.json`, updates `CHANGELOG.md`, and creates a git tag (e.g. `v0.2.0`) when merged.
-2. **Vercel** detects the push and deploys the new commit to production.
-
-Tags are purely informational for deploys — Vercel deploys every push to `main`, regardless of tag.
+When `main` moves, **Vercel** detects the push and deploys the new commit to production.
 
 ---
 
@@ -134,36 +128,6 @@ If the build fails, the PR cannot merge. This guards `main` against broken deplo
 
 ---
 
-## 5. Release automation — `.github/workflows/release-please.yml`
-
-Runs on every push to `main`.
-
-**What it does:**
-
-1. Scans commits since the last tag.
-2. Maintains a single open **Release PR** titled e.g. `chore(main): release 0.2.0`.
-3. The Release PR edits:
-   - `package.json` → bumps `version`
-   - `CHANGELOG.md` → prepends a new section grouped by type
-4. When you merge the Release PR:
-   - Creates a git tag `v0.2.0`
-   - Creates a GitHub Release with the generated notes
-   - Pushes the tag to `origin`
-
-**No PAT required.** It uses the built-in `GITHUB_TOKEN` with `contents: write`
-and `pull-requests: write` permissions scoped to this workflow only.
-
-### Configuration
-
-A single file pins behaviour to this project:
-
-- `release-please-config.json` — declares package type `node`, root path,
-  changelog sections, and the starting version (reads from `package.json`).
-- `.release-please-manifest.json` — tracks the current released version
-  (release-please updates this automatically).
-
-See Appendix A for the exact file contents.
-
 ---
 
 ## 6. Deployment — Vercel
@@ -184,9 +148,9 @@ pre-2026-04-20). No workflow file needed; Vercel listens to the repo directly.
 - **Build command:** `next build` (default)
 - **Install command:** `npm ci` (default)
 - **Node version:** 20.x (match CI)
-- **Environment variables:** set Supabase + Cloudflare R2 keys in
-  `Project Settings → Environment Variables`. Mirror them to
-  `Development`, `Preview`, and `Production` scopes as needed.
+- **Environment variables:** None required (fully static site). If external
+  service integrations are added in the future, set keys in
+  `Project Settings → Environment Variables`.
 
 ### Rollback
 
@@ -217,16 +181,8 @@ gh pr create --fill   # or use the GitHub UI
 #    Review preview, iterate if needed.
 
 # 5. Merge PR to main (squash-merge recommended).
-#    • Vercel deploys production.
-#    • release-please opens/updates its Release PR.
-
-# 6. When ready to cut a version, merge the Release PR.
-#    • Tag v0.X.Y is created.
-#    • GitHub Release published.
-#    • CHANGELOG.md updated on main.
+#    • Vercel deploys production automatically.
 ```
-
-You never manually edit `CHANGELOG.md` or `package.json` version again.
 
 ---
 
@@ -248,69 +204,18 @@ Do this only if release-please is misbehaving. Prefer the automated path.
 
 - **Never** paste tokens into chat, commits, files, or issue comments.
 - The only secret CI needs is `GITHUB_TOKEN`, which GitHub injects automatically.
-- Vercel secrets (Supabase keys, R2 keys) live **only** in Vercel's
-  Environment Variables UI — not in the repo, not in workflows.
 - If a token is ever leaked: revoke at https://github.com/settings/tokens
   immediately, then rotate.
 
 ---
 
-## Appendix A — release-please configuration
-
-### `release-please-config.json`
-
-```json
-{
-  "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json",
-  "release-type": "node",
-  "packages": {
-    ".": {
-      "package-name": "northern-corporation-limited",
-      "changelog-path": "CHANGELOG.md",
-      "include-v-in-tag": true,
-      "draft": false,
-      "prerelease": false,
-      "bump-minor-pre-major": true,
-      "bump-patch-for-minor-pre-major": true
-    }
-  },
-  "changelog-sections": [
-    { "type": "feat",     "section": "Features" },
-    { "type": "fix",      "section": "Bug Fixes" },
-    { "type": "perf",     "section": "Performance" },
-    { "type": "refactor", "section": "Refactors" },
-    { "type": "docs",     "section": "Documentation", "hidden": false },
-    { "type": "chore",    "section": "Chores",        "hidden": true  },
-    { "type": "ci",       "section": "CI",            "hidden": true  },
-    { "type": "test",     "section": "Tests",         "hidden": true  }
-  ]
-}
-```
-
-### `.release-please-manifest.json`
-
-```json
-{
-  ".": "0.1.0"
-}
-```
-
-Starts at your current `package.json` version. release-please edits this file
-on every release.
-
----
-
-## Appendix B — Troubleshooting
+## Appendix — Troubleshooting
 
 | Symptom                                             | Likely cause                                                      | Fix                                                                     |
 | --------------------------------------------------- | ----------------------------------------------------------------- | ----------------------------------------------------------------------- |
-| No Release PR appears after merging a `feat:`       | release-please workflow didn't run on `main`                      | Check `Actions` tab; ensure `release-please.yml` triggers on `push: main` |
-| Release PR stuck on same version                    | Only `chore:` / `docs:` commits since last release — no version bump needed | Add a `feat:` or `fix:` to trigger a bump                               |
 | CI passes locally but fails on GitHub               | Node version drift                                                | Both CI and Vercel pinned to Node 20                                    |
 | Vercel preview URL 404s                             | Build failed — open the Vercel deployment log                     | Fix build error, push again                                             |
-| Tag created but Vercel didn't redeploy              | Expected — Vercel deploys on commit, not tag                      | The commit before the tag is already deployed                           |
-| `release-please` PR has merge conflicts in CHANGELOG | Someone edited CHANGELOG manually                                 | Close the Release PR; release-please reopens it cleanly on next push    |
 
 ---
 
-_Last updated: 2026-04-21_
+_Last updated: 2026-04-29_
