@@ -9,8 +9,6 @@ import { GlobalReach } from "@/components/sections/GlobalReach";
 import { Facilities } from "@/components/sections/Facilities";
 import { Sustainability } from "@/components/sections/Sustainability";
 import { Contact } from "@/components/sections/Contact";
-import { ContactB } from "@/components/sections/ContactB";
-import { ContactC } from "@/components/sections/ContactC";
 import { PresentationDeck } from "@/components/layout/PresentationDeck";
 import { SLIDE_LABELS } from "@/data/slides";
 
@@ -25,8 +23,6 @@ export default function Home() {
       <Facilities />
       <Sustainability />
       <Contact />
-      <ContactB />
-      <ContactC />
     </PresentationDeck>
   );
 }

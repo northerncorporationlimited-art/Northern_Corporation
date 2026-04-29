@@ -16,7 +16,7 @@ Corporate website for **Northern Corporation Limited**, a Bangladeshi knitwear/a
 
 | Route                   | Status   | Description                                                       |
 | ----------------------- | -------- | ----------------------------------------------------------------- |
-| `/` (Home)              | **ACTIVE** | PresentationDeck layout with 8 sections: Hero → AboutUs → EcoImpact → Products → GlobalReach → Facilities → Sustainability → Contact |
+| `/` (Home)              | **ACTIVE** | PresentationDeck layout with 8 slides: Hero → AboutUs → EcoImpact → Products → GlobalReach → Facilities → Sustainability → Contact |
 | `/V2`                   | Archive  | Legacy full-site (DualScroll + HistoryFlow + Sustainability + WorkLife + ContactFooter) |
 | `/facilities/[slug]`    | **ACTIVE** | Dynamic facility detail pages (6 facilities defined in data file) |
 | `/products/[category]`  | **ACTIVE** | Dynamic product category pages (5 categories: bottoms, nightwear, sports-active, tee-polo, winter) |
@@ -43,9 +43,7 @@ Corporate website for **Northern Corporation Limited**, a Bangladeshi knitwear/a
 | `GlobalReach.tsx`  | ~10KB     | ACTIVE (home) |
 | `Facilities.tsx`   | ~14KB     | ACTIVE (home) |
 | `Sustainability.tsx`| ~5.2KB   | ACTIVE (home + V2) |
-| `Contact.tsx`      | ~6.2KB    | ACTIVE (home — "Contact A") |
-| `ContactB.tsx`     | ~6.5KB    | ACTIVE (home — "Contact B") |
-| `ContactC.tsx`     | ~6.4KB    | ACTIVE (home — "Contact C") |
+| `Contact.tsx`      | ~8.7KB    | ACTIVE (home) — split layout: info columns + contained map |
 | `DualScroll.tsx`   | ~11KB     | V2 only |
 | `HistoryFlow.tsx`  | ~7.8KB    | V2 only |
 | `WorkLife.tsx`     | ~3.2KB    | V2 only |
@@ -63,7 +61,7 @@ Corporate website for **Northern Corporation Limited**, a Bangladeshi knitwear/a
 | File            | Contents                                                    |
 | --------------- | ----------------------------------------------------------- |
 | `facilities.ts` | 6 facility definitions (Facility interface): prayer-rooms, medical-service, dining, daycare, equality, professional-development |
-| `slides.ts`     | 10 slide configs: Hero → AboutUs → EcoImpact → Products → GlobalReach → Facilities → Certifications → Contact A → Contact B → Contact C |
+| `slides.ts`     | 8 slide configs: Hero → AboutUs → EcoImpact → Products → GlobalReach → Facilities → Certifications → Contact |
 
 ### Assets (`public/`)
 | Directory         | Contents                                    |
@@ -78,7 +76,7 @@ Corporate website for **Northern Corporation Limited**, a Bangladeshi knitwear/a
 ## Key Architectural Decisions
 
 1. **Fully Static:** No API routes, no server actions, no database. Content is hardcoded in components and TypeScript data files.
-2. **PresentationDeck Pattern:** Home page uses a slide-based `PresentationDeck` layout — each child is a full-viewport "slide" with dot navigation. Currently 10 slides.
+2. **PresentationDeck Pattern:** Home page uses a slide-based `PresentationDeck` layout — each child is a full-viewport "slide" with dot navigation. Currently 8 slides.
 3. **CSS Strategy:** Complex component styles in `globals.css` (22KB+), simple layout via Tailwind utilities. Uses `@theme inline` for Tailwind v4.
 4. **Animation Layering:** Framer Motion for mount/viewport-triggered animations, GSAP + ScrollTrigger for scroll-pinned sections (DualScroll), Lenis for global smooth scroll.
 5. **Preloader Gate:** 4.2s cinematic preloader blocks content until animation completes.
@@ -124,7 +122,7 @@ Corporate website for **Northern Corporation Limited**, a Bangladeshi knitwear/a
 9. ~~**`_TO_DELETE/` exclusion**~~ — ✅ RESOLVED (T-27): Removed from `tsconfig.json`.
 10. **Legal page content** — `/terms` and `/privacy` have boilerplate text with `[CLIENT LEGAL TEXT TO REPLACE]` banners. Awaiting final legal text from client.
 11. ~~**Product LCP images**~~ — ✅ RESOLVED (T-28): Added `priority` prop to first 4 images.
-12. **Contact A/B/C is temporary** — 3 contact layouts exist for client A/B testing. Once client picks a winner, the other 2 should be deleted and slide count reduced.
+12. ~~**Contact A/B/C is temporary**~~ — ✅ RESOLVED (T-30/T-31): Client chose Contact B. A + C deleted, B renamed to Contact, slides reduced 10→8.
 
 ---
 
@@ -294,4 +292,24 @@ Replaced inline `<Logo>` React SVG component in `Navbar.tsx` with `next/image` l
 **QA:** TSC ✅ Build ✅ (18/18 pages, exit 0).
 
 **Merge:** `0ab4586` → `35accd3` via `--no-ff`. Pushed to `origin/main`. Vercel auto-deploy triggered.
+
+### 2026-04-29T18:10Z — Sprint 9: Contact Pick — B Winner
+
+**Branch:** `feat/sprint9-contact-b-winner` → pending merge
+
+**Tickets completed (3/3):**
+
+| Ticket | Files Modified | Summary |
+|--------|----------------|---------|
+| T-30: Delete Losers | `Contact.tsx` (A) [DEL], `ContactC.tsx` [DEL], `page.tsx` [MOD] | Removed Contact A and Contact C components; stripped imports and JSX from home page |
+| T-31: Rewire Slides & Navbar | `ContactB.tsx` → `Contact.tsx` [RENAME], `slides.ts` [MOD] | Renamed ContactB export/id/title to Contact; reduced SLIDES from 10→8 entries; Navbar CTA uses dynamic `ALL_LINKS.length - 1` (auto-adjusted) |
+| T-32: QA & Docs | `MEMORY_BANK.md` [MOD] | TSC ✅ Build ✅ (18/18 pages). Updated section table, slides count, arch decision, known issue #12 resolved |
+
+**Key changes:**
+- Net: 2 files deleted, 1 renamed, 3 modified
+- Slide count: 10 → 8
+- Known issue #12 resolved
+- Navbar CTA already dynamic (`ALL_LINKS.length - 1`) — no change needed
+
+**QA:** TSC ✅ Build ✅ (18/18 pages, 197ms).
 

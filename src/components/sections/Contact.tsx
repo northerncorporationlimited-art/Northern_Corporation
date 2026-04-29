@@ -4,15 +4,15 @@ import React from "react";
 import { motion } from "framer-motion";
 
 /* ═══════════════════════════════════════════════
-   CONTACT — Premium Footer Section
-   Dark, editorial contact page with map embed
+   CONTACT — Split Layout: Info Columns + Contained Map
+   Two text columns left, proportioned map right
    ═══════════════════════════════════════════════ */
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
-const CONTACT_INFO = [
+const OFFICES = [
   {
-    label: "Head Office",
+    title: "Head Office",
     lines: [
       "House # 91, Flat # S4, Block - K,",
       "Suhrawardy Avenue,",
@@ -21,151 +21,186 @@ const CONTACT_INFO = [
     ],
   },
   {
-    label: "Factory 1 — BSCIC",
+    title: "Factory 1 — BSCIC",
     lines: [
       "Plot # B43-45, BSCIC I/E,",
       "Tongi, Gazipur, Bangladesh",
     ],
   },
   {
-    label: "Factory 2 — Tapirbari",
+    title: "Factory 2 — Tapirbari",
     lines: [
       "Tapirbari, Tangra,",
       "Sreepur, Gazipur, Bangladesh",
     ],
   },
-  {
-    label: "Phone",
-    lines: ["+88-02-48814594"],
-  },
-  {
-    label: "Email",
-    lines: ["info@northerncorp.com"],
-  },
 ];
 
-const SOCIAL_LINKS = [
-  { name: "LinkedIn", url: "https://www.linkedin.com/in/northern-corporation-ltd" },
-  { name: "Instagram", url: "https://www.instagram.com/northern.corporation/" },
+const CONTACT_DETAILS = [
+  { label: "Phone", value: "+88-02-48814594" },
+  { label: "Email", value: "info@northerncorp.com" },
 ];
 
 export const Contact = () => {
   return (
     <section
       id="contact"
-      className="relative flex min-h-screen w-full flex-col overflow-hidden bg-[#023020] py-20 text-[#F5F5EB] lg:h-screen lg:py-0"
+      className="relative flex min-h-screen w-full flex-col overflow-hidden bg-[#023020] text-[#F5F5EB] lg:h-screen lg:flex-row"
     >
-      {/* Main content area */}
-      <div className="flex flex-1 flex-col justify-center">
-        <div className="mx-auto w-full max-w-7xl px-6 md:px-12">
-          <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-20">
-            {/* ── Left Column — Contact Info ── */}
-            <motion.div
-              className="flex flex-col justify-center"
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, ease: EASE }}
-            >
-              <p className="mb-3 font-sans text-xs uppercase tracking-widest text-[#FDD017] md:text-sm">
-                Get in Touch
-              </p>
-              <h2 className="mb-10 font-playfair text-5xl leading-tight text-[#F5F5EB] md:text-6xl lg:text-7xl">
-                Contact Us
-              </h2>
+      {/* ── Left: Info Columns ── */}
+      <div className="flex flex-1 flex-col justify-between px-4 py-16 sm:px-6 md:px-12 lg:w-[45%] lg:py-20 lg:pl-20">
+        <div>
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, ease: EASE }}
+          >
+            <p className="mb-3 font-sans text-xs uppercase tracking-widest text-[#FDD017] md:text-sm">
+              Get in Touch
+            </p>
+            <h2 className="mb-12 font-playfair text-4xl leading-tight text-[#F5F5EB] md:text-5xl lg:text-6xl">
+              Contact Us
+            </h2>
+          </motion.div>
 
-              <div className="flex flex-col gap-8">
-                {CONTACT_INFO.map((item, i) => (
-                  <motion.div
-                    key={item.label}
-                    className="border-l-2 border-[#FDD017]/30 pl-6"
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6, delay: 0.1 + i * 0.1, ease: EASE }}
-                  >
-                    <p className="mb-1 font-mono text-[10px] uppercase tracking-widest text-[#FDD017]/60">
-                      {item.label}
+          {/* Two-column office grid */}
+          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:gap-10">
+            {/* Column 1: Offices */}
+            <div className="flex flex-col gap-8">
+              {OFFICES.map((office, i) => (
+                <motion.div
+                  key={office.title}
+                  className="border-l-2 border-[#FDD017]/30 pl-5"
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: 0.1 + i * 0.1, ease: EASE }}
+                >
+                  <p className="mb-1 font-mono text-[10px] uppercase tracking-widest text-[#FDD017]/60">
+                    {office.title}
+                  </p>
+                  {office.lines.map((line) => (
+                    <p
+                      key={line}
+                      className="font-sans text-sm leading-relaxed text-[#F5F5EB]/70 md:text-base break-words"
+                    >
+                      {line}
                     </p>
-                    {item.lines.map((line) => (
-                      <p
-                        key={line}
-                        className="font-sans text-base leading-relaxed text-[#F5F5EB]/80 md:text-lg"
-                      >
-                        {line}
-                      </p>
-                    ))}
-                  </motion.div>
-                ))}
-              </div>
+                  ))}
+                </motion.div>
+              ))}
+            </div>
 
-              {/* Social links */}
+            {/* Column 2: Contact details + socials */}
+            <div className="flex flex-col gap-8">
+              {CONTACT_DETAILS.map((item, i) => (
+                <motion.div
+                  key={item.label}
+                  className="border-l-2 border-[#FDD017]/30 pl-5"
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: 0.4 + i * 0.1, ease: EASE }}
+                >
+                  <p className="mb-1 font-mono text-[10px] uppercase tracking-widest text-[#FDD017]/60">
+                    {item.label}
+                  </p>
+                  <p className="font-sans text-sm leading-relaxed text-[#F5F5EB]/70 md:text-base">
+                    {item.value}
+                  </p>
+                </motion.div>
+              ))}
+
+              {/* Legal links */}
               <motion.div
-                className="mt-10 flex gap-4"
+                className="flex flex-col gap-3 pt-2"
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: 0.5, ease: EASE }}
+                transition={{ duration: 0.6, delay: 0.6, ease: EASE }}
               >
-                {SOCIAL_LINKS.map((link) => (
+                <a
+                  href="/terms"
+                  className="font-mono text-xs uppercase tracking-widest text-[#F5F5EB]/60 underline underline-offset-4 decoration-[#F5F5EB]/20 transition-colors hover:text-[#FDD017] hover:decoration-[#FDD017]/40 focus-visible:text-[#FDD017] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#FDD017]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#023020] rounded-sm"
+                >
+                  › Terms & Conditions
+                </a>
+                <a
+                  href="/privacy"
+                  className="font-mono text-xs uppercase tracking-widest text-[#F5F5EB]/60 underline underline-offset-4 decoration-[#F5F5EB]/20 transition-colors hover:text-[#FDD017] hover:decoration-[#FDD017]/40 focus-visible:text-[#FDD017] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#FDD017]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#023020] rounded-sm"
+                >
+                  › Privacy Policy
+                </a>
+              </motion.div>
+
+              {/* Social links */}
+              <motion.div
+                className="flex flex-wrap gap-3 pt-2"
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.7, ease: EASE }}
+              >
+                {[
+                  { name: "LinkedIn", url: "https://www.linkedin.com/in/northern-corporation-ltd" },
+                  { name: "Instagram", url: "https://www.instagram.com/northern.corporation/" },
+                ].map((link) => (
                   <a
                     key={link.name}
                     href={link.url}
-                    className="rounded-full border border-[#F5F5EB]/15 bg-[#F5F5EB]/5 px-6 py-2.5 font-mono text-[10px] uppercase tracking-widest text-[#F5F5EB]/60 transition-all duration-300 hover:border-[#FDD017]/40 hover:bg-[#FDD017]/10 hover:text-[#FDD017]"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="rounded-full border border-[#F5F5EB]/15 bg-[#F5F5EB]/5 px-5 py-2 font-mono text-[10px] uppercase tracking-widest text-[#F5F5EB]/60 transition-all duration-300 hover:border-[#FDD017]/40 hover:bg-[#FDD017]/10 hover:text-[#FDD017] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#FDD017]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#023020]"
                   >
                     {link.name}
                   </a>
                 ))}
               </motion.div>
-            </motion.div>
-
-            {/* ── Right Column — Map ── */}
-            <motion.div
-              className="flex items-center justify-center"
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.2, ease: EASE }}
-            >
-              <div className="relative w-full overflow-hidden rounded-3xl border border-[#F5F5EB]/10 pointer-events-none md:pointer-events-auto">
-                <iframe
-                  src="https://www.google.com/maps?q=Northern+Corporation+Limited+Baridhara+Dhaka&output=embed"
-                  style={{ border: 0, filter: "invert(0.9) hue-rotate(180deg) saturate(0.3)" }}
-                  allowFullScreen
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                  title="Northern Corporation Location"
-                  className="aspect-[4/3] w-full lg:aspect-square"
-                />
-              </div>
-            </motion.div>
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* ── Footer Bar ── */}
-      <div className="shrink-0 border-t border-[#F5F5EB]/10 px-6 py-6 md:px-12">
-        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 sm:flex-row">
-          <p className="font-mono text-[10px] uppercase tracking-widest text-[#F5F5EB]/30">
-            © {new Date().getFullYear()} Northern Corporation Limited. All
-            rights reserved.
+        {/* Copyright at bottom of text area */}
+        <motion.div
+          className="mt-12 flex flex-wrap items-center gap-4 border-t border-[#F5F5EB]/10 pt-6"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.8, ease: EASE }}
+        >
+          <p className="font-mono text-[10px] uppercase tracking-widest text-[#F5F5EB]/25">
+            © {new Date().getFullYear()} Northern Corporation Ltd.
           </p>
-          <div className="flex gap-6">
-            <a
-              href="/terms"
-              className="font-mono text-[10px] uppercase tracking-widest text-[#F5F5EB]/30 transition-colors hover:text-[#F5F5EB]/60"
-            >
-              Terms & Conditions
-            </a>
-            <a
-              href="/privacy"
-              className="font-mono text-[10px] uppercase tracking-widest text-[#F5F5EB]/30 transition-colors hover:text-[#F5F5EB]/60"
-            >
-              Privacy Policy
-            </a>
-          </div>
-        </div>
+        </motion.div>
       </div>
+
+      {/* ── Right: Contained Map ── */}
+      <motion.div
+        className="relative flex w-full items-center justify-center px-4 py-8 sm:px-6 md:px-12 lg:w-[55%] lg:px-12 lg:py-0"
+        initial={{ opacity: 0, x: 40 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 1, delay: 0.3, ease: EASE }}
+      >
+        {/* Gold accent line between columns */}
+        <div className="absolute left-0 top-0 hidden h-full w-px bg-gradient-to-b from-transparent via-[#FDD017]/20 to-transparent lg:block" />
+
+        <div className="w-full max-w-2xl max-h-[70vh] overflow-hidden rounded-3xl border border-[#F5F5EB]/10 pointer-events-none md:pointer-events-auto">
+          <iframe
+            src="https://www.google.com/maps?q=Northern+Corporation+Limited+Baridhara+Dhaka&output=embed"
+            style={{
+              border: 0,
+              filter: "invert(0.9) hue-rotate(180deg) saturate(0.3) brightness(0.9)",
+            }}
+            allowFullScreen
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            title="Northern Corporation Location"
+            className="aspect-[4/3] w-full"
+          />
+        </div>
+      </motion.div>
     </section>
   );
 };
