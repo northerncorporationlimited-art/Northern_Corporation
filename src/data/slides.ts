@@ -20,10 +20,9 @@ export const SLIDES: SlideConfig[] = [
   { id: "global-reach",   label: "Global Reach",   navLabel: "Global Reach",   isDark: true,  showInDesktopNav: true  },
   { id: "facilities",     label: "Facilities",     navLabel: "Our People",     isDark: true,  showInDesktopNav: true  },
   { id: "certifications", label: "Certifications", navLabel: "Certifications", isDark: false, showInDesktopNav: true  },
-  { id: "contact",        label: "Contact A",      navLabel: "Contact",        isDark: true,  showInDesktopNav: false },
-  { id: "contact-b",      label: "Contact B",      navLabel: "Contact B",      isDark: true,  showInDesktopNav: false },
-  { id: "contact-c",      label: "Contact C",      navLabel: "Contact C",      isDark: true,  showInDesktopNav: false },
+  { id: "contact",        label: "Contact",        navLabel: "Contact",        isDark: true,  showInDesktopNav: false },
 ];
+
 
 /** Labels array for PresentationDeck */
 export const SLIDE_LABELS = SLIDES.map((s) => s.label);

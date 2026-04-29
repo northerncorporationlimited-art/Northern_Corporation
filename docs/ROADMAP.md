@@ -28,17 +28,18 @@ _Last updated: 2026-04-29T18:08Z — Sprint 9 assigned._
 
 _Client decision: Contact B wins. Delete Contact A + C, reduce deck from 10 → 8 slides._
 
-- [ ] **T-30: Delete Losers** — Remove `Contact.tsx` (A) and `ContactC.tsx` from `src/components/sections/`. Remove their imports and JSX from `page.tsx`.
+- [x] **T-30: Delete Losers** — Remove `Contact.tsx` (A) and `ContactC.tsx` from `src/components/sections/`. Remove their imports and JSX from `page.tsx`.
   - **Files:** `src/components/sections/Contact.tsx` [DELETE], `src/components/sections/ContactC.tsx` [DELETE], `src/app/page.tsx` [MODIFY]
   - **AC:** Build passes with 0 references to `Contact` (A) or `ContactC` in any import statement.
 
-- [ ] **T-31: Rewire Slides & Navbar** — Update `slides.ts`: remove Contact A + Contact C entries, rename Contact B → "Contact", set `showInDesktopNav: false`. Update Navbar CTA (`nav-contact-cta`) to point to the correct slide index (now index 7). Rename `ContactB.tsx` export from `ContactB` to `Contact` and rename file to `Contact.tsx`.
+- [x] **T-31: Rewire Slides & Navbar** — Update `slides.ts`: remove Contact A + Contact C entries, rename Contact B → "Contact", set `showInDesktopNav: false`. Update Navbar CTA (`nav-contact-cta`) to point to the correct slide index (now index 7). Rename `ContactB.tsx` export from `ContactB` to `Contact` and rename file to `Contact.tsx`.
   - **Files:** `src/data/slides.ts` [MODIFY], `src/components/layout/Navbar.tsx` [MODIFY], `src/components/sections/ContactB.tsx` → `src/components/sections/Contact.tsx` [RENAME], `src/app/page.tsx` [MODIFY]
   - **AC:** `SLIDES` has exactly 8 entries. Navbar CTA navigates to Contact (slide 7). Desktop nav still shows 6 links (Contact hidden). Overlay menu shows 8 links, no "A/B/C" suffixes.
 
-- [ ] **T-32: QA & Docs** — `tsc --noEmit && next build`. Verify 16 pages generated (was 18 — minus 2 contact slides). Update `MEMORY_BANK.md` session log and `AGENTS.md` slide count.
+- [x] **T-32: QA & Docs** — `tsc --noEmit && next build`. Verify 16 pages generated (was 18 — minus 2 contact slides). Update `MEMORY_BANK.md` session log and `AGENTS.md` slide count.
   - **Files:** `docs/MEMORY_BANK.md` [MODIFY], `AGENTS.md` [MODIFY]
   - **AC:** Build succeeds. Slide count documented as 8. No references to Contact A/B/C remain in docs.
+
 
 ---
 
