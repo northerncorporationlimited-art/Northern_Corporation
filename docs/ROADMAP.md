@@ -26,9 +26,9 @@ _Last updated: 2026-04-29T18:00Z — Sprint 8 active._
 
 _Zero-risk tech debt that improves build cleanliness and performance._
 
-- [ ] **T-27:** Remove `_TO_DELETE` from `tsconfig.json` exclude array + delete orphaned `release-please-config.json` + `.release-please-manifest.json`.
-- [ ] **T-28:** Add `priority` prop to LCP hero images on `/products/[category]` pages.
-- [ ] **T-29:** Clean stale Supabase/R2 references from `WORKFLOW.md` + delete WORKFLOW.md §5 (release-please section).
+- [x] **T-27:** Remove `_TO_DELETE` from `tsconfig.json` exclude array + delete orphaned `release-please-config.json` + `.release-please-manifest.json`.
+- [x] **T-28:** Add `priority` prop to LCP hero images on `/products/[category]` pages.
+- [x] **T-29:** Clean stale Supabase/R2 references from `WORKFLOW.md` + delete WORKFLOW.md §5 (release-please section).
 
 ---
 
