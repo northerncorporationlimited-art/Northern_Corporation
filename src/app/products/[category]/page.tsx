@@ -103,6 +103,7 @@ export default async function ProductGalleryPage({ params }: PageProps) {
                 alt={`${title} product ${i + 1}`}
                 fill
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                priority={i < 4}
                 className="object-cover object-center transition-transform duration-700 group-hover:scale-105"
               />
             </div>
