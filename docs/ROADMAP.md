@@ -1,24 +1,8 @@
 # Roadmap — Northern Corporation
 
-_Last updated: 2026-04-29T16:55Z — Sprint 7 active._
+_Last updated: 2026-04-29T17:55Z — Sprint 7 complete. No active sprint._
 
-> ✅ **Sprints 0–6 complete.** Archived to `MEMORY_BANK.md`.
-
----
-
-## Sprint 7: Quick Wins — Scroll Cue & ContactB Polish
-
-- [x] **T-25: Scroll Cue Animation Overhaul** (`Hero.tsx`)
-  - Replace mechanical wipe animation with gravity-drop dot + fade-out
-  - Add glow halo (`box-shadow`) to the traveling dot
-  - Taper the track line (fade at top/bottom ends)
-  - Fix mobile text overlap — increase bottom padding or adjust cue position
-  - _Acceptance: Gold dot falls naturally, fades at bottom, restarts at top. No text overlap on 375px viewport._
-
-- [x] **T-26: ContactB Social Links Accessibility** (`ContactB.tsx`)
-  - Add `target="_blank" rel="noopener noreferrer"` to all social/external links
-  - Closes last QA info finding from Sprint 6
-  - _Acceptance: Social links open in new tab. `rel="noopener noreferrer"` present on all external hrefs._
+> ✅ **Sprints 0–7 complete.** Archived to `MEMORY_BANK.md`.
 
 ---
 
@@ -50,7 +34,6 @@ _Pick up when business priorities allow._
 - [ ] Add Prettier config + format codebase.
 - [ ] Modularize `globals.css` (22KB+ monolith).
 - [ ] Set up test framework (unit + E2E).
-- [ ] Add `target="_blank" rel="noopener noreferrer"` to ContactB social links (QA info finding).
 
 ---
 
@@ -65,3 +48,4 @@ _Pick up when business priorities allow._
 | 4: Responsive UI/UX & Menu | T-12, T-13, T-14, T-15 | `d5a314f` |
 | 5: Map Overhaul & Contact A/B/C | T-16, T-17, T-18, T-19 | `10ad62f` |
 | 6: Map Animation Polish & ContactB | T-20, T-21, T-22, T-23, T-24 | `d73029f` |
+| 7: Scroll Cue & ContactB Polish | T-25, T-26 | `2948425` |

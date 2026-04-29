@@ -251,3 +251,25 @@ Replaced inline `<Logo>` React SVG component in `Navbar.tsx` with `next/image` l
 **QA:** TSC ✅ Build ✅ (18/18 pages, 220ms). 7/7 manual browser tests passed. 0 critical, 0 warning, 1 info (social links could use `target="_blank"`).
 
 **Merge:** `6152774` → `d73029f` via `--no-ff`. Pushed to `origin/main`. Vercel auto-deploy triggered.
+
+### 2026-04-29T17:55Z — Sprint 7: Scroll Cue & ContactB Polish
+
+**Branch:** `feat/sprint7-scroll-cue-contactb-polish` → merged to `main` at `2948425`
+
+**Tickets completed (2/2):**
+
+| Ticket | Files Modified | Summary |
+|--------|----------------|--------|
+| T-25: Scroll Cue Overhaul | `Hero.tsx` | Replaced mechanical wipe bar with gravity-drop gold dot; 6px dot (`h-1.5`) with `box-shadow` glow falls down gradient-faded track (transparent→15%→transparent); 1.8s duration + 0.6s delay loop; fade-in at top, fade-out at bottom; mobile text overlap fixed: `pb-24→pb-32`, cue positioned `bottom-6 md:bottom-10`; track shortened on mobile `h-14 md:h-16` |
+| T-26: ContactB Social Links | `ContactB.tsx` | Added `target="_blank" rel="noopener noreferrer"` to LinkedIn + Instagram `<a>` tags; closes last QA info finding from Sprint 6 |
+
+**Key architectural changes:**
+- Hero scroll cue is now a Framer Motion dot with per-property `times` arrays (position: `[0, 1]`, opacity: `[0, 0.15, 0.75, 1]`) for natural gravity feel
+- Track line uses CSS gradient instead of solid `bg-` class — fades at both ends
+- Hero text container uses `pb-32 lg:pb-40` (was `pb-24 md:pb-32 lg:pb-40`) — ensures scroll cue clears subtitle on all viewports
+
+**Git note:** `gh auth switch --user AdilAhmedAhir` required before push — credential helper had `tahasinrubaba-art` as active account. Both accounts remain in keyring.
+
+**QA:** TSC ✅ ESLint ✅ Build ✅ (18/18 pages). 7/7 manual browser tests passed. 0 critical, 0 warning, 0 info.
+
+**Merge:** `40508ad` → `2948425` via `--no-ff`. Pushed to `origin/main`. Vercel auto-deploy triggered.
