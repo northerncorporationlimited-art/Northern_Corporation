@@ -42,7 +42,7 @@ export const Hero = () => {
       />
 
       {/* ── Editorial offset text — anchored bottom-left ── */}
-      <div className="relative z-10 mx-auto flex h-full w-full max-w-7xl flex-col justify-end px-6 pb-24 md:pb-32 lg:pb-40">
+      <div className="relative z-10 mx-auto flex h-full w-full max-w-7xl flex-col justify-end px-6 pb-32 lg:pb-40">
         {/* Gold eyebrow */}
         <motion.span
           className="mb-4 block font-sans text-xs uppercase tracking-[0.3em] text-[#FDD017] md:text-sm"
@@ -104,11 +104,11 @@ export const Hero = () => {
         </motion.p>
       </div>
 
-      {/* ── Scroll cue — bottom center ── */}
+      {/* ── Scroll cue — bottom center, gravity-drop dot ── */}
       <motion.div
         id="hero-scroll-cue"
         aria-hidden="true"
-        className="absolute bottom-10 left-1/2 z-10 flex -translate-x-1/2 flex-col items-center gap-2"
+        className="absolute bottom-6 left-1/2 z-10 flex -translate-x-1/2 flex-col items-center gap-2 md:bottom-10"
         style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -117,19 +117,39 @@ export const Hero = () => {
         <span className="font-sans text-[10px] uppercase tracking-[0.3em] text-[#F5F5EB]/30">
           Scroll
         </span>
-        <div className="relative h-16 w-[1px] overflow-hidden bg-[#F5F5EB]/20">
+        {/* Track — gradient-faded at both ends */}
+        <div className="relative h-14 w-[1px] md:h-16">
+          <div
+            className="absolute inset-0"
+            style={{
+              background:
+                "linear-gradient(to bottom, transparent 0%, rgba(245,245,235,0.15) 20%, rgba(245,245,235,0.15) 70%, transparent 100%)",
+            }}
+          />
+          {/* Gravity-drop dot */}
           <motion.div
-            className="absolute left-0 top-0 w-full bg-[#FDD017]"
-            initial={{ height: 0, y: 0 }}
+            className="absolute left-1/2 h-1.5 w-1.5 -translate-x-1/2 rounded-full bg-[#FDD017]"
+            style={{
+              boxShadow:
+                "0 0 6px rgba(253,208,23,0.8), 0 0 16px rgba(253,208,23,0.3)",
+            }}
             animate={{
-              height: ["0%", "100%", "0%"],
-              y: ["0%", "0%", "100%"],
+              top: ["-4px", "100%"],
+              opacity: [0, 1, 1, 0],
             }}
             transition={{
-              duration: 1.6,
-              ease: "easeInOut",
+              duration: 1.8,
+              ease: [0.45, 0, 0.55, 1],
               repeat: Infinity,
-              repeatDelay: 0.4,
+              repeatDelay: 0.6,
+              times: [0, 1],
+              opacity: {
+                times: [0, 0.15, 0.75, 1],
+                duration: 1.8,
+                ease: "easeInOut",
+                repeat: Infinity,
+                repeatDelay: 0.6,
+              },
             }}
           />
         </div>

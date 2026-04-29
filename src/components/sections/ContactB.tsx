@@ -149,6 +149,8 @@ export const ContactB = () => {
                   <a
                     key={link.name}
                     href={link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="rounded-full border border-[#F5F5EB]/15 bg-[#F5F5EB]/5 px-5 py-2 font-mono text-[10px] uppercase tracking-widest text-[#F5F5EB]/60 transition-all duration-300 hover:border-[#FDD017]/40 hover:bg-[#FDD017]/10 hover:text-[#FDD017] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#FDD017]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#023020]"
                   >
                     {link.name}
