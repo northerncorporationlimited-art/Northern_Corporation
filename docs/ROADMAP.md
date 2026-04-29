@@ -1,8 +1,24 @@
 # Roadmap — Northern Corporation
 
-_Last updated: 2026-04-29T16:35Z — Sprint 6 complete. No active sprint._
+_Last updated: 2026-04-29T16:55Z — Sprint 7 active._
 
 > ✅ **Sprints 0–6 complete.** Archived to `MEMORY_BANK.md`.
+
+---
+
+## Sprint 7: Quick Wins — Scroll Cue & ContactB Polish
+
+- [x] **T-25: Scroll Cue Animation Overhaul** (`Hero.tsx`)
+  - Replace mechanical wipe animation with gravity-drop dot + fade-out
+  - Add glow halo (`box-shadow`) to the traveling dot
+  - Taper the track line (fade at top/bottom ends)
+  - Fix mobile text overlap — increase bottom padding or adjust cue position
+  - _Acceptance: Gold dot falls naturally, fades at bottom, restarts at top. No text overlap on 375px viewport._
+
+- [x] **T-26: ContactB Social Links Accessibility** (`ContactB.tsx`)
+  - Add `target="_blank" rel="noopener noreferrer"` to all social/external links
+  - Closes last QA info finding from Sprint 6
+  - _Acceptance: Social links open in new tab. `rel="noopener noreferrer"` present on all external hrefs._
 
 ---
 
