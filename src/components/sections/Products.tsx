@@ -12,12 +12,12 @@ import { motion, AnimatePresence } from "framer-motion";
    ═══════════════════════════════════════════════ */
 
 const CATEGORIES = [
-  { title: "Tee & Polo", slug: "tee-polo", image: "/products/tee-polo/1.jpg" },
-  { title: "Bottoms", slug: "bottoms", image: "/products/bottoms/1.jpg" },
+  { title: "Tee & Polo", slug: "tee-polo", image: "/products/tee-polo/1.jpeg" },
+  { title: "Bottoms", slug: "bottoms", image: "/products/bottoms/1.jpeg" },
   {
     title: "Nightwear",
     slug: "nightwear",
-    image: "/products/nightwear/1.png",
+    image: "/products/nightwear/1.jpeg",
   },
   {
     title: "Sports & Active",
