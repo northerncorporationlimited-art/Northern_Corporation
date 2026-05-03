@@ -14,7 +14,7 @@ const OFFICES = [
   {
     title: "Head Office",
     lines: [
-      "House # 91, Flat # S4, Block - K,",
+      "Flat # S4, House # 91, Block - K,",
       "Suhrawardy Avenue,",
       "Baridhara Diplomatic Zone,",
       "Baridhara, Dhaka – 1212",
