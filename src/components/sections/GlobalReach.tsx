@@ -24,7 +24,7 @@ const LOCATIONS = [
 ];
 
 const BUYERS = [
-  "HONEY",
+  "HONEYS",
   "MUJI",
   "UNY",
   "BONMAX",
@@ -37,6 +37,7 @@ const BUYERS = [
   "WALMART",
   "TARGET",
   "TJX",
+  "GUESS",
 ];
 
 /* ── 3D Holographic Pin ── */

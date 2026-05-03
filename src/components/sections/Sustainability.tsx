@@ -13,7 +13,7 @@ const CERTS = [
   { name: "GOTS", full: "Global Organic Textile Standard", image: "/certifications/gots.png" },
   { name: "OEKO-TEX® 100", full: "Confidence in Textiles", image: "/certifications/oeko-tex-100.png" },
   { name: "OEKO-TEX® STeP", full: "Sustainable Textile Production", image: "/certifications/oeko-tex-step.png" },
-  { name: "BSCI", full: "Business Social Compliance Initiative", image: "/certifications/bsci.jpg" },
+  { name: "Made in Green", full: "Made in Green by OEKO-TEX®", image: "/certifications/made-in-green.png" },
   { name: "WRAP", full: "Worldwide Responsible Accredited Production", image: "/certifications/wrap.png" },
   { name: "SMETA", full: "Sedex Members Ethical Trade Audit", image: "/certifications/smeta.png" },
   { name: "Better Cotton", full: "Better Cotton Initiative", image: "/certifications/better-cotton.png" },

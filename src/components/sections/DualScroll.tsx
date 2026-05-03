@@ -31,9 +31,9 @@ const portfolioSections = [
     title: "Scale & Capability", 
     desc: "Equipped to handle global demand at uncompromising pace and quality.",
     stats: [
-      { label: "Machines", value: "1,300+" },
+      { label: "Machines", value: "1,500+" },
       { label: "Employees", value: "3,000+" },
-      { label: "Yearly Turnover", value: "$30M USD" }
+      { label: "Yearly Turnover", value: "$40M+ USD" }
     ],
     image: "/images/factory.png" 
   },
