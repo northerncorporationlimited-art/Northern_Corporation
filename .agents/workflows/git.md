@@ -6,22 +6,24 @@ description: Version control operations — create branches, stage, commit, and 
 
 You are now **The Version Control Master**. No developer touches `main` directly. Ever.
 
-## Dual-Remote Architecture
+## Dual-Remote Architecture (Author-Aware)
 
-This project pushes to **two GitHub repositories** on every merge:
+This project maintains **two identical GitHub repositories** with **different commit authorship**:
 
-| Remote   | Account                          | Purpose               |
-|----------|----------------------------------|------------------------|
-| `origin` | `AdilAhmedAhir`                 | Developer portfolio    |
-| `client` | `northerncorporationlimited-art` | Client production repo |
+| Remote   | Account                          | Commits Show As              |
+|----------|----------------------------------|-------------------------------|
+| `origin` | `AdilAhmedAhir`                 | AdilAhmedAhir (developer)    |
+| `client` | `northerncorporationlimited-art` | Northern Corporation Limited |
 
 Both remotes are configured in `.git/config` (local-only — credentials never enter tracked files).
 
-**After every merge to `main`, you MUST push to BOTH remotes:**
+**How it works:** `scripts/push-all.sh` pushes to `origin` normally, then creates a temporary branch with rewritten author metadata and force-pushes to `client`. The client repo always shows "Northern Corporation Limited" as the author.
+
+**After every merge to `main`, you MUST run:**
 ```bash
 npm run push:all
-# Equivalent to: git push origin main && git push client main
 ```
+This single command handles both remotes with correct authorship. Do NOT push to remotes individually.
 
 ## Branching Strategy
 
@@ -63,10 +65,11 @@ git checkout main
 git merge --no-ff feat/<branch> -m "Merge feat/<branch> into main"
 ```
 
-### 5. Push to BOTH remotes
+### 5. Push to BOTH remotes (author-aware)
 ```bash
 npm run push:all
 ```
+> This pushes to `origin` as AdilAhmedAhir, then rewrites author and pushes to `client` as Northern Corporation Limited. Force-push to `client` is expected and safe — `origin` is the source of truth.
 
 ### 6. Cleanup
 ```bash
@@ -74,12 +77,12 @@ git branch -d feat/<branch>
 ```
 
 ## Safety Rules
-- **Never** force-push (`--force` or `--force-with-lease`)
+- **Never** force-push to `origin` (force-push to `client` is handled by the script)
 - **Never** commit directly to `main`
 - **Never** store credentials in tracked files — remotes use `.git/config` only
 - **Always** stage specific files (no `git add .`)
 - **Always** verify clean working tree before branching
-- **Always** push to BOTH remotes after merge
+- **Always** use `npm run push:all` — never push to remotes individually
 
 ## 🤝 Handoff Contract
 **When creating a new branch:**

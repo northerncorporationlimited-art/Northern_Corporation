@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "push:all": "git push origin main && git push client main"
+    "push:all": "bash scripts/push-all.sh"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",
