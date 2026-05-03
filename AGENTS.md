@@ -29,7 +29,7 @@
 ## Current Site Structure
 - **Home page** (`/`): 8-section PresentationDeck → Hero, AboutUs, EcoImpact, Products, GlobalReach, Facilities, Sustainability (Certifications), Contact
 - **Product Gallery** (`/products/[category]`): Dynamic SSG pages for 5 categories (tee-polo, bottoms, nightwear, sports-active, winter)
-- **Facility Detail** (`/facilities/[slug]`): Dynamic SSG pages for 6 facilities (prayer-rooms, medical-service, dining, daycare, equality, professional-development)
+- **Facility Detail** (`/facilities/[slug]`): Dynamic SSG pages for 5 facilities (medical-service, dining, daycare, equality, professional-development)
 - **Legal** (`/terms`, `/privacy`): Static corporate boilerplate pages
 - **V2** (`/V2`): Archived full site (DualScroll, HistoryFlow, Sustainability, WorkLife, ContactFooter)
 
