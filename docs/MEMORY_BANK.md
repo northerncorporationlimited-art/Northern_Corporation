@@ -18,7 +18,7 @@ Corporate website for **Northern Corporation Limited**, a Bangladeshi knitwear/a
 | ----------------------- | -------- | ----------------------------------------------------------------- |
 | `/` (Home)              | **ACTIVE** | PresentationDeck layout with 8 slides: Hero → AboutUs → EcoImpact → Products → GlobalReach → Facilities → Sustainability → Contact |
 | `/V2`                   | Archive  | Legacy full-site (DualScroll + HistoryFlow + Sustainability + WorkLife + ContactFooter) |
-| `/facilities/[slug]`    | **ACTIVE** | Dynamic facility detail pages (6 facilities defined in data file) |
+| `/facilities/[slug]`    | **ACTIVE** | Dynamic facility detail pages (5 facilities defined in data file) |
 | `/products/[category]`  | **ACTIVE** | Dynamic product category pages (5 categories: bottoms, nightwear, sports-active, tee-polo, winter) |
 | `/terms`                | **ACTIVE** | Static Terms & Conditions boilerplate (awaiting client legal text) |
 | `/privacy`              | **ACTIVE** | Static Privacy Policy boilerplate (awaiting client legal text) |
@@ -60,7 +60,7 @@ Corporate website for **Northern Corporation Limited**, a Bangladeshi knitwear/a
 ### Data Files (`src/data/`)
 | File            | Contents                                                    |
 | --------------- | ----------------------------------------------------------- |
-| `facilities.ts` | 6 facility definitions (Facility interface): prayer-rooms, medical-service, dining, daycare, equality, professional-development |
+| `facilities.ts` | 5 facility definitions (Facility interface): medical-service, dining, daycare, equality, professional-development |
 | `slides.ts`     | 8 slide configs: Hero → AboutUs → EcoImpact → Products → GlobalReach → Facilities → Certifications → Contact |
 
 ### Assets (`public/`)
@@ -313,3 +313,24 @@ Replaced inline `<Logo>` React SVG component in `Navbar.tsx` with `next/image` l
 
 **QA:** TSC ✅ Build ✅ (18/18 pages, 197ms).
 
+
+### 2026-05-03T07:40Z — Sprint 11: Content Removal (Prayer Rooms + Factory 1)
+
+**Tickets completed (6/6):**
+
+| Ticket | Files Modified | Summary |
+|--------|----------------|--------|
+| T-107 | `facilities.ts` | Removed `prayer-rooms` entry from FACILITIES array (6→5 facilities) |
+| T-108 | `Facilities.tsx` | Updated `useState(2)` → `useState(1)` so Dining remains default expanded after index shift |
+| T-109 | (build verify) | Build passes: 17 pages (down from 18). `/facilities/prayer-rooms` now 404s correctly |
+| T-110 | `Contact.tsx` | Removed "Factory 1 — BSCIC" entry from OFFICES array (3→2 offices) |
+| T-111 | `prayer.jpg` [DEL] | Deleted 876KB prayer room image from `public/images/facilities/` |
+| T-112 | `MEMORY_BANK.md`, `ROADMAP.md` | Updated facility count 6→5, session log |
+
+**Key changes:**
+- Net: 1 file deleted, 3 files modified, 1 doc file updated
+- Facility count: 6 → 5
+- Contact offices: 3 → 2 (Head Office + Factory 2 — Tapirbari)
+- `WorkLife.tsx` (V2 archive) still references prayer rooms — left as-is since V2 is archived
+
+**QA:** TSC ✅ Build ✅ (17/17 pages, 145ms).

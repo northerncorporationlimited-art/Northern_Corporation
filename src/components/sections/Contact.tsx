@@ -21,13 +21,6 @@ const OFFICES = [
     ],
   },
   {
-    title: "Factory 1 — BSCIC",
-    lines: [
-      "Plot # B43-45, BSCIC I/E,",
-      "Tongi, Gazipur, Bangladesh",
-    ],
-  },
-  {
     title: "Factory 2 — Tapirbari",
     lines: [
       "Tapirbari, Tangra,",

@@ -19,36 +19,6 @@ export interface Facility {
 
 export const FACILITIES: Facility[] = [
   {
-    slug: "prayer-rooms",
-    title: "Prayer Rooms",
-    shortTitle: "Prayer",
-    image: "/images/facilities/prayer.jpg",
-    icon: "🙏",
-    tagline: "Spiritual Wellbeing",
-    description:
-      "Thoughtfully designed meditation and prayer rooms welcoming all faiths, providing a serene space for personal reflection and spiritual practice.",
-    longDescription:
-      "At Northern Corporation, we recognize that spiritual wellbeing is integral to overall employee satisfaction. Our dedicated prayer and meditation rooms are designed to provide a serene, comfortable space where employees of all faiths can observe personal spiritual practices without disruption. Separate facilities for male and female employees ensure privacy and comfort. The rooms are equipped with comfortable cushions, washing facilities, and a calming atmosphere with natural wood accents and indoor plants. During religious holidays and observances, special arrangements are made to accommodate our diverse workforce, reinforcing our commitment to honoring the cultural and spiritual values of every employee.",
-    highlights: [
-      { label: "Capacity", value: "200+" },
-      { label: "Availability", value: "All Day" },
-      { label: "Facilities", value: "Full Amenities" },
-      { label: "Inclusive", value: "All Faiths" },
-    ],
-    details: [
-      "Separate male and female prayer areas with privacy partitions",
-      "Comfortable meditation cushions and serene atmosphere",
-      "Clean, well-maintained washing and ablution facilities",
-      "Air-conditioned rooms with warm wood paneling and indoor plants",
-      "Inclusive space welcoming all faiths and spiritual practices",
-      "Special arrangements during religious holidays and observances",
-    ],
-    galleryImages: [
-      "/images/facilities/prayer.jpg",
-      "/images/northern/building-1.jpg",
-    ],
-  },
-  {
     slug: "medical-service",
     title: "Medical Service",
     shortTitle: "Medical",

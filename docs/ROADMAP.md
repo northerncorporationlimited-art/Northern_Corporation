@@ -1,118 +1,101 @@
-# 📊 Northern Corporation — Sprint 10 Roadmap
+# 📊 Northern Corporation — Sprint 11 Roadmap
 
-> **Theme:** Content corrections, certification updates, and facility UX polish  
+> **Theme:** Content removal — Prayer Rooms facility & Factory 1 address  
 > **Created:** 2026-05-03
 
 ---
 
-## Sprint 10 — Content & Data Corrections
+## Sprint 10 — ✅ COMPLETE
 
-### [x] T-100: Add "Made in Green by OEKO-TEX®" Certification
-
-**Files:**
-- `src/components/sections/Sustainability.tsx` → Add entry to `CERTS` array
-- `public/certifications/made-in-green.png` → Save the badge image (user-provided)
-
-**Acceptance Criteria:**
-- New cert entry: `{ name: "Made in Green", full: "Made in Green by OEKO-TEX®", image: "/certifications/made-in-green.png" }`
-- Inserted after the existing OEKO-TEX® STeP entry (index 2) to group all OEKO-TEX certs together
-- Badge image saved from user-provided screenshot to `public/certifications/made-in-green.png`
-- Grid renders 14 items without layout overflow on desktop (lg:grid-cols-7 = 2 rows)
+All 7 tickets (T-100 → T-106) completed and merged to `main`.
 
 ---
 
-### [x] T-101: Remove BSCI Certification
+## Sprint 11 — Content Removal
+
+### [x] T-107: Remove Prayer Rooms from Facilities Data
 
 **Files:**
-- `src/components/sections/Sustainability.tsx` → Remove BSCI entry from `CERTS` array
-- `public/certifications/bsci.jpg` → Delete asset (optional cleanup)
+- `src/data/facilities.ts` → Remove the `prayer-rooms` entry from the `FACILITIES` array
 
 **Acceptance Criteria:**
-- The line `{ name: "BSCI", full: "Business Social Compliance Initiative", image: "/certifications/bsci.jpg" }` is removed from the `CERTS` array
-- Grid still renders cleanly (13 → 13 items after T-100 add + T-101 remove, net 13)
-- No BSCI reference remains in the active Sustainability section (Contact.tsx "BSCIC" is a factory plot code, NOT the cert — leave it)
+- The entire `prayer-rooms` object (lines 21–50) is removed from the `FACILITIES` array
+- Array drops from 6 → 5 facilities
+- No orphaned commas or syntax errors
 
 ---
 
-### [x] T-102: Set Dining as Default Open Facility (Index 2)
+### [x] T-108: Update Facilities Default Index
 
 **Files:**
-- `src/components/sections/Facilities.tsx` → Change `useState(0)` to `useState(2)`
+- `src/components/sections/Facilities.tsx` → Update `useState(2)` default
 
 **Acceptance Criteria:**
-- Desktop: Dining & Canteen strip is expanded by default on page load
-- Auto-rotation still works, cycling from index 2 onward
-- Mobile: unaffected (uses separate `mobileExpanded` state)
+- Since prayer-rooms (index 0) is removed, the old index 2 (Dining) becomes index 1
+- Change `useState(2)` → `useState(1)` so Dining remains the default expanded facility
+- Auto-rotation still cycles correctly through 5 items
 
 ---
 
-### [x] T-103: Replace Prayer Room Image with Inclusive Alternative
+### [x] T-109: Remove `/facilities/prayer-rooms` Static Page
 
 **Files:**
-- `public/images/facilities/prayer.jpg` → Replace with new generated image
+- `src/app/facilities/[slug]/page.tsx` → No code change needed (dynamic from `FACILITIES` array)
 
 **Acceptance Criteria:**
-- Generate 3 image options showing a serene, inclusive multi-faith meditation/prayer room — no single-religion imagery
-- Present options to user for approval
-- Replace `public/images/facilities/prayer.jpg` with the chosen option
-- Used by: `src/data/facilities.ts` (line 25), Facilities section, and `/facilities/prayer-rooms` detail page
+- `generateStaticParams()` auto-derives from `FACILITIES` — removing the data entry is sufficient
+- Verify build produces 5 facility pages instead of 6
+- Visiting `/facilities/prayer-rooms` should 404
 
 ---
 
-### [x] T-104: Fix Buyer Name — "HONEY" → "HONEYS"
+### [x] T-110: Remove Factory 1 from Contact Section
 
 **Files:**
-- `src/components/sections/GlobalReach.tsx` → Update `BUYERS` array entry
+- `src/components/sections/Contact.tsx` → Remove Factory 1 entry from `OFFICES` array
 
 **Acceptance Criteria:**
-- Change `"HONEY"` to `"HONEYS"` in the `BUYERS` array (line 27)
-- Marquee renders the corrected name in the infinite scroll
+- Remove the `Factory 1 — BSCIC` object (lines 23–29) from the `OFFICES` array
+- Contact section displays only Head Office and Factory 2 — Tapirbari
+- Layout remains clean with 2 office entries instead of 3
 
 ---
 
-### [x] T-106: Add "GUESS" to Buyer Marquee
+### [x] T-111: Clean Up Prayer Room Assets
 
 **Files:**
-- `src/components/sections/GlobalReach.tsx` → Append entry to `BUYERS` array
+- `public/images/facilities/prayer.jpg` → Delete image asset
 
 **Acceptance Criteria:**
-- Add `"GUESS"` to the `BUYERS` array (confirmed not present)
-- Append after existing entries (after `"TJX"`, line 39)
-- Marquee renders 14 buyer names in the infinite scroll without layout issues
+- `prayer.jpg` (876KB) is deleted from `public/images/facilities/`
+- No remaining references to `prayer.jpg` or `prayer-rooms` slug in the codebase
 
 ---
 
-### [x] T-105: Correct Stats — Machines & Turnover
+### [x] T-112: Update Documentation
 
 **Files:**
-- `src/components/sections/AboutUs.tsx` → Update `STATS` array
-- `src/components/sections/DualScroll.tsx` → Update `stats` in V2 section (keep in sync)
+- `docs/MEMORY_BANK.md` → Update facilities count, known issues, session log
 
 **Acceptance Criteria:**
-- `AboutUs.tsx` STATS:
-  - Machines: `"1,300+"` → `"1,500+"`
-  - Yearly Turnover: `"$30M"` → `"$40M+"`
-  - Employees stays `"3,000+"`
-- `DualScroll.tsx` stats (V2 archived):
-  - Machines: `"1,300+"` → `"1,500+"`
-  - Yearly Turnover: `"$30M USD"` → `"$40M+ USD"`
-  - Employees stays `"3,000+"`
+- Update `facilities.ts` entry from "6 facilities" → "5 facilities" and remove `prayer-rooms` from the list
+- Update `MEMORY_BANK.md` to log Sprint 11 session
+- Update AGENTS.md Facility Detail route description if it mentions 6 facilities
 
 ---
 
 ## Dependency Order
 
 ```
-T-100 + T-101 → parallel (both in Sustainability.tsx, but different entries)
-T-102 → independent
-T-103 → independent (requires user image selection)
-T-104 + T-106 → parallel (both modify BUYERS array in GlobalReach.tsx)
-T-105 → independent
+T-107 → T-108 (index shift depends on data removal)
+T-109 → depends on T-107 (build verification)
+T-110 → independent
+T-111 → depends on T-107 (no orphaned references)
+T-112 → last (documentation sweep after all code changes)
 ```
 
-> All tickets are independent and can be executed in any order.  
-> T-103 requires a user decision checkpoint (image approval).  
-> T-104 and T-106 both touch the `BUYERS` array — execute in the same session.
+> **Recommended execution:** T-107 → T-108 → T-110 → T-111 → T-109 (build verify) → T-112  
+> T-107 and T-110 can be done in parallel since they touch different files.
 
 ---
 
