@@ -16,7 +16,7 @@ import { FACILITIES } from "@/data/facilities";
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
 export const Facilities = () => {
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [activeIndex, setActiveIndex] = useState(2);
   const [mobileExpanded, setMobileExpanded] = useState<number | null>(null);
   const autoPlayRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const userInteractedRef = useRef(false);

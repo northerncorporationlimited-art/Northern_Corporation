@@ -11,9 +11,9 @@ import { motion } from "framer-motion";
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
 const STATS = [
-  { value: "1,300+", label: "Machines" },
+  { value: "1,500+", label: "Machines" },
   { value: "3,000+", label: "Employees" },
-  { value: "$30M", label: "Yearly Turnover (USD)" },
+  { value: "$40M+", label: "Yearly Turnover (USD)" },
 ];
 
 export const AboutUs = () => {

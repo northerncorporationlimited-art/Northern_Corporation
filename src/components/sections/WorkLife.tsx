@@ -18,7 +18,7 @@ const workLifeItems = [
   },
   {
     title: "Prayer Rooms",
-    desc: "Separate prayer rooms for male and female employees, equipped with essentials for spiritual practice and led by an Imam.",
+    desc: "Serene meditation and prayer rooms for all employees, thoughtfully designed for personal reflection and spiritual practice across all faiths.",
   },
   {
     title: "Medical Service",
