@@ -24,6 +24,13 @@ echo "✓ origin/main updated"
 echo ""
 echo "═══ Syncing to client (northerncorporationlimited-art) ═══"
 
+# Stash any uncommitted changes (filter-branch requires clean tree)
+STASHED=false
+if ! git diff --quiet 2>/dev/null || ! git diff --cached --quiet 2>/dev/null; then
+  git stash push -u --quiet -m "_push_all_auto_stash"
+  STASHED=true
+fi
+
 # Clean up any leftover temp branch
 git branch -D _client_sync 2>/dev/null || true
 
@@ -48,6 +55,11 @@ echo "✓ client/main updated (author: ${CLIENT_NAME})"
 git checkout main --quiet
 git branch -D _client_sync 2>/dev/null || true
 rm -rf .git/refs/original/ 2>/dev/null || true
+
+# Restore stashed changes
+if [ "$STASHED" = true ]; then
+  git stash pop --quiet 2>/dev/null || true
+fi
 
 echo ""
 echo "✅ Both remotes synced successfully"
