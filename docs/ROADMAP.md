@@ -99,6 +99,58 @@ T-112 → last (documentation sweep after all code changes)
 
 ---
 
+---
+
+## Sprint 12 — Contact Section Layout Restructure
+
+### [x] T-113: Restructure Contact Left Column to Single-Column Vertical Flow
+
+**Reference:** User-provided screenshot (Fakir Knitwears contact page) — follow left-side text positioning and sequence ONLY.
+
+**Files:**
+- `src/components/sections/Contact.tsx` → Restructure left column layout
+
+**What changes:**
+- Replace the 2-column `sm:grid-cols-2` grid with a single vertical flex column
+- Reorder content to follow reference sequence: Title → Addresses → Phone/Email → Social Media → Useful Links → Copyright
+
+**What stays the same:**
+- All brand colors (`#023020`, `#FDD017`, `#F5F5EB`)
+- All fonts (Playfair Display for headings, Geist Sans for body)
+- All existing styling (gold border-left accents, tracking, opacity values)
+- All Framer Motion animations
+- Map on right side — completely untouched
+- All `focus-visible` accessibility states
+- Mobile responsive behavior
+
+**Target sequence (single column, top to bottom):**
+1. "Get in Touch" + "Contact Us" heading (existing)
+2. Head Office address block (existing gold-border style)
+3. Factory — Tapirbari address block (existing gold-border style)
+4. Phone + Email blocks (existing gold-border style)
+5. Social Media links (existing pill buttons)
+6. Useful Links — Terms & Conditions, Privacy Policy (existing styled links)
+7. Copyright at bottom (existing)
+
+**Acceptance Criteria:**
+- Left column uses a single `flex flex-col` instead of `grid grid-cols-1 sm:grid-cols-2`
+- Sections flow vertically in the order listed above
+- No visual style changes — same colors, fonts, spacing proportions
+- Map right side is completely unchanged
+
+---
+
+### [x] T-114: Rename "Factory 2" to "Factory" in Contact Data
+
+**Files:**
+- `src/components/sections/Contact.tsx` → Update OFFICES array title
+
+**Acceptance Criteria:**
+- Change `"Factory 2 — Tapirbari"` → `"Factory — Tapirbari"` in the OFFICES constant
+- No other changes
+
+---
+
 ## 🤝 Handoff Contract
 > ✅ **Roadmap Ready.** Hand off to `/lead-dev` to execute tickets sequentially.  
 > After all tickets pass, run `/qa` for a full visual + functional audit.  

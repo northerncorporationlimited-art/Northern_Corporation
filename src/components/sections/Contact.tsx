@@ -4,8 +4,8 @@ import React from "react";
 import { motion } from "framer-motion";
 
 /* ═══════════════════════════════════════════════
-   CONTACT — Split Layout: Info Columns + Contained Map
-   Two text columns left, proportioned map right
+   CONTACT — Split Layout: Single-Column Info + Contained Map
+   Vertical flow left, proportioned map right
    ═══════════════════════════════════════════════ */
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
@@ -21,7 +21,7 @@ const OFFICES = [
     ],
   },
   {
-    title: "Factory 2 — Tapirbari",
+    title: "Factory — Tapirbari",
     lines: [
       "Tapirbari, Tangra,",
       "Sreepur, Gazipur, Bangladesh",
@@ -40,9 +40,10 @@ export const Contact = () => {
       id="contact"
       className="relative flex min-h-screen w-full flex-col overflow-hidden bg-[#023020] text-[#F5F5EB] lg:h-screen lg:flex-row"
     >
-      {/* ── Left: Info Columns ── */}
+      {/* ── Left: Single-Column Vertical Flow ── */}
       <div className="flex flex-1 flex-col justify-between px-4 py-16 sm:px-6 md:px-12 lg:w-[45%] lg:py-20 lg:pl-20">
-        <div>
+        <div className="flex flex-col gap-8">
+          {/* ── Title ── */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -52,109 +53,110 @@ export const Contact = () => {
             <p className="mb-3 font-sans text-xs uppercase tracking-widest text-[#FDD017] md:text-sm">
               Get in Touch
             </p>
-            <h2 className="mb-12 font-playfair text-4xl leading-tight text-[#F5F5EB] md:text-5xl lg:text-6xl">
+            <h2 className="font-playfair text-4xl leading-tight text-[#F5F5EB] md:text-5xl lg:text-6xl">
               Contact Us
             </h2>
           </motion.div>
 
-          {/* Two-column office grid */}
-          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:gap-10">
-            {/* Column 1: Offices */}
-            <div className="flex flex-col gap-8">
-              {OFFICES.map((office, i) => (
-                <motion.div
-                  key={office.title}
-                  className="border-l-2 border-[#FDD017]/30 pl-5"
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: 0.1 + i * 0.1, ease: EASE }}
+          {/* ── Addresses ── */}
+          {OFFICES.map((office, i) => (
+            <motion.div
+              key={office.title}
+              className="border-l-2 border-[#FDD017]/30 pl-5"
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.1 + i * 0.1, ease: EASE }}
+            >
+              <p className="mb-1 font-mono text-[10px] uppercase tracking-widest text-[#FDD017]/60">
+                {office.title}
+              </p>
+              {office.lines.map((line) => (
+                <p
+                  key={line}
+                  className="font-sans text-sm leading-relaxed text-[#F5F5EB]/70 md:text-base break-words"
                 >
-                  <p className="mb-1 font-mono text-[10px] uppercase tracking-widest text-[#FDD017]/60">
-                    {office.title}
-                  </p>
-                  {office.lines.map((line) => (
-                    <p
-                      key={line}
-                      className="font-sans text-sm leading-relaxed text-[#F5F5EB]/70 md:text-base break-words"
-                    >
-                      {line}
-                    </p>
-                  ))}
-                </motion.div>
+                  {line}
+                </p>
+              ))}
+            </motion.div>
+          ))}
+
+          {/* ── Phone & Email ── */}
+          {CONTACT_DETAILS.map((item, i) => (
+            <motion.div
+              key={item.label}
+              className="border-l-2 border-[#FDD017]/30 pl-5"
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.3 + i * 0.1, ease: EASE }}
+            >
+              <p className="mb-1 font-mono text-[10px] uppercase tracking-widest text-[#FDD017]/60">
+                {item.label}
+              </p>
+              <p className="font-sans text-sm leading-relaxed text-[#F5F5EB]/70 md:text-base">
+                {item.value}
+              </p>
+            </motion.div>
+          ))}
+
+          {/* ── Social Media ── */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.5, ease: EASE }}
+          >
+            <p className="mb-3 font-mono text-[10px] uppercase tracking-widest text-[#FDD017]/60">
+              Social Media
+            </p>
+            <div className="flex flex-wrap gap-3">
+              {[
+                { name: "LinkedIn", url: "https://www.linkedin.com/in/northern-corporation-ltd" },
+                { name: "Instagram", url: "https://www.instagram.com/northern.corporation/" },
+              ].map((link) => (
+                <a
+                  key={link.name}
+                  href={link.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="rounded-full border border-[#F5F5EB]/15 bg-[#F5F5EB]/5 px-5 py-2 font-mono text-[10px] uppercase tracking-widest text-[#F5F5EB]/60 transition-all duration-300 hover:border-[#FDD017]/40 hover:bg-[#FDD017]/10 hover:text-[#FDD017] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#FDD017]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#023020]"
+                >
+                  {link.name}
+                </a>
               ))}
             </div>
+          </motion.div>
 
-            {/* Column 2: Contact details + socials */}
-            <div className="flex flex-col gap-8">
-              {CONTACT_DETAILS.map((item, i) => (
-                <motion.div
-                  key={item.label}
-                  className="border-l-2 border-[#FDD017]/30 pl-5"
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: 0.4 + i * 0.1, ease: EASE }}
-                >
-                  <p className="mb-1 font-mono text-[10px] uppercase tracking-widest text-[#FDD017]/60">
-                    {item.label}
-                  </p>
-                  <p className="font-sans text-sm leading-relaxed text-[#F5F5EB]/70 md:text-base">
-                    {item.value}
-                  </p>
-                </motion.div>
-              ))}
-
-              {/* Legal links */}
-              <motion.div
-                className="flex flex-col gap-3 pt-2"
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: 0.6, ease: EASE }}
+          {/* ── Useful Links ── */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.6, ease: EASE }}
+          >
+            <p className="mb-3 font-mono text-[10px] uppercase tracking-widest text-[#FDD017]/60">
+              Useful Links
+            </p>
+            <div className="flex flex-col gap-2">
+              <a
+                href="/terms"
+                className="w-fit font-mono text-xs uppercase tracking-widest text-[#F5F5EB]/60 underline underline-offset-4 decoration-[#F5F5EB]/20 transition-colors hover:text-[#FDD017] hover:decoration-[#FDD017]/40 focus-visible:text-[#FDD017] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#FDD017]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#023020] rounded-sm"
               >
-                <a
-                  href="/terms"
-                  className="font-mono text-xs uppercase tracking-widest text-[#F5F5EB]/60 underline underline-offset-4 decoration-[#F5F5EB]/20 transition-colors hover:text-[#FDD017] hover:decoration-[#FDD017]/40 focus-visible:text-[#FDD017] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#FDD017]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#023020] rounded-sm"
-                >
-                  › Terms & Conditions
-                </a>
-                <a
-                  href="/privacy"
-                  className="font-mono text-xs uppercase tracking-widest text-[#F5F5EB]/60 underline underline-offset-4 decoration-[#F5F5EB]/20 transition-colors hover:text-[#FDD017] hover:decoration-[#FDD017]/40 focus-visible:text-[#FDD017] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#FDD017]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#023020] rounded-sm"
-                >
-                  › Privacy Policy
-                </a>
-              </motion.div>
-
-              {/* Social links */}
-              <motion.div
-                className="flex flex-wrap gap-3 pt-2"
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: 0.7, ease: EASE }}
+                › Terms &amp; Conditions
+              </a>
+              <a
+                href="/privacy"
+                className="w-fit font-mono text-xs uppercase tracking-widest text-[#F5F5EB]/60 underline underline-offset-4 decoration-[#F5F5EB]/20 transition-colors hover:text-[#FDD017] hover:decoration-[#FDD017]/40 focus-visible:text-[#FDD017] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#FDD017]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#023020] rounded-sm"
               >
-                {[
-                  { name: "LinkedIn", url: "https://www.linkedin.com/in/northern-corporation-ltd" },
-                  { name: "Instagram", url: "https://www.instagram.com/northern.corporation/" },
-                ].map((link) => (
-                  <a
-                    key={link.name}
-                    href={link.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="rounded-full border border-[#F5F5EB]/15 bg-[#F5F5EB]/5 px-5 py-2 font-mono text-[10px] uppercase tracking-widest text-[#F5F5EB]/60 transition-all duration-300 hover:border-[#FDD017]/40 hover:bg-[#FDD017]/10 hover:text-[#FDD017] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#FDD017]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#023020]"
-                  >
-                    {link.name}
-                  </a>
-                ))}
-              </motion.div>
+                › Privacy Policy
+              </a>
             </div>
-          </div>
+          </motion.div>
         </div>
 
-        {/* Copyright at bottom of text area */}
+        {/* ── Copyright ── */}
         <motion.div
           className="mt-12 flex flex-wrap items-center gap-4 border-t border-[#F5F5EB]/10 pt-6"
           initial={{ opacity: 0 }}
