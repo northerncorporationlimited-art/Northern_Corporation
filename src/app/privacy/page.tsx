@@ -25,18 +25,7 @@ export default function PrivacyPage() {
           Privacy Policy
         </h1>
 
-        {/* Client content banner */}
-        <div className="mt-8 rounded-xl border-2 border-dashed border-[#FDD017] bg-[#FDD017]/10 px-6 py-4">
-          <p className="font-mono text-sm font-bold uppercase tracking-widest text-[#023020]">
-            [CLIENT LEGAL TEXT TO REPLACE]
-          </p>
-          <p className="mt-1 font-sans text-sm text-[#023020]/60">
-            The content below is standard boilerplate. Replace with your
-            approved legal text before launch.
-          </p>
-        </div>
-
-        {/* Boilerplate content */}
+        {/* Content */}
         <div className="mt-12 space-y-8 font-sans text-base leading-[1.8] text-[#023020]/70 md:text-lg md:leading-[1.9]">
           <section>
             <h2 className="mb-4 font-playfair text-2xl text-[#023020] md:text-3xl">
@@ -71,7 +60,24 @@ export default function PrivacyPage() {
 
           <section>
             <h2 className="mb-4 font-playfair text-2xl text-[#023020] md:text-3xl">
-              3. Data Security
+              3. Employee &amp; Stakeholder Data
+            </h2>
+            <p>
+              Northern Corporation Limited collects and processes personal
+              data of employees in connection with our corporate social
+              responsibility programs — including the Sarathi Program for
+              worker development, child care services, subsidized health and
+              hygiene initiatives, annual recognition programs, and workplace
+              engagement activities. All employee data is handled in
+              accordance with applicable labor laws of the People&apos;s
+              Republic of Bangladesh and is used solely for internal
+              organizational and welfare purposes.
+            </p>
+          </section>
+
+          <section>
+            <h2 className="mb-4 font-playfair text-2xl text-[#023020] md:text-3xl">
+              4. Data Security
             </h2>
             <p>
               Northern Corporation Limited implements reasonable technical and
@@ -86,7 +92,23 @@ export default function PrivacyPage() {
 
           <section>
             <h2 className="mb-4 font-playfair text-2xl text-[#023020] md:text-3xl">
-              4. Your Rights
+              5. Sustainability Data &amp; Reporting
+            </h2>
+            <p>
+              In pursuit of our long-term GHG carbon emissions reduction
+              roadmap extending to 2030, Northern Corporation Limited may
+              collect and process environmental data, energy consumption
+              metrics, and project-based reporting information in
+              collaboration with partners such as Lindex Buyer and ETI
+              Bangladesh. This data is used exclusively for sustainability
+              planning, environmental impact assessments, and compliance with
+              our environmental commitments.
+            </p>
+          </section>
+
+          <section>
+            <h2 className="mb-4 font-playfair text-2xl text-[#023020] md:text-3xl">
+              6. Your Rights
             </h2>
             <p>
               You have the right to request access to, correction of, or
@@ -103,7 +125,7 @@ export default function PrivacyPage() {
 
         {/* Last updated */}
         <p className="mt-16 font-mono text-xs uppercase tracking-widest text-[#023020]/30">
-          Last updated: April 2026
+          Last updated: May 2026
         </p>
       </div>
     </div>

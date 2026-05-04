@@ -25,18 +25,7 @@ export default function TermsPage() {
           Terms &amp; Conditions
         </h1>
 
-        {/* Client content banner */}
-        <div className="mt-8 rounded-xl border-2 border-dashed border-[#FDD017] bg-[#FDD017]/10 px-6 py-4">
-          <p className="font-mono text-sm font-bold uppercase tracking-widest text-[#023020]">
-            [CLIENT LEGAL TEXT TO REPLACE]
-          </p>
-          <p className="mt-1 font-sans text-sm text-[#023020]/60">
-            The content below is standard boilerplate. Replace with your
-            approved legal text before launch.
-          </p>
-        </div>
-
-        {/* Boilerplate content */}
+        {/* Content */}
         <div className="mt-12 space-y-8 font-sans text-base leading-[1.8] text-[#023020]/70 md:text-lg md:leading-[1.9]">
           <section>
             <h2 className="mb-4 font-playfair text-2xl text-[#023020] md:text-3xl">
@@ -73,7 +62,43 @@ export default function TermsPage() {
 
           <section>
             <h2 className="mb-4 font-playfair text-2xl text-[#023020] md:text-3xl">
-              3. Limitation of Liability
+              3. Corporate Social Responsibility
+            </h2>
+            <p>
+              Northern Corporation Limited is committed to employee welfare,
+              social responsibility, and environmental sustainability.
+              Information presented on this website regarding our CSR
+              initiatives — including the Sarathi Program for worker
+              development, International Women&apos;s Day celebrations,
+              annual refreshment programs, subsidized menstrual hygiene
+              products, child care services, and the Best Employee of the Year
+              recognition — is provided in good faith and reflects our ongoing
+              organizational activities. These programs are subject to change
+              at the sole discretion of Northern Corporation Limited and do not
+              constitute contractual obligations toward any external party.
+            </p>
+          </section>
+
+          <section>
+            <h2 className="mb-4 font-playfair text-2xl text-[#023020] md:text-3xl">
+              4. Sustainability Commitments
+            </h2>
+            <p>
+              Information regarding our sustainability initiatives — including
+              our long-term roadmap for GHG carbon emissions reduction
+              extending to 2030, project-based collaborations with Lindex
+              Buyer and ETI Bangladesh, solar energy adoption plans, and tree
+              plantation drives — represents our current goals and intentions.
+              While we are actively working in alignment with these plans and
+              have already begun to see positive outcomes, the statements on
+              this website should not be construed as guarantees of future
+              performance or specific environmental results.
+            </p>
+          </section>
+
+          <section>
+            <h2 className="mb-4 font-playfair text-2xl text-[#023020] md:text-3xl">
+              5. Limitation of Liability
             </h2>
             <p>
               Northern Corporation Limited shall not be liable for any direct,
@@ -89,7 +114,7 @@ export default function TermsPage() {
 
           <section>
             <h2 className="mb-4 font-playfair text-2xl text-[#023020] md:text-3xl">
-              4. Governing Law
+              6. Governing Law
             </h2>
             <p>
               These Terms &amp; Conditions shall be governed by and construed
@@ -106,7 +131,7 @@ export default function TermsPage() {
 
         {/* Last updated */}
         <p className="mt-16 font-mono text-xs uppercase tracking-widest text-[#023020]/30">
-          Last updated: April 2026
+          Last updated: May 2026
         </p>
       </div>
     </div>
