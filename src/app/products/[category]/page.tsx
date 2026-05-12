@@ -23,7 +23,7 @@ const SLUG_TO_TITLE: Record<string, string> = {
   "tee-polo": "Tee & Polo",
   bottoms: "Bottoms",
   nightwear: "Nightwear",
-  "sports-active": "Sports & Active",
+  "sports-active": "Body Suit",
   winter: "Winter",
 };
 

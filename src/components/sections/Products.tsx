@@ -20,7 +20,7 @@ const CATEGORIES = [
     image: "/products/nightwear/1.jpeg",
   },
   {
-    title: "Sports & Active",
+    title: "Body Suit",
     slug: "sports-active",
     image: "/products/sports-active/1.jpeg",
   },
