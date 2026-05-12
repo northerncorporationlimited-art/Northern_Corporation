@@ -2,13 +2,7 @@
 
 import React, { useEffect, useRef } from "react";
 import Image from "next/image";
-import {
-  motion,
-  useInView,
-  useMotionValue,
-  useTransform,
-  animate,
-} from "framer-motion";
+import { motion, useInView, useMotionValue, useTransform, animate } from "framer-motion";
 
 /* ─────────────────────────────────────────────
    Data
@@ -83,10 +77,7 @@ export const EcoImpact = () => {
         className="object-cover object-center"
         aria-hidden="true"
       />
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 z-0 bg-[#023020]/90 backdrop-blur-md"
-      />
+      <div aria-hidden="true" className="absolute inset-0 z-0 bg-[#023020]/90 backdrop-blur-md" />
 
       {/* ── Content ── */}
       <div className="relative z-10 mx-auto w-full max-w-7xl px-6">

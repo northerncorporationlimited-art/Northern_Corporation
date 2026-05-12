@@ -1,11 +1,11 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
-import { usePathname } from 'next/navigation';
-import { AnimatePresence } from 'framer-motion';
-import { Preloader } from '@/components/ui/Preloader';
-import { Navbar } from '@/components/layout/Navbar';
-import { SmoothScroll } from '@/components/layout/SmoothScroll';
+import React, { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
+import { AnimatePresence } from "framer-motion";
+import { Preloader } from "@/components/ui/Preloader";
+import { Navbar } from "@/components/layout/Navbar";
+import { SmoothScroll } from "@/components/layout/SmoothScroll";
 
 export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
   const [isLoading, setIsLoading] = useState(true);
@@ -26,9 +26,7 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <SmoothScroll enableSmooth={isHomePage}>
-      <AnimatePresence mode="wait">
-        {isLoading && <Preloader />}
-      </AnimatePresence>
+      <AnimatePresence mode="wait">{isLoading && <Preloader />}</AnimatePresence>
       {!isLoading && <Navbar />}
       <main className="relative">{children}</main>
     </SmoothScroll>

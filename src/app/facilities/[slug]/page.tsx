@@ -84,9 +84,7 @@ export default async function FacilityDetailPage({ params }: PageProps) {
               key={i}
               className="flex flex-col items-center gap-1 border-r border-[#F5F5EB]/10 px-6 py-8 last:border-r-0 md:py-10"
             >
-              <span className="font-playfair text-3xl text-[#FDD017] md:text-4xl">
-                {h.value}
-              </span>
+              <span className="font-playfair text-3xl text-[#FDD017] md:text-4xl">{h.value}</span>
               <span className="font-sans text-xs uppercase tracking-widest text-[#F5F5EB]/50">
                 {h.label}
               </span>
@@ -115,10 +113,7 @@ export default async function FacilityDetailPage({ params }: PageProps) {
             </h3>
             <ul className="space-y-4">
               {facility.details.map((detail, i) => (
-                <li
-                  key={i}
-                  className="flex gap-3 border-b border-[#F5F5EB]/5 pb-4 last:border-b-0"
-                >
+                <li key={i} className="flex gap-3 border-b border-[#F5F5EB]/5 pb-4 last:border-b-0">
                   <span className="mt-1 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#FDD017]/10 text-xs text-[#FDD017]">
                     ✓
                   </span>

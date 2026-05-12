@@ -90,10 +90,10 @@ RootLayout (layout.tsx)
 
 ## Dynamic Routes
 
-| Route | Params | Source | Generated Pages |
-|-------|--------|--------|-----------------|
-| `/products/[category]` | `category` | `SLUG_TO_FOLDER` in page.tsx | 5: tee-polo, bottoms, nightwear, sports-active, winter |
-| `/facilities/[slug]` | `slug` | `FACILITIES` in `src/data/facilities.ts` | 6: prayer-rooms, medical-service, dining, daycare, equality, professional-development |
+| Route                  | Params     | Source                                   | Generated Pages                                                                       |
+| ---------------------- | ---------- | ---------------------------------------- | ------------------------------------------------------------------------------------- |
+| `/products/[category]` | `category` | `SLUG_TO_FOLDER` in page.tsx             | 5: tee-polo, bottoms, nightwear, sports-active, winter                                |
+| `/facilities/[slug]`   | `slug`     | `FACILITIES` in `src/data/facilities.ts` | 6: prayer-rooms, medical-service, dining, daycare, equality, professional-development |
 
 ## PresentationDeck Architecture
 

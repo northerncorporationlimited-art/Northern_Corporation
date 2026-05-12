@@ -14,7 +14,9 @@ export const ScrollProgress = ({ progress }: { progress: number }) => {
       className="fixed right-6 md:right-8 top-1/2 -translate-y-1/2 z-50 flex flex-col items-center gap-4 mix-blend-difference pointer-events-none text-white transition-opacity duration-500"
       style={{ opacity: isVisible ? 1 : 0 }}
     >
-      <span className="text-xs font-mono tracking-widest">{current.toString().padStart(2, "0")}</span>
+      <span className="text-xs font-mono tracking-widest">
+        {current.toString().padStart(2, "0")}
+      </span>
       <div className="w-[2px] h-24 bg-white/20 relative overflow-hidden rounded-full">
         <div
           className="absolute top-0 left-0 w-full bg-white transition-transform duration-100 ease-linear origin-top rounded-full"

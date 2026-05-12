@@ -32,14 +32,12 @@ export default function TermsPage() {
               1. Acceptance of Terms
             </h2>
             <p>
-              By accessing and using the Northern Corporation Limited website,
-              you acknowledge that you have read, understood, and agree to be
-              bound by these Terms &amp; Conditions. If you do not agree with
-              any part of these terms, you must not use this website. Northern
-              Corporation Limited reserves the right to modify these terms at
-              any time without prior notice. Continued use of the website
-              following any changes constitutes your acceptance of the revised
-              terms.
+              By accessing and using the Northern Corporation Limited website, you acknowledge that
+              you have read, understood, and agree to be bound by these Terms &amp; Conditions. If
+              you do not agree with any part of these terms, you must not use this website. Northern
+              Corporation Limited reserves the right to modify these terms at any time without prior
+              notice. Continued use of the website following any changes constitutes your acceptance
+              of the revised terms.
             </p>
           </section>
 
@@ -48,15 +46,13 @@ export default function TermsPage() {
               2. Intellectual Property
             </h2>
             <p>
-              All content on this website, including but not limited to text,
-              graphics, logos, images, audio clips, digital downloads, and data
-              compilations, is the property of Northern Corporation Limited or
-              its content suppliers and is protected by international copyright
-              and intellectual property laws. The compilation of all content on
-              this site is the exclusive property of Northern Corporation
-              Limited. Unauthorized reproduction, modification, distribution,
-              or republication of any materials without prior written consent
-              is strictly prohibited.
+              All content on this website, including but not limited to text, graphics, logos,
+              images, audio clips, digital downloads, and data compilations, is the property of
+              Northern Corporation Limited or its content suppliers and is protected by
+              international copyright and intellectual property laws. The compilation of all content
+              on this site is the exclusive property of Northern Corporation Limited. Unauthorized
+              reproduction, modification, distribution, or republication of any materials without
+              prior written consent is strictly prohibited.
             </p>
           </section>
 
@@ -65,17 +61,14 @@ export default function TermsPage() {
               3. Corporate Social Responsibility
             </h2>
             <p>
-              Northern Corporation Limited is committed to employee welfare,
-              social responsibility, and environmental sustainability.
-              Information presented on this website regarding our CSR
-              initiatives — including the Sarathi Program for worker
-              development, International Women&apos;s Day celebrations,
-              annual refreshment programs, subsidized menstrual hygiene
-              products, child care services, and the Best Employee of the Year
-              recognition — is provided in good faith and reflects our ongoing
-              organizational activities. These programs are subject to change
-              at the sole discretion of Northern Corporation Limited and do not
-              constitute contractual obligations toward any external party.
+              Northern Corporation Limited is committed to employee welfare, social responsibility,
+              and environmental sustainability. Information presented on this website regarding our
+              CSR initiatives — including the Sarathi Program for worker development, International
+              Women&apos;s Day celebrations, annual refreshment programs, subsidized menstrual
+              hygiene products, child care services, and the Best Employee of the Year recognition —
+              is provided in good faith and reflects our ongoing organizational activities. These
+              programs are subject to change at the sole discretion of Northern Corporation Limited
+              and do not constitute contractual obligations toward any external party.
             </p>
           </section>
 
@@ -84,15 +77,13 @@ export default function TermsPage() {
               4. Sustainability Commitments
             </h2>
             <p>
-              Information regarding our sustainability initiatives — including
-              our long-term roadmap for GHG carbon emissions reduction
-              extending to 2030, project-based collaborations with Lindex
-              Buyer and ETI Bangladesh, solar energy adoption plans, and tree
-              plantation drives — represents our current goals and intentions.
-              While we are actively working in alignment with these plans and
-              have already begun to see positive outcomes, the statements on
-              this website should not be construed as guarantees of future
-              performance or specific environmental results.
+              Information regarding our sustainability initiatives — including our long-term roadmap
+              for GHG carbon emissions reduction extending to 2030, project-based collaborations
+              with Lindex Buyer and ETI Bangladesh, solar energy adoption plans, and tree plantation
+              drives — represents our current goals and intentions. While we are actively working in
+              alignment with these plans and have already begun to see positive outcomes, the
+              statements on this website should not be construed as guarantees of future performance
+              or specific environmental results.
             </p>
           </section>
 
@@ -101,14 +92,12 @@ export default function TermsPage() {
               5. Limitation of Liability
             </h2>
             <p>
-              Northern Corporation Limited shall not be liable for any direct,
-              indirect, incidental, consequential, or punitive damages arising
-              out of your access to, or use of, this website. This includes,
-              without limitation, damages for loss of profits, data, or other
-              intangible losses, even if Northern Corporation Limited has been
-              advised of the possibility of such damages. The information
-              provided on this website is for general informational purposes
-              only and does not constitute professional advice.
+              Northern Corporation Limited shall not be liable for any direct, indirect, incidental,
+              consequential, or punitive damages arising out of your access to, or use of, this
+              website. This includes, without limitation, damages for loss of profits, data, or
+              other intangible losses, even if Northern Corporation Limited has been advised of the
+              possibility of such damages. The information provided on this website is for general
+              informational purposes only and does not constitute professional advice.
             </p>
           </section>
 
@@ -117,14 +106,12 @@ export default function TermsPage() {
               6. Governing Law
             </h2>
             <p>
-              These Terms &amp; Conditions shall be governed by and construed
-              in accordance with the laws of the People&apos;s Republic of
-              Bangladesh. Any disputes arising under or in connection with
-              these terms shall be subject to the exclusive jurisdiction of the
-              courts of Dhaka, Bangladesh. If any provision of these terms is
-              found to be unenforceable or invalid, that provision shall be
-              limited or eliminated to the minimum extent necessary so that
-              these terms shall otherwise remain in full force and effect.
+              These Terms &amp; Conditions shall be governed by and construed in accordance with the
+              laws of the People&apos;s Republic of Bangladesh. Any disputes arising under or in
+              connection with these terms shall be subject to the exclusive jurisdiction of the
+              courts of Dhaka, Bangladesh. If any provision of these terms is found to be
+              unenforceable or invalid, that provision shall be limited or eliminated to the minimum
+              extent necessary so that these terms shall otherwise remain in full force and effect.
             </p>
           </section>
         </div>

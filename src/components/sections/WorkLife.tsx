@@ -35,7 +35,11 @@ const fadeUp = {
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
-    transition: { delay: i * 0.08, duration: 0.6, ease: [0.25, 0.1, 0.25, 1] as [number, number, number, number] },
+    transition: {
+      delay: i * 0.08,
+      duration: 0.6,
+      ease: [0.25, 0.1, 0.25, 1] as [number, number, number, number],
+    },
   }),
 };
 
@@ -57,8 +61,8 @@ export const WorkLife = () => {
           Life at Northern
         </h2>
         <p className="mt-6 max-w-xl text-brand-cream/50 text-lg leading-relaxed">
-          We invest in our people — because great garments start with a happy,
-          healthy, and empowered workforce.
+          We invest in our people — because great garments start with a happy, healthy, and
+          empowered workforce.
         </p>
       </motion.div>
 

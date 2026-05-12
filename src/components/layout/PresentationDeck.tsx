@@ -1,13 +1,6 @@
 "use client";
 
-import React, {
-  useState,
-  useRef,
-  useEffect,
-  useCallback,
-  createContext,
-  Children,
-} from "react";
+import React, { useState, useRef, useEffect, useCallback, createContext, Children } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLenis } from "lenis/react";
 
@@ -27,10 +20,7 @@ const EASE = [0.22, 1, 0.36, 1] as const;
 
 /* ── Context for sub-slider registration ── */
 export const PresentationContext = createContext<{
-  registerSubSlider: (
-    onNext: () => boolean,
-    onPrev: () => boolean
-  ) => void;
+  registerSubSlider: (onNext: () => boolean, onPrev: () => boolean) => void;
   unregisterSubSlider: () => void;
 } | null>(null);
 
@@ -112,9 +102,7 @@ export const PresentationDeck = ({ children, labels }: PresentationDeckProps) =>
 
   // Broadcast SLIDE_CHANGED for Navbar integration
   useEffect(() => {
-    window.dispatchEvent(
-      new CustomEvent("SLIDE_CHANGED", { detail: index })
-    );
+    window.dispatchEvent(new CustomEvent("SLIDE_CHANGED", { detail: index }));
   }, [index]);
 
   // Stop Lenis on desktop only
@@ -230,12 +218,7 @@ export const PresentationDeck = ({ children, labels }: PresentationDeckProps) =>
   useEffect(() => {
     const handleNav = (e: Event) => {
       const targetIndex = (e as CustomEvent).detail;
-      if (
-        typeof targetIndex !== "number" ||
-        targetIndex < 0 ||
-        targetIndex >= childCount
-      )
-        return;
+      if (typeof targetIndex !== "number" || targetIndex < 0 || targetIndex >= childCount) return;
 
       if (isMobile) {
         // Mobile: always scroll to the target section
@@ -327,7 +310,10 @@ export const PresentationDeck = ({ children, labels }: PresentationDeckProps) =>
                 key={i}
                 aria-label={`Go to ${labels?.[i] || `slide ${i + 1}`}`}
                 className="absolute left-1/2 h-3 w-8 -translate-x-1/2 cursor-pointer opacity-0"
-                style={{ top: `${(i / Math.max(childCount - 1, 1)) * 100}%`, transform: "translate(-50%, -50%)" }}
+                style={{
+                  top: `${(i / Math.max(childCount - 1, 1)) * 100}%`,
+                  transform: "translate(-50%, -50%)",
+                }}
                 onClick={() => {
                   if (i !== index) {
                     setDirection(i > index ? 1 : -1);
@@ -361,15 +347,14 @@ export const PresentationDeck = ({ children, labels }: PresentationDeckProps) =>
             className="pointer-events-none absolute left-0 z-[99] h-[1px] w-full"
             style={{
               top: direction > 0 ? "100%" : "0%",
-              background: "linear-gradient(90deg, transparent 0%, #FDD017 30%, #FDD017 70%, transparent 100%)",
+              background:
+                "linear-gradient(90deg, transparent 0%, #FDD017 30%, #FDD017 70%, transparent 100%)",
             }}
             initial={{ top: direction > 0 ? "100%" : "0%", opacity: 0.8, scaleX: 0 }}
             animate={{ top: "50%", opacity: 0, scaleX: 1 }}
             transition={{ duration: 1.0, ease: EASE }}
           />
         </AnimatePresence>
-
-
       </div>
     </PresentationContext.Provider>
   );

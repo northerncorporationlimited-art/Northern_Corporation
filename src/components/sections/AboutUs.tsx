@@ -51,17 +51,15 @@ export const AboutUs = () => {
           </h2>
 
           <p className="mb-6 font-sans text-lg leading-relaxed text-[#023020]/80">
-            Founded by Shafiuddin Ahmed, Northern Corporation has grown over six
-            decades from a steel re-rolling mill in 1967 into one of
-            Bangladesh&apos;s most respected garment manufacturing conglomerates
-            since 1987.
+            Founded by Shafiuddin Ahmed, Northern Corporation has grown over six decades from a
+            steel re-rolling mill in 1967 into one of Bangladesh&apos;s most respected garment
+            manufacturing conglomerates since 1987.
           </p>
 
           <p className="font-sans text-lg leading-relaxed text-[#023020]/80">
-            Today, Northern is recognized as a leading textile manufacturer in
-            Bangladesh, known for uncompromising quality, innovation, and
-            sustainability. The group actively supports the UN Sustainable
-            Development Goals (SDGs).
+            Today, Northern is recognized as a leading textile manufacturer in Bangladesh, known for
+            uncompromising quality, innovation, and sustainability. The group actively supports the
+            UN Sustainable Development Goals (SDGs).
           </p>
         </motion.div>
 

@@ -84,9 +84,7 @@ export const Navbar = () => {
 
       // On homepage — dispatch event directly
       const dispatch = () => {
-        window.dispatchEvent(
-          new CustomEvent("NAVIGATE_SLIDE", { detail: slideIndex })
-        );
+        window.dispatchEvent(new CustomEvent("NAVIGATE_SLIDE", { detail: slideIndex }));
       };
       if (menuOpen) {
         setTimeout(dispatch, 500);
@@ -154,9 +152,7 @@ export const Navbar = () => {
                   >
                     <span
                       className={`relative z-10 text-[12px] font-medium uppercase tracking-widest transition-colors duration-200 xl:text-[13px] ${
-                        isActive
-                          ? "text-[#FDD017]"
-                          : "text-brand-cream/70 hover:text-brand-cream"
+                        isActive ? "text-[#FDD017]" : "text-brand-cream/70 hover:text-brand-cream"
                       }`}
                     >
                       {link.label}
@@ -211,25 +207,17 @@ export const Navbar = () => {
             >
               <motion.span
                 className="block h-[2px] w-7 origin-center rounded-full bg-brand-cream"
-                animate={
-                  menuOpen ? { rotate: 45, y: 5.5 } : { rotate: 0, y: 0 }
-                }
+                animate={menuOpen ? { rotate: 45, y: 5.5 } : { rotate: 0, y: 0 }}
                 transition={{ duration: 0.4, ease: MENU_EASE }}
               />
               <motion.span
                 className="block h-[2px] w-7 origin-center rounded-full bg-brand-cream"
-                animate={
-                  menuOpen
-                    ? { opacity: 0, scaleX: 0 }
-                    : { opacity: 1, scaleX: 1 }
-                }
+                animate={menuOpen ? { opacity: 0, scaleX: 0 } : { opacity: 1, scaleX: 1 }}
                 transition={{ duration: 0.25 }}
               />
               <motion.span
                 className="block h-[2px] w-7 origin-center rounded-full bg-brand-cream"
-                animate={
-                  menuOpen ? { rotate: -45, y: -5.5 } : { rotate: 0, y: 0 }
-                }
+                animate={menuOpen ? { rotate: -45, y: -5.5 } : { rotate: 0, y: 0 }}
                 transition={{ duration: 0.4, ease: MENU_EASE }}
               />
             </button>

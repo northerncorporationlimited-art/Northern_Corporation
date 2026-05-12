@@ -13,24 +13,56 @@ import { motion } from "framer-motion";
 const CERTS = [
   /* ── Row 1 (7) ── */
   { name: "GOTS", full: "Global Organic Textile Standard", image: "/certifications/gots.png" },
-  { name: "OEKO-TEX® 100", full: "Confidence in Textiles", image: "/certifications/oeko-tex-100.png" },
-  { name: "OEKO-TEX® STeP", full: "Sustainable Textile Production", image: "/certifications/oeko-tex-step.png" },
-  { name: "Made in Green", full: "Made in Green by OEKO-TEX®", image: "/certifications/made-in-green.png" },
-  { name: "WRAP", full: "Worldwide Responsible Accredited Production", image: "/certifications/wrap.png" },
+  {
+    name: "OEKO-TEX® 100",
+    full: "Confidence in Textiles",
+    image: "/certifications/oeko-tex-100.png",
+  },
+  {
+    name: "OEKO-TEX® STeP",
+    full: "Sustainable Textile Production",
+    image: "/certifications/oeko-tex-step.png",
+  },
+  {
+    name: "Made in Green",
+    full: "Made in Green by OEKO-TEX®",
+    image: "/certifications/made-in-green.png",
+  },
+  {
+    name: "WRAP",
+    full: "Worldwide Responsible Accredited Production",
+    image: "/certifications/wrap.png",
+  },
   { name: "SMETA", full: "Sedex Members Ethical Trade Audit", image: "/certifications/smeta.png" },
-  { name: "Better Cotton", full: "Better Cotton Initiative", image: "/certifications/better-cotton.png" },
+  {
+    name: "Better Cotton",
+    full: "Better Cotton Initiative",
+    image: "/certifications/better-cotton.png",
+  },
   /* ── Row 2 (7) ── */
   { name: "RWS", full: "Responsible Wool Standard", image: "/certifications/rws.png" },
   { name: "CmiA", full: "Cotton Made in Africa", image: "/certifications/cmia.png" },
   { name: "OCS", full: "Organic Content Standard", image: "/certifications/organic-content.png" },
   { name: "RCS", full: "Recycled Claim Standard", image: "/certifications/recycled-claim.png" },
-  { name: "LEED Gold", full: "Leadership in Energy & Environmental Design", image: "/certifications/leed-gold.png" },
+  {
+    name: "LEED Gold",
+    full: "Leadership in Energy & Environmental Design",
+    image: "/certifications/leed-gold.png",
+  },
   { name: "RSC 100", full: "RMG Sustainability Council 100", image: "/certifications/rsc.png" },
-  { name: "BSCI", full: "Business Social Compliance Initiative", image: "/certifications/bsci.webp" },
+  {
+    name: "BSCI",
+    full: "Business Social Compliance Initiative",
+    image: "/certifications/bsci.webp",
+  },
 ];
 
 /* Separate row for Better Work — rendered centered below the main grid */
-const CERT_BETTER_WORK = { name: "Better Work", full: "Better Work Bangladesh", image: "/certifications/better-work.png" };
+const CERT_BETTER_WORK = {
+  name: "Better Work",
+  full: "Better Work Bangladesh",
+  image: "/certifications/better-work.png",
+};
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
@@ -55,8 +87,8 @@ export const Sustainability = () => {
           Certifications
         </h2>
         <p className="mx-auto mt-4 max-w-2xl font-sans text-sm leading-relaxed text-[#023020]/60 md:text-base">
-          Our commitment to sustainability and ethical practices is validated by
-          the world&apos;s most respected certification bodies.
+          Our commitment to sustainability and ethical practices is validated by the world&apos;s
+          most respected certification bodies.
         </p>
       </motion.div>
 
@@ -123,14 +155,11 @@ export const Sustainability = () => {
       >
         <p className="font-sans text-xs leading-relaxed text-[#F5F5EB]/80 md:text-sm">
           Northern Corporation is a{" "}
-          <span className="font-bold text-[#FDD017]">
-            BGMEA Best Environment Compliant Factory
-          </span>{" "}
+          <span className="font-bold text-[#FDD017]">BGMEA Best Environment Compliant Factory</span>{" "}
           and a proud signatory of the{" "}
-          <span className="font-bold text-[#FDD017]">UN Global Compact</span>.
-          The group also partners with{" "}
-          <span className="font-bold text-[#FDD017]">SNV Netherlands</span> to
-          advance sustainable development across the textile supply chain.
+          <span className="font-bold text-[#FDD017]">UN Global Compact</span>. The group also
+          partners with <span className="font-bold text-[#FDD017]">SNV Netherlands</span> to advance
+          sustainable development across the textile supply chain.
         </p>
       </motion.div>
     </section>

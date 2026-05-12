@@ -41,12 +41,12 @@ When `main` moves, **Vercel** detects the push and deploys the new commit to pro
 
 ## 2. Branching model
 
-| Branch         | Purpose                                         | Auto-deploys to          |
-| -------------- | ----------------------------------------------- | ------------------------ |
-| `main`         | Production. Always deployable.                  | Vercel production        |
-| `feature/*`    | New features                                    | Vercel preview (per PR)  |
-| `fix/*`        | Bugfixes                                        | Vercel preview (per PR)  |
-| `chore/*`      | Tooling, deps, docs (no user-visible change)    | Vercel preview (per PR)  |
+| Branch      | Purpose                                      | Auto-deploys to         |
+| ----------- | -------------------------------------------- | ----------------------- |
+| `main`      | Production. Always deployable.               | Vercel production       |
+| `feature/*` | New features                                 | Vercel preview (per PR) |
+| `fix/*`     | Bugfixes                                     | Vercel preview (per PR) |
+| `chore/*`   | Tooling, deps, docs (no user-visible change) | Vercel preview (per PR) |
 
 **Rule:** `main` is protected. All changes land via PR. No direct pushes.
 
@@ -77,21 +77,21 @@ format for **every** commit that lands on `main`:
 
 ### Types and version impact
 
-| Type        | Meaning                                  | Version bump     |
-| ----------- | ---------------------------------------- | ---------------- |
-| `feat`      | New user-facing feature                  | **minor** (0.X.0) |
-| `fix`       | Bug fix                                  | **patch** (0.0.X) |
-| `perf`      | Performance improvement                  | **patch**        |
-| `refactor`  | Code change, no behaviour change         | none             |
-| `docs`      | Docs only                                | none             |
-| `style`     | Formatting, whitespace                   | none             |
-| `test`      | Tests only                               | none             |
-| `chore`     | Tooling, deps, build config              | none             |
-| `ci`        | CI config                                | none             |
-| `build`     | Build system                             | none             |
-| `revert`    | Revert a prior commit                    | patch            |
-| any + `!`   | Breaking change (e.g. `feat!:`)          | **major** (X.0.0) |
-| `BREAKING CHANGE:` footer | Breaking change              | **major**        |
+| Type                      | Meaning                          | Version bump      |
+| ------------------------- | -------------------------------- | ----------------- |
+| `feat`                    | New user-facing feature          | **minor** (0.X.0) |
+| `fix`                     | Bug fix                          | **patch** (0.0.X) |
+| `perf`                    | Performance improvement          | **patch**         |
+| `refactor`                | Code change, no behaviour change | none              |
+| `docs`                    | Docs only                        | none              |
+| `style`                   | Formatting, whitespace           | none              |
+| `test`                    | Tests only                       | none              |
+| `chore`                   | Tooling, deps, build config      | none              |
+| `ci`                      | CI config                        | none              |
+| `build`                   | Build system                     | none              |
+| `revert`                  | Revert a prior commit            | patch             |
+| any + `!`                 | Breaking change (e.g. `feat!:`)  | **major** (X.0.0) |
+| `BREAKING CHANGE:` footer | Breaking change                  | **major**         |
 
 ### Examples
 
@@ -135,12 +135,12 @@ If the build fails, the PR cannot merge. This guards `main` against broken deplo
 Deploy is **already configured** via the Vercel GitHub App (per `CHANGELOG.md`,
 pre-2026-04-20). No workflow file needed; Vercel listens to the repo directly.
 
-| Event                          | Vercel behaviour                          |
-| ------------------------------ | ----------------------------------------- |
-| Push to `main`                 | Build + deploy to **production** domain   |
-| Open PR from any branch        | Build + deploy to unique **preview** URL  |
-| Push to PR branch              | Re-deploys the preview                    |
-| PR closed/merged               | Preview torn down                         |
+| Event                   | Vercel behaviour                         |
+| ----------------------- | ---------------------------------------- |
+| Push to `main`          | Build + deploy to **production** domain  |
+| Open PR from any branch | Build + deploy to unique **preview** URL |
+| Push to PR branch       | Re-deploys the preview                   |
+| PR closed/merged        | Preview torn down                        |
 
 ### Required Vercel project settings
 
@@ -211,10 +211,10 @@ Do this only if release-please is misbehaving. Prefer the automated path.
 
 ## Appendix — Troubleshooting
 
-| Symptom                                             | Likely cause                                                      | Fix                                                                     |
-| --------------------------------------------------- | ----------------------------------------------------------------- | ----------------------------------------------------------------------- |
-| CI passes locally but fails on GitHub               | Node version drift                                                | Both CI and Vercel pinned to Node 20                                    |
-| Vercel preview URL 404s                             | Build failed — open the Vercel deployment log                     | Fix build error, push again                                             |
+| Symptom                               | Likely cause                                  | Fix                                  |
+| ------------------------------------- | --------------------------------------------- | ------------------------------------ |
+| CI passes locally but fails on GitHub | Node version drift                            | Both CI and Vercel pinned to Node 20 |
+| Vercel preview URL 404s               | Build failed — open the Vercel deployment log | Fix build error, push again          |
 
 ---
 

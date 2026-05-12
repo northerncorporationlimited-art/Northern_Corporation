@@ -114,9 +114,7 @@ const HoloPin = ({
       <span
         className={`absolute top-0 hidden whitespace-nowrap font-sans text-[10px] uppercase tracking-widest md:inline ${
           loc.x > 65 ? "right-full mr-3" : "left-full ml-3"
-        } ${
-          isHub ? "text-[#FDD017]/80" : "text-[#F5F5EB]/40"
-        } ${isActive ? "text-[#FDD017]" : ""}`}
+        } ${isHub ? "text-[#FDD017]/80" : "text-[#F5F5EB]/40"} ${isActive ? "text-[#FDD017]" : ""}`}
       >
         {isHub ? "Bangladesh (HQ)" : loc.name}
       </span>
@@ -149,7 +147,8 @@ const HoloPin = ({
               {loc.name}
             </p>
             <p className="text-xs leading-relaxed text-[#F5F5EB]/60">
-              Active export partnerships with leading retailers and fashion brands in the {loc.name} market.
+              Active export partnerships with leading retailers and fashion brands in the {loc.name}{" "}
+              market.
             </p>
           </motion.div>
         )}
@@ -183,13 +182,7 @@ const FlightPath = ({
   return (
     <g>
       {/* Static ghost path — always visible at low opacity for map structure */}
-      <path
-        d={d}
-        fill="none"
-        stroke="#F5F5EB"
-        strokeWidth="0.08"
-        strokeOpacity="0.15"
-      />
+      <path d={d} fill="none" stroke="#F5F5EB" strokeWidth="0.08" strokeOpacity="0.15" />
 
       {/* Animated golden path — vanishes after launch, redraws on hover */}
       <motion.path
@@ -245,11 +238,7 @@ const FlightPath = ({
       {/* Traveling dot particle — only visible on hovered path */}
       {isHovered && (
         <circle r="0.4" fill="#FDD017" opacity={0.9}>
-          <animateMotion
-            dur="3s"
-            repeatCount="indefinite"
-            path={d}
-          />
+          <animateMotion dur="3s" repeatCount="indefinite" path={d} />
         </circle>
       )}
     </g>
@@ -329,7 +318,9 @@ export const GlobalReach = () => {
             alt="World Map"
             className="pointer-events-none opacity-[0.30]"
             aria-hidden="true"
-            style={{ filter: "invert(1) brightness(1.8) contrast(1.3) sepia(0.1) hue-rotate(60deg)" }}
+            style={{
+              filter: "invert(1) brightness(1.8) contrast(1.3) sepia(0.1) hue-rotate(60deg)",
+            }}
           />
 
           {/* Dot-grid overlay — geographic depth and texture */}
@@ -338,7 +329,14 @@ export const GlobalReach = () => {
             aria-hidden="true"
           >
             <defs>
-              <pattern id="dot-grid" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+              <pattern
+                id="dot-grid"
+                x="0"
+                y="0"
+                width="20"
+                height="20"
+                patternUnits="userSpaceOnUse"
+              >
                 <circle cx="1" cy="1" r="0.5" fill="#F5F5EB" />
               </pattern>
             </defs>
@@ -399,8 +397,7 @@ export const GlobalReach = () => {
       <div
         className="relative z-40 flex h-16 w-full shrink-0 items-center overflow-hidden border-t border-[#F5F5EB]/10 bg-[#F5F5EB]/5 backdrop-blur-md md:h-20"
         style={{
-          maskImage:
-            "linear-gradient(to right, transparent, black 15%, black 85%, transparent)",
+          maskImage: "linear-gradient(to right, transparent, black 15%, black 85%, transparent)",
           WebkitMaskImage:
             "linear-gradient(to right, transparent, black 15%, black 85%, transparent)",
         }}

@@ -11,7 +11,9 @@ let audioCtx: AudioContext | null = null;
 
 function initAudio(): AudioContext | null {
   if (!audioCtx) {
-    const Ctx = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+    const Ctx =
+      window.AudioContext ||
+      (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
     audioCtx = new Ctx();
   }
   // Only produce sound if the context is already unlocked from a prior user gesture
@@ -235,8 +237,7 @@ export const Preloader = () => {
 
       // Ghost watermark: stays center, scales up + fades
       ghost.style.opacity = "0.7";
-      ghost.style.animation =
-        "preloader-ghost-expand 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards";
+      ghost.style.animation = "preloader-ghost-expand 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards";
 
       const logoRect = logo.getBoundingClientRect();
       const logoCX = logoRect.left + logoRect.width / 2;
@@ -301,7 +302,7 @@ export const Preloader = () => {
         [
           { transform: "scale(1) translate(0, 0)", opacity: 1, offset: 0 },
           {
-            transform: `scale(${scaleFactor * 1.8}) translate(${dx * 0.15 / (scaleFactor * 1.8)}px, ${dy * 0.15 / (scaleFactor * 1.8)}px)`,
+            transform: `scale(${scaleFactor * 1.8}) translate(${(dx * 0.15) / (scaleFactor * 1.8)}px, ${(dy * 0.15) / (scaleFactor * 1.8)}px)`,
             opacity: 0.7,
             offset: 0.3,
           },
@@ -355,21 +356,11 @@ export const Preloader = () => {
 
       {/* Logo — morphs to N position */}
       {/* eslint-disable-next-line @next/next/no-img-element -- imperative .animate() requires native img */}
-      <img
-        ref={logoRef}
-        src="/logo-symbol.svg"
-        alt=""
-        className="preloader-logo-morph"
-      />
+      <img ref={logoRef} src="/logo-symbol.svg" alt="" className="preloader-logo-morph" />
 
       {/* Ghost watermark — stays center, scales up */}
       {/* eslint-disable-next-line @next/next/no-img-element -- imperative .animate() requires native img */}
-      <img
-        ref={ghostRef}
-        src="/logo-symbol.svg"
-        alt=""
-        className="preloader-logo-ghost"
-      />
+      <img ref={ghostRef} src="/logo-symbol.svg" alt="" className="preloader-logo-ghost" />
 
       {/* Lock flash */}
       <div ref={flashRef} className="preloader-lock-flash" />
@@ -391,11 +382,15 @@ export const Preloader = () => {
           {LETTERS.map((letter, i) => (
             <div
               key={i}
-              ref={(el) => { wrapRefs.current[i] = el; }}
+              ref={(el) => {
+                wrapRefs.current[i] = el;
+              }}
               className="preloader-letter-wrap"
             >
               <span
-                ref={(el) => { letterRefs.current[i] = el; }}
+                ref={(el) => {
+                  letterRefs.current[i] = el;
+                }}
                 className="preloader-letter"
                 style={{ opacity: 0 }}
               >
@@ -415,23 +410,14 @@ export const Preloader = () => {
       <div className="preloader-bottom-bar">
         <p className="preloader-est">Est. 1967</p>
         <div className="preloader-progress-track">
-          <div
-            className="preloader-progress-fill"
-            style={{ width: `${progress}%` }}
-          />
-          <div
-            className="preloader-progress-glow"
-            style={{ left: `${Math.min(progress, 97)}%` }}
-          />
+          <div className="preloader-progress-fill" style={{ width: `${progress}%` }} />
+          <div className="preloader-progress-glow" style={{ left: `${Math.min(progress, 97)}%` }} />
         </div>
         <div className="preloader-pct-row">
           <span
             className="preloader-pct"
             style={{
-              color:
-                progress >= 100
-                  ? "rgba(191,163,80,0.8)"
-                  : "rgba(245,240,225,0.25)",
+              color: progress >= 100 ? "rgba(191,163,80,0.8)" : "rgba(245,240,225,0.25)",
             }}
           >
             {progress}%
