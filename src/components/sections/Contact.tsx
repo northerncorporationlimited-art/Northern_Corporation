@@ -22,10 +22,7 @@ const OFFICES = [
   },
   {
     title: "Factory — Tapirbari",
-    lines: [
-      "Tapirbari, Tangra,",
-      "Sreepur, Gazipur, Bangladesh",
-    ],
+    lines: ["Tapirbari, Tangra,", "Sreepur, Gazipur, Bangladesh"],
   },
 ];
 

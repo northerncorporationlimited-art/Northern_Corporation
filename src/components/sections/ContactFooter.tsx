@@ -6,7 +6,10 @@ import { Magnetic } from "@/components/ui/Magnetic";
 
 const contactDetails = [
   { label: "Head Office", value: "[Insert Factory Address]\nDhaka, Bangladesh" },
-  { label: "Factory Location", value: "[Insert Factory Unit Address]\nGazipur / Narayanganj, Bangladesh" },
+  {
+    label: "Factory Location",
+    value: "[Insert Factory Unit Address]\nGazipur / Narayanganj, Bangladesh",
+  },
   { label: "Work Hours", value: "Saturday – Thursday\n8:00 AM – 5:00 PM (BST)" },
   { label: "Phone", value: "[Insert Phone Number]\n[Insert Phone Number]" },
   { label: "Email", value: "info@northerncorp.com\nsales@northerncorp.com" },
@@ -18,7 +21,11 @@ const fadeUp = {
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
-    transition: { delay: i * 0.08, duration: 0.6, ease: [0.25, 0.1, 0.25, 1] as [number, number, number, number] },
+    transition: {
+      delay: i * 0.08,
+      duration: 0.6,
+      ease: [0.25, 0.1, 0.25, 1] as [number, number, number, number],
+    },
   }),
 };
 
@@ -26,7 +33,6 @@ export const ContactFooter = () => {
   return (
     <footer className="w-full bg-[#010f0a] min-h-screen flex flex-col justify-center py-32 px-8 md:px-20">
       <div className="max-w-6xl mx-auto">
-
         {/* Header */}
         <motion.div
           className="mb-20"
@@ -42,7 +48,8 @@ export const ContactFooter = () => {
             Contact Us
           </h2>
           <p className="mt-6 max-w-xl text-brand-cream/50 text-lg leading-relaxed">
-            Ready to partner with us? Reach out to discuss your next project — we&apos;d love to hear from you.
+            Ready to partner with us? Reach out to discuss your next project — we&apos;d love to
+            hear from you.
           </p>
         </motion.div>
 
@@ -58,9 +65,13 @@ export const ContactFooter = () => {
               viewport={{ once: true, amount: 0.2 }}
               className="group rounded-2xl border border-white/8 bg-white/4 p-6 hover:border-brand-gold/20 hover:bg-white/8 transition-all"
             >
-              <p className="text-xs font-semibold uppercase tracking-widest text-brand-gold/70 mb-3">{item.label}</p>
+              <p className="text-xs font-semibold uppercase tracking-widest text-brand-gold/70 mb-3">
+                {item.label}
+              </p>
               {item.value.split("\n").map((line) => (
-                <p key={line} className="text-brand-cream/70 text-sm leading-relaxed">{line}</p>
+                <p key={line} className="text-brand-cream/70 text-sm leading-relaxed">
+                  {line}
+                </p>
               ))}
             </motion.div>
           ))}

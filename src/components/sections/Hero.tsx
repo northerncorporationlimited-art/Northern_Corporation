@@ -14,10 +14,7 @@ const TEXT_DELAY = 0.2; // starts immediately after preloader exit
 
 export const Hero = () => {
   return (
-    <section
-      id="hero"
-      className="relative flex h-screen w-full overflow-hidden bg-[#023020]"
-    >
+    <section id="hero" className="relative flex h-screen w-full overflow-hidden bg-[#023020]">
       {/* ── Ken Burns cinematic zoom ── */}
       <motion.div
         className="absolute inset-0"
@@ -99,8 +96,8 @@ export const Hero = () => {
             ease: EASE,
           }}
         >
-          Northern Corporation Limited pioneers the intersection of bespoke
-          craftsmanship and industrial scale.
+          Northern Corporation Limited pioneers the intersection of bespoke craftsmanship and
+          industrial scale.
         </motion.p>
       </div>
 
@@ -130,8 +127,7 @@ export const Hero = () => {
           <motion.div
             className="absolute left-1/2 h-1.5 w-1.5 -translate-x-1/2 rounded-full bg-[#FDD017]"
             style={{
-              boxShadow:
-                "0 0 6px rgba(253,208,23,0.8), 0 0 16px rgba(253,208,23,0.3)",
+              boxShadow: "0 0 6px rgba(253,208,23,0.8), 0 0 16px rgba(253,208,23,0.3)",
             }}
             animate={{
               top: ["-4px", "100%"],

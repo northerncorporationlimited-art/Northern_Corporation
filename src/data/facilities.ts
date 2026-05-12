@@ -43,10 +43,7 @@ export const FACILITIES: Facility[] = [
       "Emergency response team with first-aid stations on every floor",
       "Specialized prenatal care for pregnant workers",
     ],
-    galleryImages: [
-      "/images/facilities/medical.jpg",
-      "/images/northern/building-2.jpg",
-    ],
+    galleryImages: ["/images/facilities/medical.jpg", "/images/northern/building-2.jpg"],
   },
   {
     slug: "dining",
@@ -73,10 +70,7 @@ export const FACILITIES: Facility[] = [
       "Separate kitchens for quality control and dietary accommodation",
       "Clean drinking water stations on every floor",
     ],
-    galleryImages: [
-      "/images/facilities/dining.jpg",
-      "/images/northern/factory-floor-3.jpg",
-    ],
+    galleryImages: ["/images/facilities/dining.jpg", "/images/northern/factory-floor-3.jpg"],
   },
   {
     slug: "daycare",
@@ -103,10 +97,7 @@ export const FACILITIES: Facility[] = [
       "Operates during all working shifts at zero cost to employees",
       "Parents can visit children during designated break times",
     ],
-    galleryImages: [
-      "/images/facilities/daycare.jpg",
-      "/images/northern/building-1.jpg",
-    ],
+    galleryImages: ["/images/facilities/daycare.jpg", "/images/northern/building-1.jpg"],
   },
   {
     slug: "equality",
@@ -133,10 +124,7 @@ export const FACILITIES: Facility[] = [
       "Career advancement programs empowering women in leadership",
       "Inclusive hiring practices welcoming people of all backgrounds",
     ],
-    galleryImages: [
-      "/images/facilities/equality.jpg",
-      "/images/northern/factory-floor-1.jpg",
-    ],
+    galleryImages: ["/images/facilities/equality.jpg", "/images/northern/factory-floor-1.jpg"],
   },
   {
     slug: "professional-development",
@@ -163,9 +151,6 @@ export const FACILITIES: Facility[] = [
       "Scholarship programs for employees' children",
       "Merit-based promotion system with leadership grooming",
     ],
-    galleryImages: [
-      "/images/facilities/development.jpg",
-      "/images/northern/workers-closeup.jpg",
-    ],
+    galleryImages: ["/images/facilities/development.jpg", "/images/northern/workers-closeup.jpg"],
   },
 ];

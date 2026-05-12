@@ -64,9 +64,7 @@ export const Products = () => {
                     <button
                       onClick={() => setActiveIndex(i)}
                       className={`group flex w-full items-baseline gap-4 py-3 text-left outline-none transition-all duration-300 ${
-                        isActive
-                          ? "md:translate-x-4 opacity-100"
-                          : "opacity-30 hover:opacity-60"
+                        isActive ? "md:translate-x-4 opacity-100" : "opacity-30 hover:opacity-60"
                       }`}
                     >
                       <span className="font-mono text-xs text-[#023020]/40">
@@ -160,9 +158,7 @@ export const Products = () => {
                   <div
                     key={i}
                     className={`h-1.5 rounded-full transition-all duration-300 ${
-                      i === activeIndex
-                        ? "w-6 bg-[#FDD017]"
-                        : "w-1.5 bg-[#F5F5EB]/40"
+                      i === activeIndex ? "w-6 bg-[#FDD017]" : "w-1.5 bg-[#F5F5EB]/40"
                     }`}
                   />
                 ))}

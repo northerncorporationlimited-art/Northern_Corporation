@@ -83,8 +83,9 @@ export const HistoryFlow = () => {
           Since 1967
         </h2>
         <p className="mx-auto mt-6 max-w-2xl text-brand-cream/60 text-lg leading-relaxed">
-          Founded by Shafiuddin Ahmed and Tosrifa Khatoon, the Northern Group has grown over six decades
-          from a steel re-rolling mill into one of Bangladesh&apos;s most respected garment manufacturing conglomerates.
+          Founded by Shafiuddin Ahmed and Tosrifa Khatoon, the Northern Group has grown over six
+          decades from a steel re-rolling mill into one of Bangladesh&apos;s most respected garment
+          manufacturing conglomerates.
         </p>
       </motion.div>
 
@@ -109,12 +110,21 @@ export const HistoryFlow = () => {
                 initial={{ opacity: 0, x: isLeft ? -40 : 40 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.65, ease: [0.25, 0.1, 0.25, 1] as [number, number, number, number] }}
+                transition={{
+                  duration: 0.65,
+                  ease: [0.25, 0.1, 0.25, 1] as [number, number, number, number],
+                }}
               >
                 {/* Content */}
-                <div className={`pl-10 md:pl-0 md:w-1/2 ${isLeft ? "md:pr-16 md:text-right" : "md:pl-16 md:text-left"}`}>
-                  <span className="text-brand-gold font-mono text-sm tracking-widest">{m.year}</span>
-                  <h3 className="text-2xl md:text-3xl font-bold text-brand-cream mt-1 mb-3">{m.title}</h3>
+                <div
+                  className={`pl-10 md:pl-0 md:w-1/2 ${isLeft ? "md:pr-16 md:text-right" : "md:pl-16 md:text-left"}`}
+                >
+                  <span className="text-brand-gold font-mono text-sm tracking-widest">
+                    {m.year}
+                  </span>
+                  <h3 className="text-2xl md:text-3xl font-bold text-brand-cream mt-1 mb-3">
+                    {m.title}
+                  </h3>
                   <p className="text-brand-cream/60 text-base leading-relaxed">{m.desc}</p>
                 </div>
 
@@ -152,11 +162,13 @@ export const HistoryFlow = () => {
           />
           <div className="md:mx-auto md:max-w-2xl pt-6">
             <span className="text-brand-gold font-mono text-sm tracking-widest">Today</span>
-            <h3 className="text-3xl md:text-4xl font-bold text-brand-cream mt-2 mb-4">A Legacy of Excellence</h3>
+            <h3 className="text-3xl md:text-4xl font-bold text-brand-cream mt-2 mb-4">
+              A Legacy of Excellence
+            </h3>
             <p className="text-brand-cream/60 text-base md:text-lg leading-relaxed">
-              Today, Northern is recognized as a leading textile manufacturer in Bangladesh, known for
-              quality, innovation, and sustainability. The group is committed to environmentally friendly
-              production and actively supports the UN Sustainable Development Goals (SDGs).
+              Today, Northern is recognized as a leading textile manufacturer in Bangladesh, known
+              for quality, innovation, and sustainability. The group is committed to environmentally
+              friendly production and actively supports the UN Sustainable Development Goals (SDGs).
             </p>
           </div>
         </motion.div>

@@ -57,8 +57,6 @@ export const Facilities = () => {
     setMobileExpanded((prev) => (prev === i ? null : i));
   };
 
-
-
   return (
     <section
       id="facilities"
@@ -185,9 +183,7 @@ export const Facilities = () => {
                     <div className="mb-6 flex gap-6">
                       {fac.highlights.slice(0, 3).map((h) => (
                         <div key={h.label} className="flex flex-col">
-                          <span className="font-playfair text-xl text-[#FDD017]">
-                            {h.value}
-                          </span>
+                          <span className="font-playfair text-xl text-[#FDD017]">{h.value}</span>
                           <span className="font-sans text-[10px] uppercase tracking-wider text-[#F5F5EB]/40">
                             {h.label}
                           </span>
@@ -201,9 +197,7 @@ export const Facilities = () => {
                       className="group/link inline-flex w-fit items-center gap-2 rounded-full border border-[#FDD017]/30 px-6 py-2.5 font-sans text-xs uppercase tracking-widest text-[#FDD017] transition-all hover:border-[#FDD017] hover:bg-[#FDD017]/10 hover:shadow-lg hover:shadow-[#FDD017]/10"
                     >
                       Learn More
-                      <span className="transition-transform group-hover/link:translate-x-1">
-                        →
-                      </span>
+                      <span className="transition-transform group-hover/link:translate-x-1">→</span>
                     </Link>
                   </motion.div>
                 )}
@@ -228,9 +222,7 @@ export const Facilities = () => {
           <div
             key={i}
             className={`h-1 rounded-full transition-all duration-500 ${
-              i === activeIndex
-                ? "w-8 bg-[#FDD017]"
-                : "w-2 bg-[#F5F5EB]/20"
+              i === activeIndex ? "w-8 bg-[#FDD017]" : "w-2 bg-[#F5F5EB]/20"
             }`}
           />
         ))}
@@ -275,9 +267,7 @@ export const Facilities = () => {
                   {String(i + 1).padStart(2, "0")}
                 </span>
                 <div className="flex-1 text-left">
-                  <span className="font-playfair text-lg text-[#FDD017]">
-                    {fac.title}
-                  </span>
+                  <span className="font-playfair text-lg text-[#FDD017]">{fac.title}</span>
                 </div>
                 <motion.span
                   className="text-[#F5F5EB]/40 text-xl"
@@ -305,10 +295,7 @@ export const Facilities = () => {
                     {/* Mini stats */}
                     <div className="mb-4 grid grid-cols-2 gap-2">
                       {fac.highlights.slice(0, 4).map((h) => (
-                        <div
-                          key={h.label}
-                          className="rounded-lg bg-[#F5F5EB]/5 px-3 py-2"
-                        >
+                        <div key={h.label} className="rounded-lg bg-[#F5F5EB]/5 px-3 py-2">
                           <span className="block font-playfair text-lg text-[#FDD017]">
                             {h.value}
                           </span>
