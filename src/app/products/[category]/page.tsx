@@ -17,14 +17,16 @@ const SLUG_TO_FOLDER: Record<string, string> = {
   nightwear: "nightwear",
   "sports-active": "sports-active",
   winter: "winter",
+  "body-suit": "body-suit",
 };
 
 const SLUG_TO_TITLE: Record<string, string> = {
   "tee-polo": "Tee & Polo",
   bottoms: "Bottoms",
   nightwear: "Nightwear",
-  "sports-active": "Body Suit",
+  "sports-active": "Sports & Active",
   winter: "Winter",
+  "body-suit": "Body Suit",
 };
 
 interface PageProps {

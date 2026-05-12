@@ -20,11 +20,16 @@ const CATEGORIES = [
     image: "/products/nightwear/1.jpeg",
   },
   {
-    title: "Body Suit",
+    title: "Sports & Active",
     slug: "sports-active",
     image: "/products/sports-active/1.jpeg",
   },
   { title: "Winter", slug: "winter", image: "/products/winter/1.jpeg" },
+  {
+    title: "Body Suit",
+    slug: "body-suit",
+    image: "/products/body-suit/1.jpeg",
+  },
 ];
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
