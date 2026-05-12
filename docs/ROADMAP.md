@@ -210,7 +210,7 @@ Removed 28 incorrect sports-active images. Added 11 new body suit photos (rename
 
 ---
 
-### [ ] T-119: Install & Configure Prettier
+### [x] T-119: Install & Configure Prettier
 
 **Files:**
 
@@ -253,7 +253,7 @@ Removed 28 incorrect sports-active images. Added 11 new body suit photos (rename
 
 ---
 
-### [ ] T-120: Run Initial Format Pass
+### [x] T-120: Run Initial Format Pass
 
 **Files:**
 
@@ -273,7 +273,7 @@ Removed 28 incorrect sports-active images. Added 11 new body suit photos (rename
 
 ---
 
-### [ ] T-121: Add Format-Check Step to CI
+### [x] T-121: Add Format-Check Step to CI
 
 **Files:**
 
@@ -295,7 +295,7 @@ Removed 28 incorrect sports-active images. Added 11 new body suit photos (rename
 
 ---
 
-### [ ] T-122: Close Known Issue #8 — Facility Gallery Audit & Docs Update
+### [x] T-122: Close Known Issue #8 — Facility Gallery Audit & Docs Update
 
 **Files:**
 
@@ -331,5 +331,5 @@ T-122 → after T-119/T-120/T-121 complete (doc sweep)
 
 > ✅ **Sprint 13 complete.** All tickets merged to `main`. Vercel auto-deploy triggered.  
 > Restore point: tag `restore/pre-sprint13` → commit `25edfa9`  
-> 🎯 **Active sprint: Sprint 14.** Next ticket: **T-119 — Install & Configure Prettier**  
-> Run: `/git Start the next ticket by creating a feature branch.`
+> ✅ **Sprint 14 complete.** Known Issues #2 + #8 resolved. CI now enforces Prettier.  
+> Next: `/pm Read MEMORY_BANK.md and ROADMAP.md, assign next ticket.`

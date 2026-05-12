@@ -117,13 +117,13 @@ Corporate website for **Northern Corporation Limited**, a Bangladeshi knitwear/a
 ## Known Issues & Tech Debt
 
 1. **No test framework** — zero unit, integration, or E2E tests configured.
-2. **No formatter** — no Prettier or equivalent; inconsistent formatting possible.
+2. ~~**No formatter**~~ — ✅ RESOLVED (Sprint 14: T-119/T-120): Prettier 3.x installed; `.prettierrc` + `.prettierignore` added; `format` + `format:check` scripts live; initial format pass applied across all 47 source files.
 3. **`globals.css` is 22KB+** — monolithic stylesheet; could be modularized with CSS Modules.
 4. ~~**Missing `release-please.yml`**~~ — ✅ RESOLVED (CEO decision): Removed entirely. Manual releases only.
 5. ~~**Stale Supabase/R2 references**~~ — ✅ RESOLVED (T-29): Cleaned from `WORKFLOW.md`.
 6. ~~**AGENTS.md is outdated**~~ — ✅ RESOLVED (`4ecca64`).
 7. ~~**ARCHITECTURE.md is outdated**~~ — ✅ RESOLVED (`4ecca64`).
-8. **Facility gallery images may 404** — `galleryImages` in `facilities.ts` reference paths like `/images/northern/building-1.jpg` that may not exist.
+8. ~~**Facility gallery images may 404**~~ — ✅ RESOLVED (Sprint 14: T-122): All 5 `galleryImages` paths in `facilities.ts` cross-referenced against `public/images/northern/` — all 7 assets present, all 5 references valid.
 9. ~~**`_TO_DELETE/` exclusion**~~ — ✅ RESOLVED (T-27): Removed from `tsconfig.json`.
 10. **Legal page content** — `/terms` and `/privacy` have boilerplate text with `[CLIENT LEGAL TEXT TO REPLACE]` banners. Awaiting final legal text from client.
 11. ~~**Product LCP images**~~ — ✅ RESOLVED (T-28): Added `priority` prop to first 4 images.
@@ -373,3 +373,27 @@ Replaced inline `<Logo>` React SVG component in `Navbar.tsx` with `next/image` l
 **QA:** TSC ✅ (0 errors). 33 files changed (37 insertions, 4 deletions).
 
 **Merge:** `7008f14` → merge commit via `--no-ff`. Pushed to both `origin` (AdilAhmedAhir) and `client` (Northern Corporation Limited) via `npm run push:all`. Vercel auto-deploy triggered.
+
+### 2026-05-12T18:00Z — Sprint 14: Code Quality Gate
+
+**Branch:** `feat/sprint14-prettier-ci-gate` → merged to `main`
+
+**Tickets completed (4/4):**
+
+| Ticket | Files Modified                                                                    | Summary                                                                                                                                                                                                                                             |
+| ------ | --------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| T-119  | `package.json`, `package-lock.json`, `.prettierrc` [NEW], `.prettierignore` [NEW] | Installed Prettier 3.x as devDependency; created `.prettierrc` (100-char width, double quotes, ES5 trailing commas); created `.prettierignore` (excludes `.next/`, `node_modules/`, `public/`, `out/`); added `format` + `format:check` npm scripts |
+| T-120  | 46 files across `src/`, `docs/`, `.agents/`, root configs                         | Initial Prettier format pass — pure whitespace/style changes, zero logic edits. Removed orphaned `public/images/map-baridhara.png`                                                                                                                  |
+| T-121  | `.github/workflows/ci.yml`                                                        | Inserted `Format check` step between `Install dependencies` and `Lint`; CI pipeline now: Install → Format check → Lint → Typecheck → Build                                                                                                          |
+| T-122  | `docs/MEMORY_BANK.md`, `docs/ROADMAP.md`                                          | Closed Known Issues #2 (formatter) and #8 (gallery 404 audit); logged Sprint 14 session                                                                                                                                                             |
+
+**Key decisions:**
+
+- `.prettierrc` uses `printWidth: 100` (standard for TSX-heavy projects where 80 is too narrow)
+- `.prettierignore` excludes `public/` — binary assets and generated files shouldn't be processed
+- `format:check` placed _before_ lint in CI — cheap fast-fail catches formatting before slower type-aware lint
+- `map-baridhara.png` (885KB) was already deleted locally; committed the deletion in this sprint
+
+**Known Issues resolved:** #2 (formatter), #8 (gallery audit)
+
+**QA:** TSC ✅ Build ✅ `format:check` ✅ (47 files all clean).
