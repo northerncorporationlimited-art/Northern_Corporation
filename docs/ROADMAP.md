@@ -1,7 +1,7 @@
-# 📊 Northern Corporation — Sprint 11 Roadmap
+# 📊 Northern Corporation — Sprint 13 Roadmap
 
-> **Theme:** Content removal — Prayer Rooms facility & Factory 1 address  
-> **Created:** 2026-05-03
+> **Theme:** Certification updates, product category rename, Body Suit image refresh  
+> **Created:** 2026-05-12
 
 ---
 
@@ -151,7 +151,38 @@ T-112 → last (documentation sweep after all code changes)
 
 ---
 
+## Sprint 13 — Certification & Product Content Update
+
+### [x] T-115: Rename RSC → RSC 100
+
+**Files:** `src/components/sections/Sustainability.tsx`  
+Changed cert name from `"RSC"` → `"RSC 100"`, full name updated accordingly.
+
+---
+
+### [x] T-116: Add BSCI & Better Work Certification Logos
+
+**Files:** `src/components/sections/Sustainability.tsx`, `public/certifications/bsci.webp`, `public/certifications/better-work.png`  
+- BSCI added to Row 2 (7th slot, completes the 7-col grid)  
+- Better Work Bangladesh rendered as a centered standalone card in Row 3  
+
+---
+
+### [x] T-117: Rename "Sports & Active" → "Body Suit"
+
+**Files:** `src/components/sections/Products.tsx`, `src/app/products/[category]/page.tsx`  
+Slug `sports-active` unchanged (URL preserved). Display title updated in homepage category menu and gallery page heading/metadata.
+
+---
+
+### [x] T-118: Replace Body Suit Product Images
+
+**Files:** `public/products/sports-active/*.jpeg`  
+Removed 28 incorrect sports-active images. Added 11 new body suit photos (renamed 1–11.jpeg).
+
+---
+
 ## 🤝 Handoff Contract
-> ✅ **Roadmap Ready.** Hand off to `/lead-dev` to execute tickets sequentially.  
-> After all tickets pass, run `/qa` for a full visual + functional audit.  
-> Finally, run `/git` to commit, tag, and push to `main` for Vercel auto-deploy.
+> ✅ **Sprint 13 complete.** All tickets merged to `main`. Vercel auto-deploy triggered.  
+> Restore point: tag `restore/pre-sprint13` → commit `25edfa9`  
+> Next: `/pm Read MEMORY_BANK.md and ROADMAP.md, assign next ticket.`

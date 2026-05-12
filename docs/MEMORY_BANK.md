@@ -66,9 +66,9 @@ Corporate website for **Northern Corporation Limited**, a Bangladeshi knitwear/a
 ### Assets (`public/`)
 | Directory         | Contents                                    |
 | ----------------- | ------------------------------------------- |
-| `certifications/` | 13 certification badge images (PNG/JPG)      |
+| `certifications/` | 15 certification badge images (PNG/JPG/WebP) — includes BSCI + Better Work added Sprint 13 |
 | `images/`         | Hero bg, factory images, world map SVG, facility photos |
-| `products/`       | 5 category subdirs (bottoms, nightwear, sports-active, tee-polo, winter) |
+| `products/`       | 5 category subdirs (bottoms, nightwear, sports-active, tee-polo, winter) — `sports-active` now holds Body Suit photos (11 images) |
 | `logo-symbol.svg` | Site logo (brand mark — used in both preloader + navbar) |
 
 ---
@@ -334,3 +334,27 @@ Replaced inline `<Logo>` React SVG component in `Navbar.tsx` with `next/image` l
 - `WorkLife.tsx` (V2 archive) still references prayer rooms — left as-is since V2 is archived
 
 **QA:** TSC ✅ Build ✅ (17/17 pages, 145ms).
+
+### 2026-05-12T09:50Z — Sprint 13: Certification Updates & Body Suit Category
+
+**Branch:** `feat/sprint13-cert-product-content-update` → merged to `main` at `7008f14`  
+**Restore point:** tag `restore/pre-sprint13` → commit `25edfa9` (pushed to `origin`)
+
+**Tickets completed (4/4):**
+
+| Ticket | Files Modified | Summary |
+|--------|----------------|---------|
+| T-115 | `Sustainability.tsx` | Renamed cert `RSC` → `RSC 100`; full name updated to "RMG Sustainability Council 100" |
+| T-116 | `Sustainability.tsx`, `public/certifications/bsci.webp` [NEW], `public/certifications/better-work.png` [NEW] | Added BSCI to Row 2 (7th slot); Added Better Work Bangladesh as centered standalone Row 3 card |
+| T-117 | `Products.tsx`, `products/[category]/page.tsx` | Renamed "Sports & Active" → "Body Suit" in homepage menu + gallery page title/metadata. Slug `sports-active` unchanged (URL preserved). |
+| T-118 | `public/products/sports-active/*.jpeg` | Removed 28 incorrect images; added 11 new Body Suit photos (renamed 1–11.jpeg) |
+
+**Key decisions:**
+- Better Work rendered as a separate centered row (Row 3) below the main 7-col grid — matches user's spec for "3rd row center position"
+- Slug `sports-active` intentionally preserved — changing it would break existing Vercel pages; display name update is sufficient
+- Certification count: 13 → 15 (BSCI + Better Work)
+- Body Suit image count: 28 → 11 (full image replacement, not addition)
+
+**QA:** TSC ✅ (0 errors). 33 files changed (37 insertions, 4 deletions).
+
+**Merge:** `7008f14` → merge commit via `--no-ff`. Pushed to both `origin` (AdilAhmedAhir) and `client` (Northern Corporation Limited) via `npm run push:all`. Vercel auto-deploy triggered.
