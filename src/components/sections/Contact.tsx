@@ -26,10 +26,7 @@ const OFFICES = [
   },
 ];
 
-const CONTACT_DETAILS = [
-  { label: "Phone", value: "+88-02-48814594" },
-  { label: "Email", value: "info@northerncorp.com" },
-];
+const CONTACT_DETAILS = [{ label: "Email", value: "Socials@ntg.com.bd" }];
 
 export const Contact = () => {
   return (
@@ -55,102 +52,112 @@ export const Contact = () => {
             </h2>
           </motion.div>
 
-          {/* ── Addresses ── */}
-          {OFFICES.map((office, i) => (
-            <motion.div
-              key={office.title}
-              className="border-l-2 border-[#FDD017]/30 pl-5"
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.1 + i * 0.1, ease: EASE }}
-            >
-              <p className="mb-1 font-mono text-[10px] uppercase tracking-widest text-[#FDD017]/60">
-                {office.title}
-              </p>
-              {office.lines.map((line) => (
-                <p
-                  key={line}
-                  className="font-sans text-sm leading-relaxed text-[#F5F5EB]/70 md:text-base break-words"
+          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2">
+            {/* ── Column 1: Addresses ── */}
+            <div className="flex flex-col gap-8">
+              {OFFICES.map((office, i) => (
+                <motion.div
+                  key={office.title}
+                  className="border-l-2 border-[#FDD017]/30 pl-5"
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: 0.1 + i * 0.1, ease: EASE }}
                 >
-                  {line}
+                  <p className="mb-1 font-mono text-[10px] uppercase tracking-widest text-[#FDD017]/60">
+                    {office.title}
+                  </p>
+                  {office.lines.map((line) => (
+                    <p
+                      key={line}
+                      className="font-sans text-sm leading-relaxed text-[#F5F5EB]/70 md:text-base break-words"
+                    >
+                      {line}
+                    </p>
+                  ))}
+                </motion.div>
+              ))}
+            </div>
+
+            {/* ── Column 2: Contact, Social, Links ── */}
+            <div className="flex flex-col gap-8">
+              {/* ── Email ── */}
+              {CONTACT_DETAILS.map((item, i) => (
+                <motion.div
+                  key={item.label}
+                  className="border-l-2 border-[#FDD017]/30 pl-5"
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: 0.3 + i * 0.1, ease: EASE }}
+                >
+                  <p className="mb-1 font-mono text-[10px] uppercase tracking-widest text-[#FDD017]/60">
+                    {item.label}
+                  </p>
+                  <p className="font-sans text-sm leading-relaxed text-[#F5F5EB]/70 md:text-base">
+                    {item.value}
+                  </p>
+                </motion.div>
+              ))}
+
+              {/* ── Social Media ── */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.5, ease: EASE }}
+              >
+                <p className="mb-3 font-mono text-[10px] uppercase tracking-widest text-[#FDD017]/60">
+                  Social Media
                 </p>
-              ))}
-            </motion.div>
-          ))}
+                <div className="flex flex-wrap gap-3">
+                  {[
+                    {
+                      name: "LinkedIn",
+                      url: "https://www.linkedin.com/in/northern-corporation-ltd",
+                    },
+                    { name: "Instagram", url: "https://www.instagram.com/northern.corporation/" },
+                  ].map((link) => (
+                    <a
+                      key={link.name}
+                      href={link.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="rounded-full border border-[#F5F5EB]/15 bg-[#F5F5EB]/5 px-5 py-2 font-mono text-[10px] uppercase tracking-widest text-[#F5F5EB]/60 transition-all duration-300 hover:border-[#FDD017]/40 hover:bg-[#FDD017]/10 hover:text-[#FDD017] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#FDD017]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#023020]"
+                    >
+                      {link.name}
+                    </a>
+                  ))}
+                </div>
+              </motion.div>
 
-          {/* ── Phone & Email ── */}
-          {CONTACT_DETAILS.map((item, i) => (
-            <motion.div
-              key={item.label}
-              className="border-l-2 border-[#FDD017]/30 pl-5"
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.3 + i * 0.1, ease: EASE }}
-            >
-              <p className="mb-1 font-mono text-[10px] uppercase tracking-widest text-[#FDD017]/60">
-                {item.label}
-              </p>
-              <p className="font-sans text-sm leading-relaxed text-[#F5F5EB]/70 md:text-base">
-                {item.value}
-              </p>
-            </motion.div>
-          ))}
-
-          {/* ── Social Media ── */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.5, ease: EASE }}
-          >
-            <p className="mb-3 font-mono text-[10px] uppercase tracking-widest text-[#FDD017]/60">
-              Social Media
-            </p>
-            <div className="flex flex-wrap gap-3">
-              {[
-                { name: "LinkedIn", url: "https://www.linkedin.com/in/northern-corporation-ltd" },
-                { name: "Instagram", url: "https://www.instagram.com/northern.corporation/" },
-              ].map((link) => (
-                <a
-                  key={link.name}
-                  href={link.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="rounded-full border border-[#F5F5EB]/15 bg-[#F5F5EB]/5 px-5 py-2 font-mono text-[10px] uppercase tracking-widest text-[#F5F5EB]/60 transition-all duration-300 hover:border-[#FDD017]/40 hover:bg-[#FDD017]/10 hover:text-[#FDD017] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#FDD017]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#023020]"
-                >
-                  {link.name}
-                </a>
-              ))}
-            </div>
-          </motion.div>
-
-          {/* ── Useful Links ── */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.6, ease: EASE }}
-          >
-            <p className="mb-3 font-mono text-[10px] uppercase tracking-widest text-[#FDD017]/60">
-              Useful Links
-            </p>
-            <div className="flex flex-col gap-2">
-              <a
-                href="/terms"
-                className="w-fit font-mono text-xs uppercase tracking-widest text-[#F5F5EB]/60 underline underline-offset-4 decoration-[#F5F5EB]/20 transition-colors hover:text-[#FDD017] hover:decoration-[#FDD017]/40 focus-visible:text-[#FDD017] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#FDD017]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#023020] rounded-sm"
+              {/* ── Useful Links ── */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.6, ease: EASE }}
               >
-                › Terms &amp; Conditions
-              </a>
-              <a
-                href="/privacy"
-                className="w-fit font-mono text-xs uppercase tracking-widest text-[#F5F5EB]/60 underline underline-offset-4 decoration-[#F5F5EB]/20 transition-colors hover:text-[#FDD017] hover:decoration-[#FDD017]/40 focus-visible:text-[#FDD017] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#FDD017]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#023020] rounded-sm"
-              >
-                › Privacy Policy
-              </a>
+                <p className="mb-3 font-mono text-[10px] uppercase tracking-widest text-[#FDD017]/60">
+                  Useful Links
+                </p>
+                <div className="flex flex-col gap-2">
+                  <a
+                    href="/terms"
+                    className="w-fit font-mono text-xs uppercase tracking-widest text-[#F5F5EB]/60 underline underline-offset-4 decoration-[#F5F5EB]/20 transition-colors hover:text-[#FDD017] hover:decoration-[#FDD017]/40 focus-visible:text-[#FDD017] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#FDD017]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#023020] rounded-sm"
+                  >
+                    › Terms &amp; Conditions
+                  </a>
+                  <a
+                    href="/privacy"
+                    className="w-fit font-mono text-xs uppercase tracking-widest text-[#F5F5EB]/60 underline underline-offset-4 decoration-[#F5F5EB]/20 transition-colors hover:text-[#FDD017] hover:decoration-[#FDD017]/40 focus-visible:text-[#FDD017] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#FDD017]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#023020] rounded-sm"
+                  >
+                    › Privacy Policy
+                  </a>
+                </div>
+              </motion.div>
             </div>
-          </motion.div>
+          </div>
         </div>
 
         {/* ── Copyright ── */}
