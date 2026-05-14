@@ -70,7 +70,7 @@ export const Sustainability = () => {
   return (
     <section
       id="certifications"
-      className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden bg-[#F5F5EB] px-6 py-20 lg:h-screen"
+      className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden bg-[#F5F5EB] px-6 pt-32 pb-20"
     >
       {/* ── Header ── */}
       <motion.div
