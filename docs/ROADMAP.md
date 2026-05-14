@@ -19,6 +19,20 @@
 
 ---
 
+## 🚀 Sprint 16 — Product Content Update
+
+| Ticket | Status | Description                                                                                                                                                                                                                                                                               |
+| ------ | ------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| T-124  | `[/]`  | **Update Body Suit (sports-active) primary image** — Replace the current wide (3:2) `1.jpeg` with the provided flat-lay front-facing image (4:5). This aligns the aspect ratio with the `Products.tsx` container and visually matches the flat-lay style of the other product categories. |
+| T-125  | `[ ]`  | **Certifications Layout Fix** — Remove strict `lg:h-screen` and bump top padding to `pt-32` in `Sustainability.tsx` to prevent the heading from being pushed behind the fixed navbar on tall grids.                                                                                         |
+
+**Acceptance criteria:**
+
+- `public/products/sports-active/1.jpeg` is updated
+- Image matches 4:5 aspect ratio
+- Client approval received
+- Build passes
+
 ---
 
 ## 📋 Backlog (Unscheduled)
