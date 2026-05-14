@@ -18,6 +18,21 @@
 
 ---
 
+## 🚀 Sprint 15 — Contact Layout Polish
+
+| Ticket | Status | Description                                                                                                                                                                                                                                                                      |
+| ------ | ------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| T-123  | `[ ]`  | **Contact section vertical centering** — Left-column content block (`flex flex-col gap-8`) sits at the top of the left panel. Add `flex-1` + `justify-center` to vertically center it between the header padding and the copyright footer. Desktop only concern (lg breakpoint). |
+
+**Acceptance criteria:**
+
+- On `lg:` breakpoint, the address/email/social/links block is visually centred top-to-bottom on the left side
+- Copyright footer remains pinned to the bottom
+- No layout regression on mobile
+- TypeScript: 0 errors | Build: 0 errors | `format:check`: clean
+
+---
+
 ## 📋 Backlog (Unscheduled)
 
 | Item                         | Priority | Notes                                                                                    |

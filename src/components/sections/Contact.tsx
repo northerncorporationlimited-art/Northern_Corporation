@@ -36,7 +36,7 @@ export const Contact = () => {
     >
       {/* ── Left: Single-Column Vertical Flow ── */}
       <div className="flex flex-1 flex-col justify-between px-4 py-16 sm:px-6 md:px-12 lg:w-[45%] lg:py-20 lg:pl-20">
-        <div className="flex flex-col gap-8">
+        <div className="flex flex-1 flex-col justify-center gap-8">
           {/* ── Title ── */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
