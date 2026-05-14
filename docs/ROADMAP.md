@@ -1,7 +1,7 @@
 # 📊 Northern Corporation — Roadmap
 
-> **Current status:** Sprint 14 complete — no open tickets.
-> **Last updated:** 2026-05-12
+> **Current status:** Sprint 15 complete — no open tickets.
+> **Last updated:** 2026-05-14
 
 ---
 
@@ -15,21 +15,9 @@
 | Sprint 12  | Contact section layout restructure — single-column vertical flow; Factory 2 → Factory rename                             | T-113 → T-114 | logged                |
 | Sprint 13  | Certifications: RSC→RSC 100, BSCI + Better Work logos added. Products: Sports & Active→Body Suit, 28→11 images           | T-115 → T-118 | `7008f14`             |
 | Sprint 14  | Code quality gate — Prettier 3.x installed, initial format pass (46 files), CI `format:check` step, gallery audit closed | T-119 → T-122 | `bff632a`             |
+| Sprint 15  | Contact layout polish — vertically center left-column content block on desktop                                           | T-123         | `d797ffa`             |
 
 ---
-
-## 🚀 Sprint 15 — Contact Layout Polish
-
-| Ticket | Status | Description                                                                                                                                                                                                                                                                      |
-| ------ | ------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| T-123  | `[ ]`  | **Contact section vertical centering** — Left-column content block (`flex flex-col gap-8`) sits at the top of the left panel. Add `flex-1` + `justify-center` to vertically center it between the header padding and the copyright footer. Desktop only concern (lg breakpoint). |
-
-**Acceptance criteria:**
-
-- On `lg:` breakpoint, the address/email/social/links block is visually centred top-to-bottom on the left side
-- Copyright footer remains pinned to the bottom
-- No layout regression on mobile
-- TypeScript: 0 errors | Build: 0 errors | `format:check`: clean
 
 ---
 
@@ -45,6 +33,6 @@
 
 ## 🤝 Handoff Contract
 
-> ✅ **Sprint 14 complete.** `feat/sprint14-prettier-ci-gate` merged to `main`. Both remotes synced.
+> ✅ **Sprint 15 complete.** `feat/sprint15-contact-vertical-center` merged to `main`. Both remotes synced.
 > 🛑 **Context compressed.** Start a fresh chat and run:
 > `/pm Read MEMORY_BANK.md and ROADMAP.md, assign next ticket.`
