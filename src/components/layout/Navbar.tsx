@@ -137,7 +137,7 @@ export const Navbar = () => {
 
             {/* ── Desktop Links (6 condensed) ── */}
             <div
-              className="hidden items-center gap-0 lg:flex"
+              className="hidden items-center gap-0 xl:flex"
               onMouseLeave={() => setHoveredIndex(null)}
             >
               {NAV_LINKS.map((link, i) => {
@@ -193,7 +193,7 @@ export const Navbar = () => {
               id="nav-contact-cta"
               onClick={() => navigateToSlide(ALL_LINKS.length - 1)}
               aria-label="Navigate to contact section"
-              className="hidden rounded-full border border-[#FDD017]/30 bg-[#FDD017]/10 px-6 py-2.5 text-xs font-semibold uppercase tracking-widest text-[#FDD017] backdrop-blur-sm transition-all duration-300 hover:border-[#FDD017]/60 hover:bg-[#FDD017]/20 lg:block"
+              className="hidden rounded-full border border-[#FDD017]/30 bg-[#FDD017]/10 px-6 py-2.5 text-xs font-semibold uppercase tracking-widest text-[#FDD017] backdrop-blur-sm transition-all duration-300 hover:border-[#FDD017]/60 hover:bg-[#FDD017]/20 xl:block"
             >
               Contact Us
             </button>
@@ -202,7 +202,7 @@ export const Navbar = () => {
             <button
               id="nav-mobile-toggle"
               onClick={() => setMenuOpen(!menuOpen)}
-              className="relative z-[201] flex h-12 w-12 flex-col items-center justify-center gap-1.5 lg:hidden"
+              className="relative z-[201] flex h-12 w-12 flex-col items-center justify-center gap-1.5 xl:hidden"
               aria-label="Toggle menu"
             >
               <motion.span
