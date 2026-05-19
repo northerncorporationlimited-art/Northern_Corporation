@@ -1,7 +1,7 @@
 # 📊 Northern Corporation — Roadmap
 
 > **Current status:** Sprint 17 (Testing Infrastructure) planned. 1 open ticket.
-> **Last updated:** 2026-05-14
+> **Last updated:** 2026-05-20
 
 ---
 

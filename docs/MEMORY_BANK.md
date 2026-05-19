@@ -397,3 +397,37 @@ Replaced inline `<Logo>` React SVG component in `Navbar.tsx` with `next/image` l
 **Known Issues resolved:** #2 (formatter), #8 (gallery audit)
 
 **QA:** TSC ✅ Build ✅ `format:check` ✅ (47 files all clean).
+
+### 2026-05-19T19:00Z — Hotfix Session: Contact Info + Tablet Responsive Overhaul
+
+**Multiple feature branches** → each merged to `main` via `--no-ff`, pushed to both remotes via `npm run push:all`.
+
+**Changes completed (5 commits):**
+
+| Commit | Files Modified | Summary |
+| --- | --- | --- |
+| Contact info update | `Contact.tsx`, `Navbar.tsx` | Added NCL Corporate Office number `+880 9606 548147` before email in Contact section (clickable `tel:` link); synced mobile menu footer from stale `info@northerncorp.com` / `+88-02-48814594` → correct `Socials@ntg.com.bd` / `+880 9606 548147`; made both phone and email clickable links |
+| Tablet breakpoint v1 | `Navbar.tsx`, `Facilities.tsx`, `Sustainability.tsx`, `Contact.tsx` | Initial attempt — pushed desktop layouts from `lg:` (1024px) → `xl:` (1280px). Insufficient: user's tablet is exactly 1280px landscape |
+| Custom desktop breakpoint | `globals.css`, `PresentationDeck.tsx`, `Navbar.tsx`, `Facilities.tsx`, `Sustainability.tsx`, `Contact.tsx` | Added `--breakpoint-desktop: 1360px` to Tailwind v4 `@theme inline`; created `desktop:` prefix; changed `PresentationDeck.MOBILE_BREAKPOINT` from 1024→1360; all desktop-only layouts now use `desktop:` instead of `lg:` or `xl:` |
+| Cert grid fix | `Sustainability.tsx` | Moved "Better Work" from standalone centered card into main `CERTS[]` array — now 15th grid item, flows naturally at all breakpoints. Removed separate `CERT_BETTER_WORK` constant and its dedicated render block |
+| Menu text scaling | `Navbar.tsx` | Reduced mobile menu overlay typography for tablets: `text-4xl→3xl` base, `text-6xl→4xl` at md, `text-8xl→5xl` at lg; tightened vertical padding `py-3→py-2.5` base, `py-5→py-3` at md |
+
+**Key architectural decisions:**
+
+- **Custom Tailwind v4 breakpoint:** `--breakpoint-desktop: 1360px` ensures tablets up to 1280px (user's Samsung Tab S9) always get mobile layout. Uses Tailwind v4's `@theme inline` variable approach — no plugin needed
+- **PresentationDeck sync:** JS-side `MOBILE_BREAKPOINT` must always match the CSS `--breakpoint-desktop` value (currently 1360). If either changes, the other must too
+- **Breakpoint map:** `sm:640` → `md:768` → `lg:1024` → `xl:1280` → `desktop:1360` (custom) → `2xl:1536`
+- **Cert grid progression:** `2-col (base)` → `3-col (sm)` → `4-col (md)` → `5-col (lg)` → `7-col (desktop)`
+- **Better Work** no longer a special case — it's the 15th item in the `CERTS[]` array, rendered by the same `.map()` as all others
+
+**User's tablet viewports:**
+- Portrait: 800×1141 → gets mobile layout (hamburger, accordion, stacked contact, 4-col certs)
+- Landscape: 1280×661 → gets mobile layout (hamburger, accordion, stacked contact, 5-col certs)
+- Desktop 1360px+ → full desktop (nav links, expanding gallery, side-by-side contact, 7-col certs)
+
+**Dual-remote setup note:** This project uses two GitHub remotes:
+- `origin` → `github.com/AdilAhmedAhir/Northern_Corporation` (developer commits)
+- `client` → `github.com/northerncorporationlimited-art/Northern_Corporation` (client-facing, rewritten author)
+- Always push via `npm run push:all` — never push individually
+
+**QA:** Build ✅ (all pages). Vercel auto-deployed after each merge.
