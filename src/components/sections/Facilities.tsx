@@ -60,7 +60,7 @@ export const Facilities = () => {
   return (
     <section
       id="facilities"
-      className="relative flex min-h-screen w-full flex-col overflow-hidden bg-[#023020] lg:h-screen"
+      className="relative flex min-h-screen w-full flex-col overflow-hidden bg-[#023020] xl:h-screen"
     >
       {/* ── Background glow effect ── */}
       <div
@@ -72,7 +72,7 @@ export const Facilities = () => {
       />
 
       {/* ── Header ── */}
-      <div className="relative z-10 shrink-0 px-6 pt-16 md:px-12 md:pt-20 lg:px-16">
+      <div className="relative z-10 shrink-0 px-6 pt-16 md:px-12 md:pt-20 xl:px-16">
         <motion.p
           className="mb-2 font-sans text-[10px] uppercase tracking-[0.3em] text-[#FDD017] md:text-xs"
           initial={{ opacity: 0, y: 10 }}
@@ -83,7 +83,7 @@ export const Facilities = () => {
           Life at Northern
         </motion.p>
         <motion.h2
-          className="font-playfair text-3xl text-[#F5F5EB] md:text-5xl lg:text-6xl"
+          className="font-playfair text-3xl text-[#F5F5EB] md:text-5xl xl:text-6xl"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -96,7 +96,7 @@ export const Facilities = () => {
       {/* ═══════════════════════════════════════
            DESKTOP: Interactive Expanding Gallery
          ═══════════════════════════════════════ */}
-      <div className="relative z-10 mt-6 hidden min-h-0 flex-1 gap-3 px-6 pb-6 lg:flex lg:px-12 lg:pb-12">
+      <div className="relative z-10 mt-6 hidden min-h-0 flex-1 gap-3 px-6 pb-6 xl:flex xl:px-12 xl:pb-12">
         {FACILITIES.map((fac, i) => {
           const isActive = activeIndex === i;
           return (
@@ -217,7 +217,7 @@ export const Facilities = () => {
       </div>
 
       {/* ── Desktop progress dots ── */}
-      <div className="pointer-events-none absolute bottom-4 left-1/2 z-20 hidden -translate-x-1/2 gap-2 lg:flex">
+      <div className="pointer-events-none absolute bottom-4 left-1/2 z-20 hidden -translate-x-1/2 gap-2 xl:flex">
         {FACILITIES.map((_, i) => (
           <div
             key={i}
@@ -231,7 +231,7 @@ export const Facilities = () => {
       {/* ═══════════════════════════════════════
            MOBILE: Tappable Cards with Expand
          ═══════════════════════════════════════ */}
-      <div className="relative z-10 mt-4 flex flex-1 flex-col gap-2.5 overflow-y-auto px-4 pb-4 lg:hidden">
+      <div className="relative z-10 mt-4 flex flex-1 flex-col gap-2.5 overflow-y-auto px-4 pb-4 xl:hidden">
         {FACILITIES.map((fac, i) => {
           const isExpanded = mobileExpanded === i;
           return (

@@ -83,7 +83,7 @@ export const Sustainability = () => {
         <p className="mb-3 font-sans text-xs uppercase tracking-widest text-[#023020]/50 md:text-sm">
           Quality Assured
         </p>
-        <h2 className="font-playfair text-4xl text-[#023020] md:text-5xl lg:text-6xl">
+        <h2 className="font-playfair text-4xl text-[#023020] md:text-5xl xl:text-6xl">
           Certifications
         </h2>
         <p className="mx-auto mt-4 max-w-2xl font-sans text-sm leading-relaxed text-[#023020]/60 md:text-base">
@@ -93,7 +93,7 @@ export const Sustainability = () => {
       </motion.div>
 
       {/* ── Certification Grid — 7 cols × 2 rows ── */}
-      <div className="mx-auto grid w-full max-w-5xl shrink-0 grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 md:gap-4 lg:grid-cols-7">
+      <div className="mx-auto grid w-full max-w-5xl shrink-0 grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 md:gap-4 lg:grid-cols-5 xl:grid-cols-7">
         {CERTS.map((cert, i) => (
           <motion.div
             key={cert.name}
@@ -128,7 +128,7 @@ export const Sustainability = () => {
         transition={{ duration: 0.5, delay: 0.6, ease: EASE }}
       >
         <div className="flex justify-center">
-          <div className="group flex w-[calc((100%-12px)/2)] flex-col items-center justify-center rounded-2xl border border-[#023020]/8 bg-white p-3 shadow-sm transition-all duration-300 hover:shadow-md sm:w-[calc((100%-24px)/3)] md:w-[calc((100%-36px)/4)] md:p-4 lg:w-[calc((100%-72px)/7)]">
+          <div className="group flex w-[calc((100%-12px)/2)] flex-col items-center justify-center rounded-2xl border border-[#023020]/8 bg-white p-3 shadow-sm transition-all duration-300 hover:shadow-md sm:w-[calc((100%-24px)/3)] md:w-[calc((100%-36px)/4)] md:p-4 lg:w-[calc((100%-48px)/5)] xl:w-[calc((100%-72px)/7)]">
             <div className="relative mb-2 h-14 w-full sm:h-16 md:h-20">
               <Image
                 src={CERT_BETTER_WORK.image}
