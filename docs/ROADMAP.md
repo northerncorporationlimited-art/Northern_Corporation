@@ -1,6 +1,6 @@
 # 📊 Northern Corporation — Roadmap
 
-> **Current status:** Sprint 16 complete — no open tickets.
+> **Current status:** Sprint 17 (Testing Infrastructure) planned. 1 open ticket.
 > **Last updated:** 2026-05-14
 
 ---
@@ -20,11 +20,21 @@
 
 ---
 
+## 🚀 Active Sprint: Sprint 17 (Testing Infrastructure)
+
+- [ ] **T-126: Scaffold Test Framework (Vitest)**
+  - Choose and install testing framework (Vitest + React Testing Library + JSDOM)
+  - Configure `vitest.config.ts` for Next.js App Router compatibility
+  - Add `test` and `test:coverage` scripts to `package.json`
+  - Write initial passing tests for pure components (e.g., `Logo.tsx` or utilities) to prove scaffold works
+  - Update `ci.yml` GitHub action to include test runner in the pipeline
+
+---
+
 ## 📋 Backlog (Unscheduled)
 
 | Item                         | Priority | Notes                                                                                    |
 | ---------------------------- | -------- | ---------------------------------------------------------------------------------------- |
-| No test framework            | Medium   | Zero unit/integration/E2E coverage. Needs its own sprint to choose framework + scaffold. |
 | `globals.css` modularization | Low      | 22KB+ monolith. Refactor risk — client-facing. No rush.                                  |
 | Legal page content           | Blocked  | `/terms` + `/privacy` have `[CLIENT LEGAL TEXT TO REPLACE]` banners. Awaiting client.    |
 
@@ -32,6 +42,4 @@
 
 ## 🤝 Handoff Contract
 
-> ✅ **Sprint 16 complete.** `feat/sprint16-content-update` merged to `main`. Both remotes synced.
-> 🛑 **Context compressed.** Start a fresh chat and run:
-> `/pm Read MEMORY_BANK.md and ROADMAP.md, assign next ticket.`
+> ✅ **Roadmap Ready.** Run: `/git Start the next ticket by creating a feature branch.`
