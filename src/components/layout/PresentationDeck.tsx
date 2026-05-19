@@ -14,7 +14,7 @@ const LOCK_DURATION = 1200;
 const SUB_LOCK_DURATION = 800;
 const WHEEL_THRESHOLD = 40;
 const SWIPE_THRESHOLD = 50;
-const MOBILE_BREAKPOINT = 1024;
+const MOBILE_BREAKPOINT = 1360;
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -288,7 +288,7 @@ export const PresentationDeck = ({ children, labels }: PresentationDeckProps) =>
         </AnimatePresence>
 
         {/* ── Vertical Progress Rail — left edge (clickable) ── */}
-        <div className="absolute left-6 top-1/2 z-[100] hidden -translate-y-1/2 flex-col items-center gap-0 lg:left-10 lg:flex">
+        <div className="absolute left-6 top-1/2 z-[100] hidden -translate-y-1/2 flex-col items-center gap-0 desktop:left-10 desktop:flex">
           {/* Track line with clickable segments */}
           <div className="relative h-48 w-[1px] bg-[#F5F5EB]/10">
             {/* Animated gold fill — grows based on slide progress */}
