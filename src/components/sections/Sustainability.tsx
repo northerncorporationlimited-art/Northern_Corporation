@@ -55,14 +55,12 @@ const CERTS = [
     full: "Business Social Compliance Initiative",
     image: "/certifications/bsci.webp",
   },
+  {
+    name: "Better Work",
+    full: "Better Work Bangladesh",
+    image: "/certifications/better-work.png",
+  },
 ];
-
-/* Separate row for Better Work — rendered centered below the main grid */
-const CERT_BETTER_WORK = {
-  name: "Better Work",
-  full: "Better Work Bangladesh",
-  image: "/certifications/better-work.png",
-};
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
@@ -118,32 +116,6 @@ export const Sustainability = () => {
           </motion.div>
         ))}
       </div>
-
-      {/* ── Row 3 — Better Work (centered, single card) ── */}
-      <motion.div
-        className="mx-auto mt-3 w-full max-w-5xl md:mt-4"
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5, delay: 0.6, ease: EASE }}
-      >
-        <div className="flex justify-center">
-          <div className="group flex w-[calc((100%-12px)/2)] flex-col items-center justify-center rounded-2xl border border-[#023020]/8 bg-white p-3 shadow-sm transition-all duration-300 hover:shadow-md sm:w-[calc((100%-24px)/3)] md:w-[calc((100%-36px)/4)] md:p-4 lg:w-[calc((100%-48px)/5)] desktop:w-[calc((100%-72px)/7)]">
-            <div className="relative mb-2 h-14 w-full sm:h-16 md:h-20">
-              <Image
-                src={CERT_BETTER_WORK.image}
-                alt={CERT_BETTER_WORK.full}
-                fill
-                sizes="120px"
-                className="object-contain transition-transform duration-300 group-hover:scale-110"
-              />
-            </div>
-            <p className="text-center text-[10px] font-semibold leading-tight text-[#023020] md:text-[11px]">
-              {CERT_BETTER_WORK.name}
-            </p>
-          </div>
-        </div>
-      </motion.div>
 
       {/* ── Recognition Banner ── */}
       <motion.div
