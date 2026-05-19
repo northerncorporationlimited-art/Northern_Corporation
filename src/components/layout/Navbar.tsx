@@ -256,7 +256,7 @@ export const Navbar = () => {
                   <motion.button
                     key={link.label}
                     onClick={() => navigateToSlide(link.slideIndex)}
-                    className="group relative flex items-baseline gap-4 border-b border-[#F5F5EB]/[0.04] py-3 text-left sm:gap-6 sm:py-4 md:py-5"
+                    className="group relative flex items-baseline gap-4 border-b border-[#F5F5EB]/[0.04] py-2.5 text-left sm:gap-6 sm:py-3 md:py-3 lg:py-4"
                     initial={{ opacity: 0, y: 40, filter: "blur(8px)" }}
                     animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
                     exit={{ opacity: 0, y: -20 }}
@@ -277,7 +277,7 @@ export const Navbar = () => {
 
                     {/* Link text */}
                     <span
-                      className={`font-playfair text-4xl leading-[1.1] transition-all duration-300 sm:text-5xl md:text-6xl lg:text-8xl ${
+                      className={`font-playfair text-3xl leading-[1.1] transition-all duration-300 sm:text-4xl md:text-4xl lg:text-5xl ${
                         isActive
                           ? "text-[#FDD017]"
                           : "text-[#F5F5EB]/80 group-hover:text-[#FDD017] group-hover:translate-x-3"
