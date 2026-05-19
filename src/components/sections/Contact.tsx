@@ -26,7 +26,10 @@ const OFFICES = [
   },
 ];
 
-const CONTACT_DETAILS = [{ label: "Email", value: "Socials@ntg.com.bd" }];
+const CONTACT_DETAILS = [
+  { label: "NCL Corporate Office", value: "+880 9606 548147", href: "tel:+8809606548147" },
+  { label: "Email", value: "Socials@ntg.com.bd", href: "mailto:Socials@ntg.com.bd" },
+];
 
 export const Contact = () => {
   return (
@@ -94,9 +97,12 @@ export const Contact = () => {
                   <p className="mb-1 font-mono text-[10px] uppercase tracking-widest text-[#FDD017]/60">
                     {item.label}
                   </p>
-                  <p className="font-sans text-sm leading-relaxed text-[#F5F5EB]/70 md:text-base">
+                  <a
+                    href={item.href}
+                    className="font-sans text-sm leading-relaxed text-[#F5F5EB]/70 md:text-base transition-colors hover:text-[#FDD017]"
+                  >
                     {item.value}
-                  </p>
+                  </a>
                 </motion.div>
               ))}
 
