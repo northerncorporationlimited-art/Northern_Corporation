@@ -14,6 +14,9 @@
   --color-brand-green: #023020;
   --color-brand-gold: #fdd017;
   --color-brand-cream: #f5f5eb;
+
+  /* Custom breakpoint: tablets up to 1280px get mobile layout */
+  --breakpoint-desktop: 1360px;
 }
 
 body {

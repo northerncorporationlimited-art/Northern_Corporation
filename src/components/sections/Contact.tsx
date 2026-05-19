@@ -35,10 +35,10 @@ export const Contact = () => {
   return (
     <section
       id="contact"
-      className="relative flex min-h-screen w-full flex-col overflow-hidden bg-[#023020] text-[#F5F5EB] xl:h-screen xl:flex-row"
+      className="relative flex min-h-screen w-full flex-col overflow-hidden bg-[#023020] text-[#F5F5EB] desktop:h-screen desktop:flex-row"
     >
       {/* ── Left: Single-Column Vertical Flow ── */}
-      <div className="flex flex-1 flex-col justify-between px-4 py-16 sm:px-6 md:px-12 xl:w-[45%] xl:py-20 xl:pl-20">
+      <div className="flex flex-1 flex-col justify-between px-4 py-16 sm:px-6 md:px-12 desktop:w-[45%] desktop:py-20 desktop:pl-20">
         <div className="flex flex-1 flex-col justify-center gap-8">
           {/* ── Title ── */}
           <motion.div
@@ -50,7 +50,7 @@ export const Contact = () => {
             <p className="mb-3 font-sans text-xs uppercase tracking-widest text-[#FDD017] md:text-sm">
               Get in Touch
             </p>
-            <h2 className="font-playfair text-4xl leading-tight text-[#F5F5EB] md:text-5xl xl:text-6xl">
+            <h2 className="font-playfair text-4xl leading-tight text-[#F5F5EB] md:text-5xl desktop:text-6xl">
               Contact Us
             </h2>
           </motion.div>
@@ -182,14 +182,14 @@ export const Contact = () => {
 
       {/* ── Right: Contained Map ── */}
       <motion.div
-        className="relative flex w-full items-center justify-center px-4 py-8 sm:px-6 md:px-12 xl:w-[55%] xl:px-12 xl:py-0"
+        className="relative flex w-full items-center justify-center px-4 py-8 sm:px-6 md:px-12 desktop:w-[55%] desktop:px-12 desktop:py-0"
         initial={{ opacity: 0, x: 40 }}
         whileInView={{ opacity: 1, x: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 1, delay: 0.3, ease: EASE }}
       >
         {/* Gold accent line between columns */}
-        <div className="absolute left-0 top-0 hidden h-full w-px bg-gradient-to-b from-transparent via-[#FDD017]/20 to-transparent xl:block" />
+        <div className="absolute left-0 top-0 hidden h-full w-px bg-gradient-to-b from-transparent via-[#FDD017]/20 to-transparent desktop:block" />
 
         <div className="w-full max-w-2xl max-h-[70vh] overflow-hidden rounded-3xl border border-[#F5F5EB]/10 pointer-events-none md:pointer-events-auto">
           <iframe
