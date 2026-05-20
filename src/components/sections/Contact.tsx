@@ -55,38 +55,36 @@ export const Contact = () => {
           </motion.div>
 
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-2">
-            {/* ── Column 1: Addresses ── */}
+            {/* ── Column 1: Head Office → Office Number → Factory ── */}
             <div className="flex flex-col gap-8">
-              {OFFICES.map((office, i) => (
-                <motion.div
-                  key={office.title}
-                  className="border-l-2 border-[#FDD017]/30 pl-5"
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: 0.1 + i * 0.1, ease: EASE }}
-                >
-                  <p className="mb-1 font-mono text-[10px] uppercase tracking-widest text-[#FDD017]/60">
-                    {office.title}
-                  </p>
-                  {office.lines.map((line) => (
-                    <p
-                      key={line}
-                      className="font-sans text-sm leading-relaxed text-[#F5F5EB]/70 md:text-base break-words"
-                    >
-                      {line}
-                    </p>
-                  ))}
-                </motion.div>
-              ))}
-
-              {/* ── Office Number (placed after addresses) ── */}
+              {/* ── Head Office ── */}
               <motion.div
                 className="border-l-2 border-[#FDD017]/30 pl-5"
                 initial={{ opacity: 0, x: -20 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: 0.3, ease: EASE }}
+                transition={{ duration: 0.6, delay: 0.1, ease: EASE }}
+              >
+                <p className="mb-1 font-mono text-[10px] uppercase tracking-widest text-[#FDD017]/60">
+                  {OFFICES[0].title}
+                </p>
+                {OFFICES[0].lines.map((line) => (
+                  <p
+                    key={line}
+                    className="font-sans text-sm leading-relaxed text-[#F5F5EB]/70 md:text-base break-words"
+                  >
+                    {line}
+                  </p>
+                ))}
+              </motion.div>
+
+              {/* ── Office Number ── */}
+              <motion.div
+                className="border-l-2 border-[#FDD017]/30 pl-5"
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.2, ease: EASE }}
               >
                 <p className="mb-1 font-mono text-[10px] uppercase tracking-widest text-[#FDD017]/60">
                   Office Number
@@ -97,6 +95,27 @@ export const Contact = () => {
                 >
                   +880 9606 548147
                 </a>
+              </motion.div>
+
+              {/* ── Factory — Tapirbari ── */}
+              <motion.div
+                className="border-l-2 border-[#FDD017]/30 pl-5"
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.3, ease: EASE }}
+              >
+                <p className="mb-1 font-mono text-[10px] uppercase tracking-widest text-[#FDD017]/60">
+                  {OFFICES[1].title}
+                </p>
+                {OFFICES[1].lines.map((line) => (
+                  <p
+                    key={line}
+                    className="font-sans text-sm leading-relaxed text-[#F5F5EB]/70 md:text-base break-words"
+                  >
+                    {line}
+                  </p>
+                ))}
               </motion.div>
             </div>
 
