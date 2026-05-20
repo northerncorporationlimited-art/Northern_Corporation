@@ -27,7 +27,6 @@ const OFFICES = [
 ];
 
 const CONTACT_DETAILS = [
-  { label: "NCL Corporate Office", value: "+880 9606 548147", href: "tel:+8809606548147" },
   { label: "Email", value: "Socials@ntg.com.bd", href: "mailto:Socials@ntg.com.bd" },
 ];
 
@@ -80,9 +79,28 @@ export const Contact = () => {
                   ))}
                 </motion.div>
               ))}
+
+              {/* ── Office Number (placed after addresses) ── */}
+              <motion.div
+                className="border-l-2 border-[#FDD017]/30 pl-5"
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.3, ease: EASE }}
+              >
+                <p className="mb-1 font-mono text-[10px] uppercase tracking-widest text-[#FDD017]/60">
+                  Office Number
+                </p>
+                <a
+                  href="tel:+8809606548147"
+                  className="font-sans text-sm leading-relaxed text-[#F5F5EB]/70 md:text-base transition-colors hover:text-[#FDD017]"
+                >
+                  +880 9606 548147
+                </a>
+              </motion.div>
             </div>
 
-            {/* ── Column 2: Contact, Social, Links ── */}
+            {/* ── Column 2: Email, Social, Links ── */}
             <div className="flex flex-col gap-8">
               {/* ── Email ── */}
               {CONTACT_DETAILS.map((item, i) => (
