@@ -12,7 +12,7 @@ const contactDetails = [
   },
   { label: "Work Hours", value: "Saturday – Thursday\n8:00 AM – 5:00 PM (BST)" },
   { label: "Phone", value: "[Insert Phone Number]\n[Insert Phone Number]" },
-  { label: "Email", value: "info@northerncorp.com\nsales@northerncorp.com" },
+  { label: "Email", value: "info@northern.global" },
   { label: "Web", value: "www.northerncorp.com" },
 ];
 
@@ -87,14 +87,14 @@ export const ContactFooter = () => {
         >
           <Magnetic strength={12}>
             <a
-              href="mailto:info@northerncorp.com"
+              href="mailto:info@northern.global"
               className="inline-flex items-center gap-2 rounded-full bg-brand-gold px-8 py-3 text-sm font-semibold text-brand-green shadow-lg shadow-brand-gold/20 transition-all hover:scale-105 hover:shadow-brand-gold/30"
             >
               Send Us an Email
             </a>
           </Magnetic>
           <a
-            href="mailto:sales@northerncorp.com"
+            href="mailto:info@northern.global"
             className="text-sm text-brand-cream/40 hover:text-brand-cream transition-colors underline underline-offset-4"
           >
             sales enquiries →

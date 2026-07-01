@@ -338,10 +338,10 @@ export const Navbar = () => {
                     Direct Inquiries
                   </span>
                   <a
-                    href="mailto:Socials@ntg.com.bd"
+                    href="mailto:info@northern.global"
                     className="font-sans text-sm text-[#F5F5EB]/50 transition-colors duration-300 hover:text-[#FDD017]"
                   >
-                    Socials@ntg.com.bd
+                    info@northern.global
                   </a>
                   <a
                     href="tel:+8809606548147"

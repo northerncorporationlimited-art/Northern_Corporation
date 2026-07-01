@@ -27,7 +27,7 @@ const OFFICES = [
 ];
 
 const CONTACT_DETAILS = [
-  { label: "Email", value: "Socials@ntg.com.bd", href: "mailto:Socials@ntg.com.bd" },
+  { label: "Email", value: "info@northern.global", href: "mailto:info@northern.global" },
 ];
 
 export const Contact = () => {
